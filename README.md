@@ -28,7 +28,3 @@ By the end of this cohort, I aim to:
 - Become a **job-ready full-stack developer**
 - Have a solid GitHub portfolio showcasing my projects and daily progress
 - Build the discipline to learn and code every single day  
-
----
-
-> _"Consistency beats motivation — one commit a day keeps doubt away."_ ✨

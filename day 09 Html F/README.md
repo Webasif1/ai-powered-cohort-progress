@@ -183,6 +183,13 @@ Details
  Useful for FAQ / collapsible content.
 
 
+html tag
+ img = src,
+ video = src autoplay, controls, muted, loop ,
+ audio = src, ontrols , iframe,
+ form,
+ input, types = text, email, number, password, date, month, week, radio, check, color, button,
+ details, summary
 
 
  <!-- **==========================================Basic HTML 🌐===============================================**  -->

@@ -1,0 +1,83 @@
+@font-face{
+font-family: horror;
+src: url(./Another\ Danger\ -\ Demo.otf);
+}
+@font-face{
+font-family: beautiful;
+src: url(./BeautifulPeoplePersonalUse-dE0g.ttf);
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,body{
+  height: 100%;
+  width: 100%;
+}
+.box0{
+  height: 100%;
+  width: 100%;
+  background-image: url(https://images.pexels.com/photos/14887920/pexels-photo-14887920.jpeg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.box1{
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(to right top , red, blue);
+  margin-bottom: 100px;
+}
+.box2{
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(red ,blue 50%);
+  margin-bottom: 100px;
+}
+
+.box3{
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(rgb(255, 72, 0), rgba(255, 217, 0, 0.952) , black);
+  margin-bottom: 100px;
+}
+.box4{
+  width: 500px;
+  height: 500px;
+  background: linear-gradient( red, blue);
+  margin-bottom: 100px;
+}
+.box5{
+  width: 500px;
+  height: 500px;
+  background-color: royalblue;
+  margin-bottom: 100px;
+}
+.box6{
+  width: 50%;
+  height: 50%;
+  background-color: rosybrown;
+}
+.box7{
+  height: 350px;
+  width: 350px;
+  background-color: salmon;
+  /*margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  */margin: 20px;
+  /*padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  */padding: 20px;
+  color: #ffff;
+  border: 4px solid rgb(143, 143, 143);
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+}

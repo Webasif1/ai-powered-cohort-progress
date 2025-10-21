@@ -1,0 +1,20 @@
+@font-face{
+font-family: shery;
+src: url(./BeautifulPeoplePersonalUse-dE0g.ttf);
+}
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html,body{
+  height: 100%;
+  width: 100%;
+}
+.section-hero{
+  height: 100%;
+  width: 100%;
+  background-image: url(./bgimg.jpg);
+  background-size: cover;
+}
+

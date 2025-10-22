@@ -13,12 +13,12 @@ html,body{
   width: 100%;
 }
 #main .nav{
-  padding: 30px 30px;
+  padding: 50px 50px;
 }
 #main .nav a{
   text-decoration: none;
   color: black;
-  padding-right: 10px;
+  padding-right: 15px;
   font-size: 18px;
 }
 #main h1{
@@ -26,4 +26,62 @@ html,body{
   padding-left: 30px;
   font-weight: 500;
 
+}
+.left_bottom{
+  position: absolute;
+  bottom:15%;
+  left: 2%;
+  width: 300px;
+}
+.left_bottom h3{
+  margin-bottom: 5px;
+  font-size: 24px;
+}
+.left_bottom p{
+  font-size: 18px;
+}
+.left_bottom h4{
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+.bottom_box{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 30px 40px;
+}
+.bottom_box h2{
+  font-size: 28px;
+  font-weight: 400;
+  font-style: italic;
+}
+.bottom_box p{
+  font-size: 25px;
+  font-weight: 500;
+  text-decoration: underline;
+}
+.image_box img{
+  height: 500px;
+}
+.image_box .img1{
+height: 300px;
+position: absolute;
+right: 34%;
+top: 55%;
+}
+.image_box .img2{
+height: 250px;
+position: absolute;
+right: 25%;
+top: 70%;
+}
+.image_box .img3{
+height: 350px;
+position: absolute;
+right: 15%;
+top: 45%;
 }

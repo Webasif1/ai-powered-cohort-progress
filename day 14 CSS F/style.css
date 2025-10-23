@@ -15,45 +15,114 @@ html,body{
 .nav{
   width: 100%;
   text-align: center;
-  padding: 18px 50px;
-  background: #000;
+  padding: 14px 50px;
+  background: rgba(0, 0, 0, 0.911);
 }
 .nav a{
   text-decoration: none;
   font-size: 15px;
-  font-weight: 400;
-  padding-left: 30px;
-  color: #ffff;
-}
-.add{
-  width: 100%;
-  background: #1d1d1f;
-  padding: 10px 0;
-}
-.add p{
-  color: #fff;
-  text-align: center;
-  font-size: 15px;
+  font-weight: 300;
+  padding: 0 15px;
+  color: #cacaca;
+  font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .hero{
   width: 100%;
-  height: 90%;
-  background-image: url(https://www.apple.com/v/iphone-17-pro/c/images/overview/welcome/hero__bdntboqignj6_xlarge.jpg);
-  /* background-size: cover; */
+  height: 80%;
+  background-image: url(https://www.apple.com/v/home/ci/images/heroes/iphone-17-pro/hero_iphone_17_pro__bknyzxfk2agi_large.jpg);
+  background-size: cover;
   background-repeat: no-repeat;
-  background-position: center top;
-  object-fit: contain;
-  /* object-position: center bottom; */
+  background-position: center;
+  /* object-fit: contain; */
   text-align: center;
-  color: #D3642A;
+  color: #ffffff;
   padding-top: 50px;
 }
 .hero h1{
-  font-size: 150px;
-  font-weight: bolder;
+  font-size: 56px;
+  font-weight: 600;
+  letter-spacing: -.005em;
+  line-height: 1.07143;
   line-height: 90px;
+  font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
-.hero h4{
-  font-size: 70px;
+.hero p{
+font-size: 28px;
+line-height: 1.14286;
+font-weight: 500;
+letter-spacing: .007em;
+font-family: "SF Pro Display","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
+margin-top: 6px;
+}
+.common-btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+.common-btn button{
+  border: none;
+  padding: 13px 20px;
+  font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #0071E3 ;
+  color: #ffff;
+  font-size: 16px;
   font-weight: 500;
+  cursor: pointer;
+  border-radius: 50px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  -ms-border-radius: 50px;
+  -o-border-radius: 50px;
+}
+.common-btn .btn2{
+  background-color: transparent;
+  border: 2px solid #0071E3;
+  transition: ease-in .5s;
+  -webkit-transition: ease-in .5s;
+  -moz-transition: ease-in .5s;
+  -ms-transition: ease-in .5s;
+  -o-transition: ease-in .5s;
+}
+.common-btn .btn2:hover{
+  background-color: #0071E3 ;
+}
+.iphone_air{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #F5F5F7;
+  background-image: url(https://www.apple.com/v/home/ci/images/heroes/iphone-air/hero_iphone_air__0gxyavihpiqu_large.jpg);
+  background-position: center;
+  background-size: cover;
+  padding: 50px 0;
+}
+.iphone_air h2{
+    font-size: 56px;
+    line-height: 1.07143;
+    font-weight: 600;
+    letter-spacing: -.005em;
+    font-family: "SF Pro Display","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
+}
+.iphone_air p{
+  max-width: 380px;
+  font-size: 28px;
+  line-height: 1.14286;
+  font-weight: 400;
+  letter-spacing: .007em;
+  font-family: "SF Pro Display","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
+  margin-top: 6px;
+}
+.common-btn .air_btn2{
+  color: #0071E3;
+}
+.unit_image{
+  width: 100%;
+  height: 250px;
+  /* background-image: url(https://www.apple.com/v/home/ci/images/heroes/iphone-air/hero_iphone_air__0gxyavihpiqu_large.jpg);
+  background-position: center;
+  background-size: cover; */
 }

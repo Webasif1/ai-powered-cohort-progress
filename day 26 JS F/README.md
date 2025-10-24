@@ -1,2 +1,1 @@
-How to learn js and task
-
+Basic js day 1

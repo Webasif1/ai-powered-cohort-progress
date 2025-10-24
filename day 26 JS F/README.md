@@ -1,2 +1,2 @@
-How to learn js and task
+Basic of js
 

@@ -5,3 +5,11 @@
 console.log("hahahah");
 console.info("hahahah");
 console.table({"name": "Asif"});
+console.error("warning 🧨")
+
+// let nm = prompt(`write your name`);
+// console.log(nm);
+
+// "" it is a string
+
+//``template literal

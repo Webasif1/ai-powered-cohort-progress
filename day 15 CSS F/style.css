@@ -1,0 +1,46 @@
+/* @font-face {
+  font-family: apple;
+  src: url(./sf-pro-icons_regular.woff2);
+} */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+html,body{
+  height: 100%;
+  width: 100%;
+}
+.box1{
+  width: 200px;
+  height: 200px;
+  background: red;
+}
+.box2{
+  width: 200px;
+  height: 200px;
+  background: rgb(89, 21, 214);
+}
+.box3{
+  width: 200px;
+  height: 200px;
+  background: rgb(37, 207, 31);
+}
+.section1{
+  display: flex;
+  justify-content: space-between;
+}
+.section2{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 300px;
+  width: 300px;
+  background: rgb(21, 34, 214);
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  -moz-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  -o-transform: translate(-50%,-50%);
+}

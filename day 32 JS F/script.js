@@ -22,3 +22,21 @@
 // }
 
 
+//**For
+// 1-100
+
+// if you know the number of iterations in advance then for loop is preferred.
+// for(start; end; update){
+    // code
+// }
+for(let i=1; i<=100; i++){
+  console.log(i);
+};
+
+for(let i = 12; i > 1; i--){
+  if(i === 5 || i === 7){
+    // Nothing happened
+  }
+  else console.log(i);
+}
+

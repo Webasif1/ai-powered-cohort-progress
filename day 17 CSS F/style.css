@@ -1,0 +1,60 @@
+/* @font-face {
+  font-family: apple;
+  src: url(./sf-pro-icons_regular.woff2);
+} */
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: Arial, Helvetica, sans-serif;
+}
+html,
+body{
+height: 100%;
+width: 100%;
+}
+body{
+  background-color: #000;
+}
+.parents{
+  height: 50%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-rows: 25% 25% 25% 25%;
+}
+.box{
+  background-color: crimson;
+  border: 2px solid rgb(255, 255, 255);
+}
+h1 {
+  color: transparent;
+   font-size: 200px;
+   background: linear-gradient(to bottom ,red,blue);
+   text-align: center;
+   background-clip: text;
+   -webkit-text-stroke: 2px white;
+}
+.main{
+  height: 50%;
+  width: 100%;
+  background-color: #33333381;
+  display: flex;
+  gap: 40px;
+  overflow: auto;
+  padding: 30px;
+}
+.main::-webkit-scrollbar{
+  display: none;
+}
+.child{
+  width: 350px;
+  height: 450px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+.child img{
+  height: 100%;
+  width: 350px;
+  border-radius: 10px;
+}

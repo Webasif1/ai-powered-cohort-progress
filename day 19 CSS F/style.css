@@ -1,0 +1,127 @@
+/* @font-face {
+  font-family: apple;
+  src: url(./sf-pro-icons_regular.woff2);
+} */
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: Arial, Helvetica, sans-serif;
+}
+html,
+body{
+height: 100%;
+width: 100%;
+}
+#main{
+  height: 100%;
+  width: 100%;
+  /* color: white;
+  background-color: black; */
+  display: grid;
+  grid-template-columns: 1fr 0.5fr 0.5fr;
+  grid-template-rows: 80px 1fr 1fr;
+  padding: 20px;
+  gap: 20px;
+  grid-template-areas: "nav-bar nav-bar nav-bar"
+                       "hero-text-section right-top right-top"
+                        "hero-text-section bottom-left bottom-right"
+;
+}
+
+.nav-bar{
+    grid-area: nav-bar;
+  /* background-color: darkslateblue; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+}
+.nav-bar .logo h4{
+  font-size: 25px;
+  display: inline-block;
+}
+.logo i{
+  font-size: 25px;
+  color: #8789C6;
+  font-weight: 600;
+}
+.menu ul{
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+.menu ul li a{
+  text-decoration: none;
+  color: rgb(20, 20, 20);
+  font-size: 18px;
+  font-weight: 500;
+}
+.buttons .btn-comm1{
+  font-size: 18px;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.buttons .btn-comm2{
+  font-size: 16px;
+  font-weight: 500;
+  padding: 15px 18px;
+  border: none;
+  border-radius: 50px;
+  margin-right: 20px;
+  cursor: pointer;
+  background-color: #000;
+  color: #fff;
+}
+.buttons .btn-comm2 i{
+  font-size: 20px;
+  padding: 8px;
+  border-radius: 50%;
+  background-color: #8789C6;
+  color: #000;
+}
+
+.hero-text-section{
+  grid-area: hero-text-section;
+  padding: 0 40px;
+}
+.hero-text-section h1{
+  font-size: 100px;
+  font-weight: 500;
+  display: block;
+  line-height: 1.2;
+}
+.hero-text-section h1 span{
+  display: inline-block;
+  height: 50px;
+  width: 150px;
+  background-color: #000;
+  background-image: url(https://images.unsplash.com/photo-1655635131633-a36ecd7f5b33?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1332);
+  background-size: cover;
+  background-position: center;
+  border-radius: 50px;
+}
+
+
+
+
+.right-top{
+    grid-area: right-top;
+  background-color: darkcyan;
+    border-radius: 10px;
+}
+.bottom-left{
+    grid-area: bottom-left;
+  background-color: darkseagreen;
+    border-radius: 10px;
+}
+.bottom-right{
+    grid-area: bottom-right;
+  background-color: darkgoldenrod;
+    border-radius: 10px;
+}
+

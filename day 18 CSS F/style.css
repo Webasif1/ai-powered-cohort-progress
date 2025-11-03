@@ -1,0 +1,62 @@
+/* @font-face {
+  font-family: apple;
+  src: url(./sf-pro-icons_regular.woff2);
+} */
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: Arial, Helvetica, sans-serif;
+}
+html,
+body{
+height: 100%;
+width: 100%;
+}
+#main{
+  height: 100%;
+  width: 100%;
+  color: white;
+  background-color: black;
+  display: grid;
+  grid-template-columns: 1fr 500px 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  padding: 20px;
+  gap: 20px;
+  grid-template-areas: "left-box center-top right-top"
+                       "left-box center right-box"
+                       "bottom-box bottom-box right-box"
+;
+}
+
+.left-box{
+  grid-area: left-box;
+  background-color: darkorchid;
+    border-radius: 10px;
+}
+.center-top{
+    grid-area: center-top;
+  background-color: darkcyan;
+    border-radius: 10px;
+}
+.center{
+    grid-area: center;
+  background-color: darkseagreen;
+    border-radius: 10px;
+}
+.bottom-box{
+    grid-area: bottom-box;
+  background-color: darkgoldenrod;
+    border-radius: 10px;
+}
+.right-box{
+    grid-area: right-box;
+  background-color: darkslateblue;
+    border-radius: 10px;
+}
+.right-top{
+    grid-area: right-top;
+  background-color: darkturquoise;
+  border-radius: 10px;
+}
+

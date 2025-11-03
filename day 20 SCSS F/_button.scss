@@ -1,0 +1,10 @@
+@mixin button-style($bg-color:blue, $text-color:white, $text-size:18px ){
+  padding: 20px 30px;
+  background-color: $bg-color;
+  color: $text-color;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: $text-size;
+}

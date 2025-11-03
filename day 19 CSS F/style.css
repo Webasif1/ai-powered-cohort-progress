@@ -43,7 +43,7 @@ width: 100%;
 }
 .logo i{
   font-size: 25px;
-  color: #8789C6;
+  color: #BEC1FF;
   font-weight: 600;
 }
 .menu ul{
@@ -58,7 +58,7 @@ width: 100%;
   font-size: 18px;
   font-weight: 500;
 }
-.buttons .btn-comm1{
+.btn-comm1{
   font-size: 18px;
   font-weight: 500;
   background: transparent;
@@ -66,7 +66,7 @@ width: 100%;
   margin-right: 20px;
   cursor: pointer;
 }
-.buttons .btn-comm2{
+.btn-comm2{
   font-size: 16px;
   font-weight: 500;
   padding: 15px 18px;
@@ -77,25 +77,27 @@ width: 100%;
   background-color: #000;
   color: #fff;
 }
-.buttons .btn-comm2 i{
+.btn-comm2 i{
   font-size: 20px;
   padding: 8px;
   border-radius: 50%;
-  background-color: #8789C6;
+  background-color: #BEC1FF;
   color: #000;
 }
 
+
+
 .hero-text-section{
   grid-area: hero-text-section;
-  padding: 0 40px;
+  padding-left: 40px;
+  position: relative;
 }
 .hero-text-section h1{
-  font-size: 100px;
-  font-weight: 500;
-  display: block;
-  line-height: 1.2;
+  font-size: 120px;
+  font-weight: 400;
+  position: relative;
 }
-.hero-text-section h1 span{
+.hero-text-section h1 .hero-text-img{
   display: inline-block;
   height: 50px;
   width: 150px;
@@ -104,24 +106,88 @@ width: 100%;
   background-size: cover;
   background-position: center;
   border-radius: 50px;
+  margin-right: 20px;
 }
-
-
+.hero-text-section h1 .btn-play{
+  font-size: 25px;
+  font-weight: 500;
+  padding: 15px 20px;
+  border: 2px solid black;
+  border-radius: 50px;
+  cursor: pointer;
+  position: absolute;
+  top: 58%;
+  right: 15%;
+}
+.hero-btn1{
+  font-size: 14px;
+  margin-top: 20px;
+}
+.hero-btn1 i{
+  padding: 0;
+  background-color: transparent;
+  color: #fff;
+}
+.hero-btn{
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+.hero-text-section p{
+  font-size: 18px;
+  width: 500px;
+  margin-top: 60px;
+}
+.hero-bottom{
+  display: flex;
+  align-items: center;
+  gap: 80px;
+  position: absolute;
+  bottom: 5px;
+}
+.hero-bottom h4{
+  font-size: 30px;
+  font-weight: 600;
+  margin-top: 20px;
+}
 
 
 .right-top{
     grid-area: right-top;
-  background-color: darkcyan;
-    border-radius: 10px;
+    border-radius: 20px;
+    padding-right: 50px;
+}
+.right-top img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 30px;
 }
 .bottom-left{
     grid-area: bottom-left;
-  background-color: darkseagreen;
     border-radius: 10px;
+}
+.bottom-left img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 30px;
 }
 .bottom-right{
     grid-area: bottom-right;
-  background-color: darkgoldenrod;
     border-radius: 10px;
+    padding-right: 50px;
+}
+.bottom-right img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 30px;
 }
 

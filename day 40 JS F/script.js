@@ -47,17 +47,263 @@
 
 //  2. Explain the difference between a statement and an expression with examples.
 
+
+// 👉 Expression
+
+// An expression is anything that produces a value.
+// You can think of it as something that JS can evaluate to get a result.
+
+// 🧩 Examples:
+
+// 5 + 10          // ➜ 15
+// "Hello" + "JS"  // ➜ "HelloJS"
+// x = 20          // ➜ assigns 20 to x and returns 20
+// myFunction()    // ➜ calls a function and returns its result
+// 10 > 5  // true
+
+
+// 👉 Statement
+
+// A statement performs an action — it tells JS to do something, but doesn’t itself return a value.
+
+// 🧱 Examples:
+
+// let x = 10;       // variable declaration statement
+// if (x > 5) { ... } // conditional statement
+// for (let i = 0; i < 5; i++) { ... } // loop statement
+
+
+//** */ let sum = a + b;     // Expression used inside a statement
+
+// **💬 How to Answer in an Interview
+
+// You could say:
+
+// “An expression produces a value — for example, 5 + 10 or "Hi" + name.
+// A statement performs an action, like declaring a variable or writing an if condition.
+// In short, expressions evaluate to a value, while statements control the flow of the program.”
+
+// And if they ask for code, you can write:
+
+// // Expression
+// 10 + 5
+
+// // Statement
+// if (10 > 5) {
+//   console.log("True");
+// }
+
+
+
+
+
 //  3. Why is JavaScript called a loosely typed or dynamically typed language?
+
+// 🧠 Concept: Loosely Typed / Dynamically Typed
+
+
+// 1️⃣ Loosely Typed
+
+// **JavaScript is loosely typed because you don’t need to declare variable types.
+// You can store any kind of data in a variable — and JS won’t complain.
+
+// 🧩 Example:
+
+// let x = 10;      // number
+// x = "Asif";      // now it's a string
+// x = true;        // now it's a boolean
+
+
+// ✅ JS allows this without any error.
+// It doesn’t care what type you store — it’ll just change the type at runtime.
+
+
+// 2️⃣ Dynamically Typed
+
+// **JS is dynamically typed because the type of a variable is decided at runtime, not when you write the code.
+
+// That means:
+
+// The interpreter figures out the type when the code runs.
+
+// You don’t explicitly say int, float, or string like in other languages (C, Java, etc.).
+
+// 🧩 Example:
+
+// let name = "Asif";  // string now
+// name = 123;         // number later
+
+// ⚙️ Why it Matters
+
+// Easier for beginners → less syntax.
+
+// But can cause unexpected type coercion (weird behavior like "5" + 2 = "52").
+
+
+// **🧑‍💼 Interview-Ready Answer (Perfect Script)
+
+// “JavaScript is called a loosely typed or dynamically typed language because you don’t need to define variable types explicitly.
+// A variable can hold any type of value, and its type can change at runtime.
+// For example, a variable that holds a number can later store a string — and JavaScript won’t throw an error.
+// The type checking happens when the code runs, not when it’s written.”
+
+// You can add a quick example:
+
+// let value = 10;
+// value = "Hello";
+
+
+// “Here, value changes from a number to a string — that’s what makes JavaScript dynamically typed.”
+
+
+
+
+
+
 //  4. What’s the difference between null, undefined, and NaN?
+
+
+// | Value       | Meaning                                                          | Type                              | Example                 |
+// | ----------- | ---------------------------------------------------------------- | --------------------------------- | ----------------------- |
+// | `undefined` | A variable has been declared but not assigned any value.         | `undefined`                       | `let x; console.log(x)` |
+// | `null`      | Intentional absence of any value (manually set to “nothing”).    | `object` *(weird historical bug)* | `let y = null;`         |
+// | `NaN`       | Stands for “Not a Number” — result of invalid numeric operation. | `number`                          | `"Asif" * 2` → `NaN`    |
+
+// 🔍 In Depth
+// **1️⃣ undefined
+
+// JS automatically assigns undefined when you declare a variable but don’t give it a value.
+
+// It means: “there’s something here, but it’s empty by accident.”
+
+// let name;
+// console.log(name); // undefined
+
+
+// **2️⃣ null
+
+// You assign it yourself to mean “nothing here on purpose.”
+
+// It’s a placeholder for empty or missing data.
+
+// let user = null; // we know user doesn’t exist (yet)
+
+
+// 🧠 Fun fact:
+// typeof null → "object" → this is a bug in JS since 1995, but it’s kept for backward compatibility.
+
+
+// **3️⃣ NaN (Not a Number)
+
+// It appears when a math operation fails or a value can’t be converted to a number.
+
+// console.log("hello" * 2); // NaN
+
+
+// Even though it means Not a Number, its type is actually "number".
+
+// console.log(typeof NaN); // "number"
+
+
+// ***🧑‍💼 Interview-Ready Answer (Say This)
+
+// “undefined means a variable has been declared but not assigned a value yet.
+// null is an intentional absence of a value — we manually assign it to represent ‘nothing’.
+// NaN stands for ‘Not a Number’ and shows up when a numeric operation fails, like multiplying a string by a number.
+// Interestingly, typeof null is an object, and typeof NaN is number — both are historical quirks in JavaScript.”
+
+
+
 //  5. What will this log and why:
 //  js
 //  console.log(typeof null);
+
+
+// console.log(typeof null);
+// 💥 Output
+// csharp
+// Copy code
+// object
+// 🧠 Explanation
+// This happens because of a historical bug in JavaScript — from the very first version of the language (back in 1995).
+
+// When JS was first implemented, all values were stored as binary tags representing their type.
+// The tag for objects was 000, and somehow the tag for null was also stored as 000.
+
+// So when you run typeof null, JavaScript internally sees it as having the object tag — and mistakenly reports "object".
+
+// ⚙️ In Short
+// Value	Real Meaning	typeof Result	Why
+// null	intentional empty value	"object"	legacy bug kept for backward compatibility
+
+// ****🧑‍💼 Interview-Ready Answer
+// “It logs 'object' — that’s actually a long-standing bug in JavaScript.
+// Historically, null was represented by a null pointer, which had the same internal type tag as objects.
+// So even though null isn’t an object, typeof null still returns 'object' for backward compatibility.”
+
+
+
+
 //  6. What’s the output?
 //  js
 //  let x = 10;
 //  console.log(x++ + ++x);
+// 💥 Output
+// 22
+
+// 🧠 Step-by-Step Explanation
+
+// x = 10 initially.
+
+// The expression is:
+
+// x++ + ++x
+
+
+// x++ → Postfix Increment
+
+// Returns the current value first, then increases by 1.
+
+// So x++ returns 10, and now x becomes 11.
+
+// Next, ++x → Prefix Increment
+
+// Increases the value first, then returns it.
+
+// So ++x changes x to 12, and returns 12.
+
+// Now the expression becomes:
+
+// 10 + 12 = 22
+
+
+// ✅ Final x value after everything = 12.
+
+// 🔍 So:
+// Expression	Returned Value	x after operation
+// x++	10	11
+// ++x	12	12
+
+// Result logged → 22
+
+// 🧑‍💼 Interview Tip
+
+// If they ask this in an interview, say something like:
+
+// “The output is 22.
+// Because x++ returns the original value (10) before incrementing, and ++x increments first (making it 12).
+// So the expression becomes 10 + 12 = 22, and x ends up as 12.”
+
+
+
 //  7. What is the difference between == and ===?
 //  Give an example where == gives true but === gives false.
+
+// console.log("10"==10);
+// console.log("10"===10);
+
+
+
 //  💬
 //  Strings
 //  8. What does splice() do? (Careful—does it even exist for strings?)

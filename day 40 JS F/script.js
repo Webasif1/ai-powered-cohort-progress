@@ -307,33 +307,267 @@
 //  💬
 //  Strings
 //  8. What does splice() do? (Careful—does it even exist for strings?)
+
+
+      // let nums = [1, 3 , 4, 5];
+      // nums.splice(0, 2);
+      // console.log(nums);
+
+
+      // let fruits = ["apple", "banana"];
+      // fruits.splice(1,0, "watermelon");
+      // console.log(fruits); // ["apple", "mango", "banana"]
+
+      // let arr = [10, 20, 30];
+      // arr.splice(1, 1, 99);
+      // console.log(arr); // [10, 99, 30]
+
+      // Does splice() exist for strings?
+
+      // No.
+
+
+
 //  9. How would you extract "JS" from "I love JS" using slice()?
+
+      // let str = "I love JS";
+      // let result = str.slice(7, 9);
+      // console.log(result); // "JS"
+
+      // Why 7 and 9?
+
+      // "I love JS"
+
+      // I → index 0
+
+      // space → index 1
+
+      // l → 2
+
+      // o → 3
+
+      // v → 4
+
+      // e → 5
+
+      // space → 6
+
+      // J → 7
+
+      // S → 8
+
+      // slice(7, 9) → takes characters from index 7 up to 9 (not including 9) → "JS"
 //  10. Write one line that converts "asif" → "Asif".
-//  Printed using ChatGPT to PDF, powered by PDFCrowd HTML to PDF API. 2/5
+
+      // const uprCase = "asif"[0].toUpperCase() + "asif".slice(1);
+      // console.log(uprCase);
+
+
+
 // 11. What’s the difference between split() and join()?
+
+      // 1️⃣ split()
+
+      // Works on strings.
+
+      // Splits a string into an array based on a separator.
+
+      // let str = "I love JS";
+      // let arr = str.split(" ");  // split by space
+      // console.log(arr); // ["I", "love", "JS"]
+
+
+      // ✅ Converts string → array.
+
+      // 2️⃣ join()
+
+      // Works on arrays.
+
+      // Joins array elements into a string using a separator.
+
+      // let arr = ["I", "love", "JS"];
+      // let str = arr.join(" ");  // join with space
+      // console.log(str); // "I love JS"
+
+
+      // ✅ Converts array → string.
+
+
 //  12. How would you check if a string contains “fire” without using regex?
+
+      // const str = "I love fire";
+      // if(str.includes("fire")){
+      //       console.log("yes");
+      // }else{
+      //       console.log("no");
+      // }
+
 //  🔢
 //  Data Types
 //  13. What’s the difference between primitive and reference data types?
+
+      // Primitive
+      // let a = 10;
+      // let b = a;  // copies the value
+      // b++;
+      // console.log(a, b); // 10, 11 → a is unchanged
+
+      // Reference
+      // let obj1 = { name: "Asif" };
+      // let obj2 = obj1;  // copies the reference
+      // obj2.name = "Ali";
+      // console.log(obj1.name); // "Ali" → obj1 changes because obj2 points to the same object
+
+
 //  14. Is an array primitive or reference?
+      // primitive
 //  15. What happens when you copy an object like this:
 //  js
 //  const obj2 = obj1;
+
+      // Code
+      // const obj1 = { name: "Asif" };
+      // const obj2 = obj1;
+      // obj2.name = "Ali";
+
+      // console.log(obj1.name); // ?
+
+      // What Happens
+
+      // Objects in JS are reference types.
+
+      // const obj2 = obj1; does not create a new object.
+
+      // It copies the reference to the same object in memory.
+
+      // Any changes through obj2 affect obj1, because both variables point to the same object.
+
+      // ✅ Output:
+
+      // "Ali"
+
 //  16. Explain how you can clone an object without linking it to the original.
 //  ⚙
 //  Operators
+
+
+      // a. Spread Operator
+      // const obj1 = { name: "Asif", age: 22 };
+      // const obj2 = { ...obj1 };  // clone
+
+      // obj2.name = "Ali";
+      // console.log(obj1.name); // "Asif" → original is safe
+
+      // b. Object.assign()
+      // const obj2 = Object.assign({}, obj1);
+
+
+      // ✅ Both methods are equivalent for shallow cloning.
+
+
+      // 2️⃣ Deep Copy
+
+      // If the object has nested objects or arrays, a shallow copy isn’t enough. You need a deep copy:
+
+      // const obj1 = { name: "Asif", address: { city: "Dhaka" } };
+      // const obj2 = JSON.parse(JSON.stringify(obj1));
+
+      // obj2.address.city = "Chittagong";
+      // console.log(obj1.address.city); // "Dhaka" → original stays intact
+
+
+      // ⚠️ Limitation: JSON method cannot clone functions, undefined, or Symbols.
+
 //  17. What’s the difference between ++x and x++?
+
+      // 1️⃣ ++x → Prefix Increment
+
+      // Increments the variable first, then returns the new value.
+
+      // let x = 5;
+      // console.log(++x); // 6
+      // console.log(x);   // 6
+
+
+      // ✅ x is increased before it’s used.
+
+      // 2️⃣ x++ → Postfix Increment
+
+      // Returns the current value first, then increments the variable.
+
+      // let x = 5;
+      // console.log(x++); // 5 → returns old value
+      // console.log(x);   // 6 → x is incremented after
+
+
+      // ✅ x is increased after it’s used.
+
+
 //  18. Explain this code:
 //  js
 //  let a = "10", b = 10;
 //  console.log(a == b, a === b);
+
+      // true and false cause == just watch the value is correct or not but === check value is correct or not and  string or number and both are same or not
+
 //  19. What does the && operator return if both conditions are true?
+      // true
 //  20. Explain what’s wrong with this:
 //  js
 //  if (x = 5) { console.log("true") }
+
+      // if (x = 5) {
+      //   console.log("true");
+      // }
+      // What’s Wrong
+      // = is an assignment, not a comparison
+
+      // x = 5 assigns the value 5 to x.
+
+      // The if condition doesn’t check equality — it just evaluates the value of the assignment.
+
+      // Result in JS
+
+      // The value of x = 5 is 5.
+
+      // In a Boolean context (like if), any non-zero number is treated as true.
+
+      // So the block will always run, regardless of what you intended.
+
+
 //  🔁
 //  Conditionals & Loops
 //  21. Write a switch statement that logs the weekday based on a number (1–7).
+
+let day = 2;
+switch(day){
+      case 1:
+      console.log("Saturday");
+      break;
+      case 2:
+      console.log("Sunday");
+      break;
+      case 3:
+      console.log("Monday");
+      break;
+      case 4:
+      console.log("Tuesday");
+      break;
+      case 5:
+      console.log("Wednesday");
+      break;
+      case 6:
+      console.log("Thrust day");
+      break;
+      case 7:
+      console.log("Friday");
+      break;
+      default:
+      console.log("Invalid day");
+}
+
+
+
 //  22. What’s the difference between while and do...while?
 //  23. When would you use break vs continue?
 //  24. Write a for loop that prints only even numbers between 1 and 20.

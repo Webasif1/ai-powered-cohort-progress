@@ -1,0 +1,20 @@
+@font-face {
+  font-family: Chillax;
+  src: url(./63cffc0a3942456e003bc265_Chillax-Regular.woff);
+}
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html, body{
+  height: 100%;
+  width: 100%;
+  background-color: black;
+}
+html{
+  font-family: Chillax;
+  color: rgb(224,224,224);
+  font-size: clamp(14px, 1.5vw, 18px);
+}
+

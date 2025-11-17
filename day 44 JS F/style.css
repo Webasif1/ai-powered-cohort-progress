@@ -1,0 +1,39 @@
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+color: #fff;
+}
+
+html,
+body{
+height: 100%;
+width: 100%;
+}
+
+main{
+  width: 100%;
+  height: 100%;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background-color: #0e0e0e;
+}
+button{
+  padding: 12px 22px;
+  cursor: pointer;
+  background: transparent;
+  border-radius: 5px;
+  /* border:2px solid hsl(0, 0%, 100%); */
+  border: none;
+  font-size: 20px;
+  background-color: crimson;
+  transition: scale 0.5s ease;
+  position: relative;
+  z-index: 999;
+}
+
+button:active{
+  scale: .9;
+}

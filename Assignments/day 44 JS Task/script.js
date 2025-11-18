@@ -1,0 +1,55 @@
+const btn = document.querySelector("button");
+const main = document.querySelector('main');
+
+
+btn.addEventListener("click" , function(){
+  const text = document.createElement("h1")
+  let x = Math.floor(Math.random() * 100)
+  let y = Math.floor(Math.random() * 100)
+  let r = Math.floor(Math.random() * 100)
+  let c1 = Math.floor(Math.random() * 256)
+  let c2 = Math.floor(Math.random() * 256)
+  let c3 = Math.floor(Math.random() * 256)
+
+  text.innerHTML = 'do the good thinks....'
+  text.style.position = 'absolute'
+
+  text.style.color = `rgb(${c1}, ${c2}, ${c3})`
+  text.style.left = x+'%'
+  text.style.top = y+'%'
+  text.style.rotate = r + "deg"
+  console.log(text);
+
+  main.appendChild(text)
+})
+
+
+
+// window.addEventListener('mousemove', function(e) {
+
+//   const div = document.createElement("div")
+//   let r = Math.floor(Math.random() * 100)
+//   let c1 = Math.floor(Math.random() * 256)
+//   let c2 = Math.floor(Math.random() * 256)
+//   let c3 = Math.floor(Math.random() * 256)
+
+//   div.style.height = '50px'
+//   div.style.width = '50px'
+//   div.style.position = 'absolute'
+//   div.style.borderRadius = '50px'
+//   div.style.border = `8px solid rgb(${c1}, ${c2}, ${c3})`
+
+
+//   // div.style.backgroundColor = `rgb(${c1}, ${c2}, ${c3})`
+//   div.style.left = e.clientX+'px'
+//   div.style.top = e.clientY+'px'
+//   div.style.rotate = r + "deg"
+//   console.log(div);
+
+//   main.appendChild(div)
+
+
+
+//   // console.log('Mouse moved!');
+//   // console.log('X:', e.clientX, 'Y:', e.clientY);
+// })

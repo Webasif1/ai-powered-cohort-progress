@@ -125,3 +125,8 @@ section{
   gap: 5px;
 }
 
+@media(max-width:650px){
+  section{
+    width: 350px;
+  }
+}

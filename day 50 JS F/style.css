@@ -129,4 +129,18 @@ section{
   section{
     width: 350px;
   }
+  .bottom .user h3{
+  font-size: 18px;
+}
+.right i{
+  font-size: 28px;
+}
+
+.right h5{
+  font-size: 18px;
+}
+.bottom p{
+  font-size: 17px;
+}
+
 }

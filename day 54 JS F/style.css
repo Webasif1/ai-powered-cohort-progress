@@ -1,0 +1,90 @@
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+color: #fff;
+}
+
+html,
+body{
+height: 100%;
+width: 100%;
+}
+html{
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+body{
+  background-color: #0e0e0e;
+}
+
+main{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* @property --bgColor{
+  syntax: "<color>";
+  initial-value: red;
+  inherits: false;
+
+}
+
+@keyframes animationBgColor{
+  form{
+    --bgColor: red;
+  }to{
+    --bgColor: white;
+  }
+}
+
+.box{
+  width: 400px;
+  height: 400px;
+  border: 1px solid #fff;
+  background-color: var(--bgColor);
+  animation: animationBgColor 5s infinite forwards ;
+} */
+
+@property --rotate{
+  syntax: "<angle>";
+  initial-value:0deg;
+  inherits: false;
+  }
+
+  @keyframes borderAnimation{
+  from{
+    --rotate:0deg;
+  }to{
+    --rotate:350deg;
+  }
+  }
+
+.box{
+  max-width: 300px;
+  padding-inline: 10px;
+  padding-bottom: 10px;
+  color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 0 30px rgb(255, 0, 123);
+  border-radius:15px ;
+  background:
+  linear-gradient(black) padding-box,
+   conic-gradient(from var(--rotate), black,black,black,rgb(255, 0, 123), black) border-box
+  ;
+  border: 5px solid rgba(255, 255, 255, 0);
+  animation: borderAnimation 10s;
+  animation-iteration-count: infinite;
+
+}
+
+.box img{
+  width: 100%;
+}
+
+
+

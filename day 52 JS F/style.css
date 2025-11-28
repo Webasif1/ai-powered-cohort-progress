@@ -1,0 +1,35 @@
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+color: #fff;
+}
+
+:root{
+  --x:10%;
+  --y:10%;
+}
+
+html,
+body{
+height: 100%;
+width: 100%;
+}
+
+main{
+
+  height: 100%;
+  position: relative;
+}
+main video{
+  width: 100%;
+  height: 100%;
+}
+.cover{
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(200px at var(--x) var(--y),rgba(255, 255, 255, 0.179), rgb(0, 0, 0));
+  position: absolute;
+  top: 0;
+  left: 0;
+}

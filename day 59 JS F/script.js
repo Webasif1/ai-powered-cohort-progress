@@ -1,11 +1,7 @@
-// Object Oriented Concept in js
-
-// async and
-//callback
-function iceCreamLaao(address, fn){
-  fn({lang:124134.34, long:141434})
+function bringIceCream(address, fn){
+  fn({lang:142432.1432,long:12434.3124})
 }
 
-iceCreamLaao("Dhaka",function(det){
+bringIceCream("Dhaka",function(det){
   console.log(det);
 })

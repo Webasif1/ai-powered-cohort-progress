@@ -5,3 +5,6 @@ function bringIceCream(address, fn){
 bringIceCream("Dhaka",function(det){
   console.log(det);
 })
+
+
+//learning callback

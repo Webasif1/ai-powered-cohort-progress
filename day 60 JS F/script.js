@@ -96,5 +96,62 @@
 // const evens = myFilter([1, 2, 3, 4], (num) => num % 2 === 0)
 // console.log(evens)
 
+// ✅ 10 Callback Function Questions
+// 1. Write a function doTwice(callback) that calls the callback two times.
+
+// function doTwice(cb){
+//   cb()
+//   cb()
+// }
+
+// doTwice(function(){
+//   console.log("hello");
+// })
+
+// 2. Create a function calculate(a, b, callback) that performs an operation (add, subtract, etc.) based on the callback.
+// function calculate(a, b, cb){
+//   setTimeout(()=> {
+//     cb(a+b);
+//   },2000)
+// }
+// calculate(10, 30, function(result){
+//    console.log(result);
+// })
+
+// 3. Make a custom map function called myMap(arr, callback) that returns a new array.
+
+// function myMap(arr, cb) {
+//   const result = [];
+
+//   for (let item of arr) {
+//     const newValue = cb(item);
+//     result.push(newValue);
+//   }
+
+//   return result;
+// }
+// const output = myMap([1, 2, 4, 5], function(item){
+//   return item * 2;
+// });
+
+// console.log(output);
+
+
+// 4. Create a function repeat(n, callback) that runs the callback n times.
+function repeat(n, cb){
+  for(let i=0; i < n; i++){
+    cb(i);
+  }
+}
+repeat(10, function(i){
+  console.log("Run:", i+1);
+})
+
+// 5. Build a custom forEach called myForEach(arr, callback).
+// 6. Write a function check(arr, callback) that returns true if any item in the array passes the callback test (like .some()).
+// 7. Create a function delay(callback, time) that waits time milliseconds then runs the callback.
+// 8. Write a function findItem(arr, callback) that returns the first item that makes the callback return true.
+// 9. Write a function processUser(name, callback) that takes a user’s name and runs a callback to process it.
+// 10. Create a function runTasks(tasks, callback) where tasks is an array of functions, and you run each one in order, calling the callback at the end.
 
 

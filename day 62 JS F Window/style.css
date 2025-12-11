@@ -10,9 +10,12 @@ width: 100%;
 }
 :root {
   --black-color: #0e0e0e;
-  --gray-color: #1e1e1e59;
+  --gray-color: #8c8c8c3b;
   --white-color: #fff;
   --btn-hover-color: #7a7a7a3a;
+  --border-color: #95959582;
+
+
 }
 
 body{
@@ -73,3 +76,100 @@ button:hover{
 .bottom_right_part .time:hover{
   background-color: var(--btn-hover-color);
 }
+#left_window{
+  width: 700px;
+  height: 700px;
+  border: 1px solid var(--white-color);
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  background-color: var(--gray-color);
+  display: grid;
+  grid-template-columns: 10% 30% 60%;
+  padding: 20px 0;
+  gap: 10px;
+  margin-bottom: 50px;
+  transition: all .3 ease;
+}
+#window:hover {
+  /* bottom: 0% !important;
+   */
+   color: blue;
+}
+#window_left{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0px 10px;
+}
+.start i{
+  font-size: 24px;
+  padding: 10px;
+}
+.start i:hover{
+  background-color: var(--btn-hover-color);
+}
+.icons{
+  display: flex;
+  flex-direction: column;
+}
+.icons i{
+  font-size: 20px;
+  padding: 10px;
+}
+.icons i:hover{
+  background-color: var(--btn-hover-color);
+}
+
+#window_middle h4{
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+#window_middle .quick_apps{
+  display: flex;
+  align-items: center;
+  padding: 10px 5px;
+  gap: 10px;
+  border-radius: 5px;
+}
+#window_middle .quick_apps:hover{
+  background-color: var(--btn-hover-color);
+}
+#window_middle .quick_apps i{
+  font-size: 20px;
+}
+#window_middle .quick_apps p{
+  font-size: 18px;
+}
+
+#window_right h4{
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+#window_right .play_explore{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+#window_right .play_explore .recent_apps{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 29%;
+  height: 150px;
+  border: 1px solid var(--border-color);
+}
+#window_right .play_explore .recent_apps:nth-child(even){
+  background-color: green;
+}
+#window_right .play_explore .recent_apps i{
+  font-size: 24px;
+}
+#window_right .play_explore .recent_apps p{
+  font-size: 20px;
+}
+

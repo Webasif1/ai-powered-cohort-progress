@@ -79,7 +79,7 @@ button:hover{
 #left_window{
   width: 700px;
   height: 700px;
-  border: 1px solid var(--white-color);
+  /* border: 1px solid var(--white-color); */
   position: absolute;
   bottom: 100%;
   left: 0;
@@ -89,7 +89,7 @@ button:hover{
   padding: 20px 0;
   gap: 10px;
   margin-bottom: 50px;
-  transition: all .3 ease;
+  transition: bottom .3 linear;
 }
 #window:hover {
   /* bottom: 0% !important;

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css"
+      rel="stylesheet" />
+    <link rel="icon" type="image/png" href="./assets/icons/cloud-fill.png" />
+    <title>weather || Dashboard</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <main>
+      <div class="menu">
+        <div class="menu_top">
+          <div class="weathery">
+            <i class="ri-loader-line"></i>
+            <p>Weathry</p>
+          </div>
+          <div class="menu_icons">
+            <i class="ri-apps-line"></i>
+            <i class="ri-map-2-line"></i>
+            <i class="ri-map-pin-2-line"></i>
+            <i class="ri-loader-4-line"></i>
+            <i class="ri-calendar-line"></i>
+            <i class="ri-settings-5-line"></i>
+          </div>
+        </div>
+        <div class="ntf_bottom">
+          <i class="ri-notification-2-line"></i>
+          <div class="profile">
+            <img src="./assets/images/user.jpg" alt="" />
+          </div>
+        </div>
+      </div>
+      <div class="middle">
+          <div class="city_details">
+            <div class="city_top">
+              <div class="search_city">
+                <i class="ri-search-line"></i>
+                <input type="text" />
+              </div>
+              <i class="ri-search-line"></i>
+            </div>
+          <div class="weather_detail">
+            <img src="./assets/images/cloudy.png" alt="">
+            <h1>28 <sup class="sup">°C </sup></h1>
+            <div class="rain_sun">
+              <i id="weatherIcon" class="ri-cloud-line"></i>
+              <p id="weather">Its cloudy</p>
+            </div>
+          </div>
+          <div class="location_time">
+            <div class="location">
+              <i class="ri-map-pin-line"></i>
+              <p id="location">Dhaka, Bangladesh</p>
+            </div>
+            <div class="time">
+              <i class="ri-calendar-2-line"></i>
+              <p>14 December, 2025 8:17pm</p>
+            </div>
+          </div>
+        </div>
+        <div class="day_weather"></div>
+      </div>
+      <div class="highlight_map"></div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./js/data.js"></script>
+    <script src="./js/chart.js"></script>
+    <script src="./js/app.js"></script>
+  </body>
+</html>

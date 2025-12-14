@@ -2,51 +2,80 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  color: #fff;
 }
 body,
 html {
   height: 100%;
   width: 100%;
 }
-// dark mood
+//Dark
 :root {
+  /* Backgrounds */
   --bg-main: #0e0e0e;
   --bg-card: #111827;
-  --linear-trans: #191b1f;
+  --bg-soft: #191b1f;
 
+  /* Gradient colors */
+  --grad-start: rgba(56, 189, 248, 0.35);
+  --grad-mid: rgba(34, 211, 238, 0.2);
+  --grad-end: rgba(17, 24, 39, 0.95);
+  --grad-soft: #ffffff59;
+
+  /* Chart */
   --line-primary: rgba(255, 255, 255, 0.45);
-  --line-soft: rgba(255, 255, 255, 0.25);
+  --line-soft: rgba(255, 255, 255, 0.2);
 
+  /* Accent */
   --accent-blue: #38bdf8;
   --accent-cyan: #22d3ee;
-  --liner-obg: rgba(34, 211, 238, 0.317);
-  --liner-bg: #191b1f;
 
+  /* Text */
   --text-primary: rgba(255, 255, 255, 0.9);
   --text-secondary: rgba(255, 255, 255, 0.6);
   --text-muted: rgba(255, 255, 255, 0.4);
 
+  /* Border */
   --border-soft: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 1);
 }
+
 // Light mood
 .light-mode {
-  --bg-main: #f8fafc;
-  --bg-card: #ffffff;
+  /* Backgrounds (NOT pure white) */
+  --bg-main: #eef2f7; // light sky gray
+  --bg-card: #f9fafb; // soft card surface
+  --bg-soft: #e5e7eb;
 
-  --line-primary: rgba(15, 23, 42, 0.45);
-  --line-soft: rgba(15, 23, 42, 0.25);
+  /* Gradient (DAY SKY FEEL) */
+  --grad-start: rgba(56, 189, 248, 0.35); // sky blue
+  --grad-mid: rgba(14, 165, 233, 0.2); // daylight blue
+  --grad-end: rgba(249, 250, 251, 0.95); // soft surface
 
-  --accent-blue: #0ea5e9;
+  /* Chart */
+  --line-primary: rgba(30, 41, 59, 0.45);
+  --line-soft: rgba(30, 41, 59, 0.18);
+
+  /* Accent */
+  --accent-blue: #0284c7;
   --accent-cyan: #06b6d4;
-  --menu-bg: #06b5d44a;
 
-  --text-primary: rgba(15, 23, 42, 0.9);
-  --text-secondary: rgba(15, 23, 42, 0.6);
-  --text-muted: rgba(15, 23, 42, 0.4);
+  /* Text (IMPORTANT FIX) */
+  --text-primary: rgba(30, 41, 59, 0.9);
+  --text-secondary: rgba(30, 41, 59, 0.65);
+  --text-muted: rgba(30, 41, 59, 0.45);
 
-  --border-soft: rgba(15, 23, 42, 0.08);
+  /* Borders */
+  --border-soft: rgba(30, 41, 59, 0.12);
+  --border-strong: rgba(30, 41, 59, 0.25);
 }
+.light-mode {
+  .menu,
+  .city_details {
+    box-shadow: 0 10px 25px rgba(30, 41, 59, 0.08);
+    color: #fff;
+  }
+}
+
 @mixin flex_column(
   $gap: 1rem,
   $align: center,
@@ -59,7 +88,7 @@ html {
   justify-content: $justify;
   gap: $gap;
 }
-@mixin flex($gap:1rem,$justify:center){
+@mixin flex($gap: 1rem, $justify: center) {
   display: flex;
   align-items: center;
   justify-content: $justify;
@@ -68,6 +97,7 @@ html {
 
 body {
   background-color: var(--bg-main);
+  color: var(--text-primary);
   font-family: Arial, Helvetica, sans-serif;
 }
 main {
@@ -80,9 +110,6 @@ main {
   padding: 20px;
   gap: 30px;
 }
-.middle {
-  height: 100%;
-}
 .highlight_map {
   background-color: red;
   height: 100%;
@@ -91,9 +118,9 @@ main {
   text-align: center;
   background: linear-gradient(
     to top,
-    var(--liner-bg),
-    var(--liner-obg),
-    var(--liner-bg)
+    var(--bg-soft),
+    var(--grad-mid),
+    var(--bg-soft)
   );
   border-radius: 12px;
   @include flex_column(0 space-between, column);
@@ -120,11 +147,15 @@ main {
         padding: 10px 0;
         border-radius: 2px;
         transition: all 0.3s linear;
-      }
-      i:hover {
-        background: linear-gradient(to right, #ffffff58, transparent);
-        border-left: 2px solid #fff;
-        cursor: pointer;
+        &:hover {
+          background: linear-gradient(
+            to right,
+            var(--grad-soft),
+            transparent
+          );
+          border-left: 2px solid var(--border-strong);
+          cursor: pointer;
+        }
       }
     }
   }
@@ -155,17 +186,20 @@ main {
 
 .middle {
   border-radius: 12px;
-  @include flex_column(0 space-between, column);
+  @include flex_column(1rem ,space-between, column);
+  .day_weather,
   .city_details {
     background: linear-gradient(
-    135deg,
-    rgba(56, 191, 248, 0.335),
-    rgba(34, 211, 238, 0.209),
-    rgba(17, 24, 39, 0.9)
-  );
-    height: 50%;
+      260deg,
+      var(--grad-start),
+      var(--grad-mid),
+      var(--grad-end)
+    );
+    height: 49%;
     padding: 20px;
     border-radius: 12px;
+  }
+  .city_details {
     .city_top {
       text-align: end;
       .search_city {
@@ -222,35 +256,108 @@ main {
       img {
         width: 30%;
       }
-      h1{
+      h1 {
         font-size: 60px;
+        font-weight: 500;
         padding: 20px 0;
-        .sup{
+        .sup {
           font-size: 35px;
         }
       }
-      .rain_sun{
-        @include flex(.5rem,start);
-        i{
+      .rain_sun {
+        @include flex(0.5rem, start);
+        i {
           font-size: 28px;
         }
-        p{
+        p {
           font-size: 24px;
           font-weight: 300;
         }
       }
     }
-    .location_time{
-      .location,.time{
-        @include flex(.5rem, start);
-        padding:5px 0px;
-        i{
+    .location_time {
+      .location,
+      .time {
+        @include flex(0.5rem, start);
+        padding: 5px 0px;
+        i {
           font-size: 20px;
         }
-        p{
+        p {
           font-size: 18px;
         }
       }
     }
   }
+
+  .section_heading{
+    h4{
+      font-size: 20px;
+      font-weight: 500;
+      padding: 5px 0;
+    }
+  }
+.day_weather {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+
+  /* hide scrollbar (optional) */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.day_forecast {
+  @include flex(1rem,space-between );
+  padding: 10px;
+  border-radius: 8px;
+
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .icon_detail {
+    display: flex;
+    // flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+    }
+
+    h4 {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text-primary);
+
+      span {
+        color: var(--text-muted);
+        font-weight: 400;
+      }
+    }
+  }
+
+  .date_forecast {
+    margin-top: 10px;
+    font-size: 18px;
+    color: var(--text-secondary);
+    text-transform: capitalize;
+  }
+
+  .day_forecast {
+    font-size: 16px;
+    color: var(--text-muted);
+  }
+}
+
 }

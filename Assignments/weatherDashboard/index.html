@@ -38,10 +38,9 @@
         <div class="city_details">
           <div class="city_top">
             <div class="search_city">
-              <i class="ri-search-line"></i>
               <input type="text" />
             </div>
-            <i class="ri-search-line"></i>
+            <i id="searchIcon" class="ri-search-line"></i>
           </div>
           <div class="weather_detail">
             <img src="./assets/images/cloudy.png" alt="" />
@@ -180,69 +179,58 @@
           </div>
 
           <div class="metrics">
-  <div class="metric_card humidity">
-    <p class="label">Humidity</p>
+            <div class="metric_card humidity">
+              <p class="label">Humidity</p>
 
-    <div class="value">
-      <h2>72<span>%</span></h2>
-    </div>
+              <div class="value">
+                <h2>72<span>%</span></h2>
+              </div>
 
-    <div class="progress">
-      <span style="width: 72%"></span>
-    </div>
-  </div>
+              <div class="progress">
+                <span style="width: 72%"></span>
+              </div>
+            </div>
 
-  <div class="metric_card visibility">
-    <p class="label">Visibility</p>
+            <div class="metric_card visibility">
+              <p class="label">Visibility</p>
 
-    <div class="value">
-      <h2>6.4<span>km</span></h2>
-    </div>
+              <div class="value">
+                <h2>6.4<span>km</span></h2>
+              </div>
 
-    <div class="progress">
-      <span style="width: 64%"></span>
-    </div>
-  </div>
+              <div class="progress">
+                <span style="width: 64%"></span>
+              </div>
+            </div>
 
-  <div class="metric_card feels">
-    <p class="label">Feels Like</p>
+            <div class="metric_card feels">
+              <p class="label">Feels Like</p>
 
-    <div class="value">
-      <h2>31<span>°</span></h2>
-    </div>
+              <div class="value">
+                <h2>31<span>°</span></h2>
+              </div>
 
-    <p class="note">Slightly warmer</p>
-  </div>
-</div>
-
-
+              <p class="note">Slightly warmer</p>
+            </div>
+          </div>
         </div>
         <div class="section_heading">
           <h4>Weather condition map</h4>
         </div>
 
         <div class="map_card map">
-  <!-- <div class="map_header">
-    <p>Weather Map</p>
-    <span>Precipitation</span>
-  </div> -->
 
+          <div class="map_marker">
+            <i class="ri-map-pin-fill"></i>
+          </div>
 
-    <div class="map_marker">
-      <i class="ri-map-pin-fill"></i>
-    </div>
-
-  <div class="map_footer">
-    <div class="legend">
-      <span class="low"></span> Low
-      <span class="mid"></span> Medium
-      <span class="high"></span> High
-    </div>
-  </div>
-</div>
-
-
-
+          <div class="map_footer">
+            <div class="legend">
+              <span class="low"></span> Low <span class="mid"></span> Medium
+              <span class="high"></span> High
+            </div>
+          </div>
+        </div>
       </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

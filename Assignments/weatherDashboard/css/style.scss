@@ -194,19 +194,23 @@ main {
   }
   .city_details {
     min-height: 430px;
+    position: relative;
     .city_top {
       text-align: end;
       .search_city {
-        display: none !important;
+        opacity: 0;
         display: flex;
         align-items: center;
         gap: 10px;
+        position: absolute;
+        top: 10px;
+        left: 10px;
 
         padding: 12px 14px;
         border-radius: 14px;
 
         background: var(--bg-card);
-        border: 1px solid var(--border-soft);
+        border: 1px solid var(--accent-cyan);
 
         transition: border-color 0.25s ease, box-shadow 0.25s ease;
 

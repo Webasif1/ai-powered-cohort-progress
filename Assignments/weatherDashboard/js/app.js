@@ -1,3 +1,29 @@
+let search = document.querySelector("#searchIcon");
+let searchBox = document.querySelector(".search_city")
+console.log(searchBox);
+
+function searchOpenClose(){
+
+  let count = 0;
+  search.addEventListener("click",()=>{
+    if(count === 0){
+      searchBox.style.opacity = 1
+      search.classList.value = "ri-close-line"
+      count++;
+    }else{
+      searchBox.style.opacity = 0
+      search.classList.value = "ri-search-line"
+      count--;
+    }
+
+    console.log(search.classList.value , count);
+  })
+}
+searchOpenClose()
+
+
+
+
 function themeDarkLight() {
   let count = 0;
   document.querySelector("button").addEventListener("click", () => {

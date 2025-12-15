@@ -35,16 +35,16 @@
         </div>
       </div>
       <div class="middle">
-          <div class="city_details">
-            <div class="city_top">
-              <div class="search_city">
-                <i class="ri-search-line"></i>
-                <input type="text" />
-              </div>
+        <div class="city_details">
+          <div class="city_top">
+            <div class="search_city">
               <i class="ri-search-line"></i>
+              <input type="text" />
             </div>
+            <i class="ri-search-line"></i>
+          </div>
           <div class="weather_detail">
-            <img src="./assets/images/cloudy.png" alt="">
+            <img src="./assets/images/cloudy.png" alt="" />
             <h1>28 <sup class="sup">°C </sup></h1>
             <div class="rain_sun">
               <i id="weatherIcon" class="ri-cloud-line"></i>
@@ -68,91 +68,185 @@
         <div class="day_weather">
           <div class="day_forecast">
             <div class="icon_detail">
-              <img src="./assets/images/heavy-rain.png" alt="Forecast">
+              <img src="./assets/images/heavy-rain.png" alt="Forecast" />
               <h4>+29°/<span>+18</span></h4>
             </div>
-            <p class="date_forecast">
-              27 july
-            </p>
-            <p class="day_forecast">
-              Friday
-            </p>
+            <p class="date_forecast">27 july</p>
+            <p class="day_forecast">Friday</p>
           </div>
           <div class="day_forecast">
             <div class="icon_detail">
-              <img src="./assets/images/heavy-rain.png" alt="Forecast">
+              <img src="./assets/images/heavy-rain.png" alt="Forecast" />
               <h4>+29°/<span>+18</span></h4>
             </div>
-            <p class="date_forecast">
-              27 july
-            </p>
-            <p class="day_forecast">
-              Friday
-            </p>
+            <p class="date_forecast">27 july</p>
+            <p class="day_forecast">Friday</p>
           </div>
           <div class="day_forecast">
             <div class="icon_detail">
-              <img src="./assets/images/heavy-rain.png" alt="Forecast">
+              <img src="./assets/images/heavy-rain.png" alt="Forecast" />
               <h4>+29°/<span>+18</span></h4>
             </div>
-            <p class="date_forecast">
-              27 july
-            </p>
-            <p class="day_forecast">
-              Friday
-            </p>
+            <p class="date_forecast">27 july</p>
+            <p class="day_forecast">Friday</p>
           </div>
           <div class="day_forecast">
             <div class="icon_detail">
-              <img src="./assets/images/heavy-rain.png" alt="Forecast">
+              <img src="./assets/images/heavy-rain.png" alt="Forecast" />
               <h4>+29°/<span>+18</span></h4>
             </div>
-            <p class="date_forecast">
-              27 july
-            </p>
-            <p class="day_forecast">
-              Friday
-            </p>
+            <p class="date_forecast">27 july</p>
+            <p class="day_forecast">Friday</p>
           </div>
           <div class="day_forecast">
             <div class="icon_detail">
-              <img src="./assets/images/heavy-rain.png" alt="Forecast">
+              <img src="./assets/images/heavy-rain.png" alt="Forecast" />
               <h4>+29°/<span>+18</span></h4>
             </div>
-            <p class="date_forecast">
-              27 july
-            </p>
-            <p class="day_forecast">
-              Friday
-            </p>
+            <p class="date_forecast">27 july</p>
+            <p class="day_forecast">Friday</p>
           </div>
           <div class="day_forecast">
             <div class="icon_detail">
-              <img src="./assets/images/heavy-rain.png" alt="Forecast">
+              <img src="./assets/images/heavy-rain.png" alt="Forecast" />
               <h4>+29°/<span>+18</span></h4>
             </div>
-            <p class="date_forecast">
-              27 july
-            </p>
-            <p class="day_forecast">
-              Friday
-            </p>
+            <p class="date_forecast">27 july</p>
+            <p class="day_forecast">Friday</p>
           </div>
           <div class="day_forecast">
             <div class="icon_detail">
-              <img src="./assets/images/heavy-rain.png" alt="Forecast">
+              <img src="./assets/images/heavy-rain.png" alt="Forecast" />
               <h4>+29°/<span>+18</span></h4>
             </div>
-            <p class="date_forecast">
-              27 july
-            </p>
-            <p class="day_forecast">
-              Friday
-            </p>
+            <p class="date_forecast">27 july</p>
+            <p class="day_forecast">Friday</p>
           </div>
         </div>
       </div>
-      <div class="highlight_map"></div>
+      <div class="highlight_map">
+        <div class="highlight">
+          <div class="top_cards">
+            <div class="wind_status">
+              <h5>Wind Status</h5>
+              <div>
+                <canvas id="myChart"></canvas>
+              </div>
+              <div class="time_km">
+                <h6>7.90<span>km/h</span></h6>
+                <p>5:01 AM</p>
+              </div>
+            </div>
+
+            <div class="uv_circle">
+              <h5 class="title">UV Index</h5>
+
+              <div class="circle_wrap">
+                <svg width="140" height="140">
+                  <circle class="bg" cx="70" cy="70" r="60" />
+                  <circle class="progress" cx="70" cy="70" r="60" />
+                </svg>
+
+                <div class="uv_center">
+                  <h2>6</h2>
+                  <span>High</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="sun_card">
+              <h5 class="title">Sunrise & Sunset</h5>
+
+              <div class="sun_path">
+                <svg viewBox="0 0 200 100">
+                  <!-- base arc -->
+                  <path
+                    id="sunArc"
+                    class="arc_progress"
+                    d="M10 90 A90 90 0 0 1 190 90" />
+
+                  <!-- progress arc -->
+                  <path class="arc_progress" d="M10 90 A90 90 0 0 1 190 90" />
+                </svg>
+
+                <div class="sun_icon">☀</div>
+              </div>
+
+              <div class="sun_time">
+                <span>06:12 AM</span>
+                <span>06:45 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="metrics">
+  <div class="metric_card humidity">
+    <p class="label">Humidity</p>
+
+    <div class="value">
+      <h2>72<span>%</span></h2>
+    </div>
+
+    <div class="progress">
+      <span style="width: 72%"></span>
+    </div>
+  </div>
+
+  <div class="metric_card visibility">
+    <p class="label">Visibility</p>
+
+    <div class="value">
+      <h2>6.4<span>km</span></h2>
+    </div>
+
+    <div class="progress">
+      <span style="width: 64%"></span>
+    </div>
+  </div>
+
+  <div class="metric_card feels">
+    <p class="label">Feels Like</p>
+
+    <div class="value">
+      <h2>31<span>°</span></h2>
+    </div>
+
+    <p class="note">Slightly warmer</p>
+  </div>
+</div>
+
+
+        </div>
+        <div class="section_heading">
+          <h4>Weather condition map</h4>
+        </div>
+
+        <div class="map_card map">
+  <div class="map_header">
+    <p>Weather Map</p>
+    <span>Precipitation</span>
+  </div>
+
+  <div class="map_container">
+    <img src="https://i.pinimg.com/1200x/e9/31/b0/e931b043748ce035ccbde0273e5ca3dd.jpg" alt="Weather Map">
+
+    <div class="map_marker">
+      <i class="ri-map-pin-fill"></i>
+    </div>
+  </div>
+
+  <div class="map_footer">
+    <div class="legend">
+      <span class="low"></span> Low
+      <span class="mid"></span> Medium
+      <span class="high"></span> High
+    </div>
+  </div>
+</div>
+
+
+
+      </div>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="./js/data.js"></script>

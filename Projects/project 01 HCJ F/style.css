@@ -87,7 +87,6 @@ section.allElems{
   width: 100%;
   background-color: var(--sec);
   padding: 40px;
-  font-size: 60px;
   display: none;
   position: absolute;
 }
@@ -105,3 +104,33 @@ section.allElems{
 .back:active{
   scale: 0.97;
 }
+
+/* Todo page css st */
+.todo-list-fullpage{
+  display: block;
+}
+.todo-list-fullpage h2{
+  font-size: 65px;
+  font-weight: 700;
+}
+.todo-list-fullpage .todo-container{
+  height: 80%;
+  width: 100%;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.todo-list-fullpage .todo-container .addTask{
+  width: 33%;
+  height: 100%;
+  background-color: var(--tri2);
+  border-radius: 20px;
+}
+.todo-list-fullpage .todo-container .allTask{
+  width: 65%;
+  height: 100%;
+  background-color: var(--tri2);
+  border-radius: 20px;
+}
+/* Todo page css end */

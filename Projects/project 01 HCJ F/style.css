@@ -63,7 +63,9 @@ section.allElems{
   font-size: 24px;
   overflow: hidden;
   position: relative;
+  cursor: pointer;
   transition: all ease .2s;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, .3);
 }
 .elem img{
   width: 100%;
@@ -88,4 +90,18 @@ section.allElems{
   font-size: 60px;
   display: none;
   position: absolute;
+}
+.back{
+  position: absolute;
+  right: 5%;
+  background-color: crimson;
+  padding: 15px 20px;
+  border-radius: 10px;
+  font-size: 25px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+}
+.back:active{
+  scale: 0.97;
 }

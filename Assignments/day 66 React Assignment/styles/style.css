@@ -1,0 +1,147 @@
+@font-face {
+  font-family: aeonik;
+  font-weight: 300;
+  src: url(./fonts/AeonikTRIAL-Light.otf);
+}
+@font-face {
+  font-family: aeonik;
+  font-weight: 500;
+  src: url(./fonts/AeonikTRIAL-Regular.otf);
+}
+@font-face {
+  font-family: aeonik;
+  font-weight: 700;
+  src: url(./fonts/AeonikTRIAL-Bold.otf);
+}
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: aeonik;
+}
+
+:root{
+  --whit: #ffffff;
+  --sec:#7B7B7B;
+  --pre:#222222;
+  --tre:#F8F8F8;
+}
+html,
+body{
+height: 100%;
+width: 100%;
+}
+#container{
+  width: 100%;
+  height: 100%;
+  background-color: var(--tre);
+  max-width: 2400px;
+}
+/* #nav{
+  max-width: 100%;
+  height: 100px;
+  display: flex;
+   align-items: center;
+   justify-content: space-between;
+   padding: 10px 50px;
+} */
+#fullNav{
+  max-width: 100%;
+  height: 100px;
+  display: flex;
+   align-items: center;
+   justify-content: space-between;
+   padding: 10px 50px;
+}
+#navLeft{
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+#logo i{
+  font-size: 40px;
+  color: var(--pre);
+}
+#resNavLogo{
+  font-size: 50px;
+  color: var(--pre);
+  display: none;
+}
+#menuitem{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+#menuitem li{
+  list-style: none;
+  cursor: pointer;
+  color: var(--pre);
+  font-size: 24px;
+  font-weight: 500;
+  position: relative;
+  transition: all ease .5s;
+}
+#menuitem li::after{
+  content: "";
+  width: 0;
+  border-top: 2px solid var(--pre);
+  position: absolute;
+  top: 120%;
+  left: 0%;
+  transition: all ease .5s;
+}
+#menuitem li:hover::after{
+  width: 100%;
+}
+#navBtn{
+  padding: 15px 30px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 24px;
+  cursor: pointer;
+}
+#navBtn a{
+  text-decoration:  underline;
+}
+#menuIcon{
+  font-size: 40px;
+  display: none ;
+}
+/*** Responsive */
+
+@media (max-width:795px) {
+  #nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 20px;
+  }
+  #logo i{
+    display: none !important;
+    color: aqua;
+  }
+  #fullNav{
+    flex-direction: column;
+  }
+  #resNavLogo{
+    text-align: start;
+    display: block;
+  }
+  #menuitem{
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 20px;
+  }
+  #menuitem li{
+    font-size: 28px;
+  }
+  #fullNav{
+    display: none;
+  }
+  #menuIcon{
+    display: block ;
+  }
+}

@@ -40,13 +40,22 @@ function navBar() {
   );
   const navRight = React.createElement("div", { id: "navRight" }, [navBtn]);
 
-  const menuOpenIcon = React.createElement(
+   const menuOpenIcon = React.createElement(
     "span",
-    { id: "menuIcon" },
-    React.createElement("i", { class: "ri-menu-3-line" })
+    {
+      id: "menuIcon",
+      onClick: () => setOpen(!open),
+      style: {
+        fontSize: "40px",
+        cursor: "pointer",
+      },
+    },
+    React.createElement("i", {
+      class: open ? "ri-close-large-fill" : "ri-menu-3-line",
+    })
   );
 
-  const navFullBox = React.createElement("div", { id: "fullNav" }, [
+  const navFullBox = React.createElement("div", { id: "fullNav",className: open ? "open" : "", }, [
     navLeft,
     navRight,
   ]);
@@ -55,7 +64,11 @@ function navBar() {
     navFullBox,
     menuOpenIcon,
   ]);
-
+function menuToggle(){
+  const menuIcon = document.querySelector(" menuIcon")
+  console.log(menuIcon);
+}
+menuToggle()
   return nav;
 }
 

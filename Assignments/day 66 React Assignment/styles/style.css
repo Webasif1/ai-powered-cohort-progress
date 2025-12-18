@@ -59,6 +59,7 @@ body{
   align-items: center;
   justify-content: space-between;
   padding: 10PX 0px;
+  transition: all ease .3s;
 }
 #navLeft {
   display: flex;
@@ -116,7 +117,7 @@ body{
   text-decoration: underline;
 }
 #menuIcon {
-  font-size: 40px;
+  font-size: 50px;
   display: none;
 }
 #heroSection{
@@ -195,7 +196,20 @@ body{
   }
   #fullNav {
     flex-direction: column;
+    display: none;
+    width: 400px;
+    background-color: var(--tre);
+    height: 100vh;
+    width: 85%;
+    position: absolute;
+    top: 10%;
+    right: 0%;
+    padding: 10px 50px 10px 0px;
+    transition: all ease .3s;
   }
+    #fullNav.open{
+      display: block;
+    }
   #resNavLogo {
     text-align: start;
     display: block;
@@ -207,10 +221,6 @@ body{
   }
   #menuitem li {
     font-size: 28px;
-  }
-  #fullNav {
-    display: none;
-    width: 400px;
   }
   #menuIcon {
     display: block;

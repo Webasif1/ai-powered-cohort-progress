@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const Menu = ["About Us", "Service", "Coaches", "Event", "Contact"];
 
-cfnst Navbar = () => {
+const Navbar = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="Navbar">

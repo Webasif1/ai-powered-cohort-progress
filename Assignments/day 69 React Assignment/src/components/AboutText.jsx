@@ -3,7 +3,7 @@ import React from "react";
 const AboutText = () => {
     return (
         <div className="AboutUs">
-            <div className="AboutUsText">
+            <div className="CommonHeading AboutUsText">
                 <p>About Us</p>
             </div>
             <div className="AboutPara">

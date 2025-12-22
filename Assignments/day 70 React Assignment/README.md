@@ -1,16 +1,59 @@
-# React + Vite
+# 👗 React Fashion Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern and responsive **fashion website built with React.js** and **Tailwind CSS**.  
+This project focuses on clean UI design, component-based architecture, and modern frontend development practices.
 
-Currently, two official plugins are available:
+🔗 **Live Demo:** https://webasif1.github.io/react-fashion/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Built using **React.js** and **Tailwind CSS**
+- Clean, modern fashion-focused UI
+- Reusable React components
+- Fully responsive design
+- Lightweight and fast performance
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Tech Stack
+
+- **React.js**
+- **Tailwind CSS**
+- **JavaScript (ES6+)**
+- **HTML5**
+
+---
+
+## 📚 Learning & Inspiration
+
+This project was built while learning React through **Sheryians Coding School (Cohort 2.0)**.
+
+Key takeaways from this project:
+- Writing clean, maintainable React components
+- Structuring a React project effectively
+- Using **Tailwind CSS** for rapid and responsive styling
+- Building and deploying React apps with GitHub Pages
+
+Every project makes me more confident in React and frontend development.
+
+---
+
+## 📸 Preview
+
+Visit the live website to explore the full UI and layout.
+
+🔗 https://webasif1.github.io/react-fashion/
+
+---
+
+## 📂 Installation & Setup
+
+To run this project locally:
+
+```bash
+git clone https://github.com/your-username/react-fashion.git
+cd react-fashion
+npm install
+npm start

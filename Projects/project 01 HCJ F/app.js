@@ -29,7 +29,6 @@ function todoList() {
     let taskCheckbox = document.querySelector(".addTask form #check");
     const allTask = document.querySelector(".allTask");
 
-    console.log(allTask);
     let currentTask = [];
 
     if (localStorage.getItem("currentTask")) {
@@ -110,3 +109,20 @@ function dailyPlanner() {
 }
 
 dailyPlanner()
+
+async function fetchQuote() {
+  try {
+    const res = await fetch(
+      "https://corsproxy.io/?https://api.quotable.io/random"
+    );
+
+    const data = await res.json();
+    console.log(data.content);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+fetchQuote();
+
+

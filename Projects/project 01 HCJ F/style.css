@@ -375,8 +375,35 @@ section.allElems {
 
 .pomodoro-fullpage{
   display: block;
+  position: relative;
 }
 .pomodoro-fullpage h2{
-  font-size: 75px;
+  font-size: 65px;
 }
+.pomodoro-fullpage .pomo-timer{
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+}
+.pomo-timer h4{
+  font-size: 160px;
+}
+.pomo-timer button{
+  background-color: var(--tri2);
+  padding: 20px 40px;
+  font-size: 30px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 7px 7px 0px black;
+  cursor: pointer;
+  transition: all ease .2s;
+}
+.pomo-timer button:active{
+  box-shadow: 0px 0px 0px black;
+  scale: 0.9;
+}
+
 /*** Pomodoro page css end  */

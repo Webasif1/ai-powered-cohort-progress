@@ -290,7 +290,7 @@ section.allElems {
 }
 
 /*** Daily Planer css end  */
-/***note Motivational page css end  */
+/***note Motivational page css start  */
 .motivational-fullpage {
   position: relative;
 }
@@ -370,4 +370,13 @@ section.allElems {
   opacity: 0.5;
   height: 100px;
 }
-/*** Motivational page css start  */
+/*** Motivational page css end  */
+/*** Pomodoro page css start  */
+
+.pomodoro-fullpage{
+  display: block;
+}
+.pomodoro-fullpage h2{
+  font-size: 75px;
+}
+/*** Pomodoro page css end  */

@@ -403,7 +403,7 @@ section.allElems {
 }
 .pomo-timer button:active{
   box-shadow: 0px 0px 0px black;
-  scale: 0.9;
+  scale: 0.7;
 }
 
 /*** Pomodoro page css end  */

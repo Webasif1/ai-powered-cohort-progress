@@ -11,11 +11,11 @@ const NavBar = () => {
             <i className="ri-search-line absolute text-white text-2xl top-3 left-3"></i>
         </div>
         <div className='flex items-center gap-4'>
-          <div className='px-4 py-3 rounded-full border bg-(--c3)'>
+          <div className='cursor-pointer px-3 py-2 rounded-full border bg-(--c3)'>
             <i className="ri-notification-2-line text-white text-2xl"></i>
           </div>
-            <div className='w-15 h-15 rounded-full border border-zinc-500 overflow-hidden object-center object-cover'>
-              <img src="https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg" alt="" />
+            <div className='cursor-pointer w-14 h-14 rounded-full border border-zinc-500 overflow-hidden object-center object-cover'>
+              <img src="https://images.pexels.com/photos/842980/pexels-photo-842980.jpeg" alt="profile image..." />
             </div>
         </div>
     </div>

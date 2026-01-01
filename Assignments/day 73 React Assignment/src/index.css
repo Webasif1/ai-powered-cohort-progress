@@ -3,7 +3,8 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 :root{
-  --c1: #B693EA;
+  --c1: rgb(184, 146, 238);
   --c2: #1A162C;
   --c3: rgba(242, 242, 242, 0.084);
+  --c4: rgba(242, 242, 242, 0.184);
 }

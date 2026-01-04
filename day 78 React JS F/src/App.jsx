@@ -44,7 +44,7 @@ const App = () => {
     return () => window.removeEventListener("scroll", scrollCard)
   }, [pokeapi, loading]);
 
-  return <div className="m-h-screen w-full bg-zinc-800 p-10 flex flex-col items-center gap-8">
+  return <div className="m-h-screen w-full p-10 flex flex-col items-center gap-8">
     <div className="flex flex-wrap justify-center gap-8">
     {pokemons.map((elem, idx) => (
       <div key={elem.name}>

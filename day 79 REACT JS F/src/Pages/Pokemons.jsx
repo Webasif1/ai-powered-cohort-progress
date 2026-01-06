@@ -1,9 +1,9 @@
 import React from 'react'
-import PokemonData from '../components/PokemonData'
+import PokemonData from '../components/PokemonComponents/PokemonData'
 
 const Pokemons = () => {
   return (
-    <div className='py-10 px-6 absolute top-20 text-white'>
+    <div className='py-10 px-6 mt-22 text-white'>
       <PokemonData/>
     </div>
   )

@@ -1,7 +1,8 @@
 import React,{useState,useEffect} from 'react'
 import PokeCard from './PokeCard';
 import axios from "axios"
-import LoadMoreButton from './LoadmoreButton';
+import LoadMoreButton from './LoadMoreButton';
+import PokemonsText from './PokemonsText';
 
 const PokemonData = () => {
 
@@ -50,6 +51,7 @@ const [pokeapi, setpokeapi] = useState("https://pokeapi.co/api/v2/pokemon?limit=
   }, [pokeapi, loading]);
   return (
     <>
+    <PokemonsText/>
     <div className="w-full flex flex-wrap justify-center gap-8">
       {pokemons.map((elem, idx) => (
         <PokeCard key={idx} name={elem.name} image={elem.image} gif={elem.gif} id={idx + 1} />

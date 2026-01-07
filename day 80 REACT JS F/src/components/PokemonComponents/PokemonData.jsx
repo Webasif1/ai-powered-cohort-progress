@@ -25,8 +25,9 @@ const [pokeapi, setpokeapi] = useState("https://pokeapi.co/api/v2/pokemon?limit=
             name: p.name,
             image: pokeDetail.data.sprites.other["official-artwork"].front_default,
             gif: pokeDetail.data.sprites.other["showdown"].front_default,
-            ability: pokeDetail.data.abilities.map((ab) => ab.ability.name)
-
+            type: pokeDetail.data.types.map((ab) => ab.type.name),
+            height:pokeDetail .data.height,
+            weight:pokeDetail .data.weight
           }
         })
       )
@@ -54,7 +55,7 @@ const [pokeapi, setpokeapi] = useState("https://pokeapi.co/api/v2/pokemon?limit=
     <PokemonsText/>
     <div className="w-full flex flex-wrap justify-center gap-8">
       {pokemons.map((elem, idx) => (
-        <PokeCard key={idx} name={elem.name} image={elem.image} gif={elem.gif} id={idx + 1} />
+        <PokeCard key={idx} name={elem.name} type={elem.type} image={elem.image} gif={elem.gif} height={elem.height} weight={elem.weight} id={idx + 1} />
       ))}
     </div>
     <LoadMoreButton pokeCard ={pokeCard} pokeapi={pokeapi}/>

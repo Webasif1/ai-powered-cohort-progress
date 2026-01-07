@@ -1,104 +1,107 @@
 @import "tailwindcss";
 body {
-    background-color: #18181b;
+  background-color: #18181b;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .g-dent {
-    height: 30rem;
-    width: 30rem;
-    position: absolute;
-    top: 3rem;
-    left: 17rem;
-    border-radius: 50%;
-    background: linear-gradient(
-        to right,
-        #f88064,
-        #d3b43d,
-        #42bdc8,
-        #48BE67,
-        #f1cc54,
-        #4cbb5d,
-        #19bce0,
-        #D3B43D,
-        #f88064,
-        #eb7023e8
-    );
-    z-index: -1;
-    filter: blur(90px);
-    transform: scale(1.2);
-    animation: g-dent-animation 5s 1s infinite;
+  height: 30rem;
+  width: 30rem;
+  position: absolute;
+  top: 3rem;
+  left: 17rem;
+  border-radius: 50%;
+  background: linear-gradient(
+    to right,
+    #f88064,
+    #d3b43d,
+    #42bdc8,
+    #48be67,
+    #f1cc54,
+    #4cbb5d,
+    #19bce0,
+    #d3b43d,
+    #f88064,
+    #eb7023e8
+  );
+  z-index: -1;
+  filter: blur(90px);
+  transform: scale(1.2);
+  animation: g-dent-animation 5s 1s infinite;
 }
 
 @keyframes g-dent-animation {
-  10%{
+  10% {
     background: linear-gradient(
-        to right,
-        #f88064,
-        #d3b43d,
-        #42bdc8,
-        #48BE67,
-        #f1cc54,
-        #4cbb5d,
-        #19bce0,
-        #D3B43D,
-        #f88064,
-        #eb7023e8
+      to right,
+      #f88064,
+      #d3b43d,
+      #42bdc8,
+      #48be67,
+      #f1cc54,
+      #4cbb5d,
+      #19bce0,
+      #d3b43d,
+      #f88064,
+      #eb7023e8
     );
-  }25%{
+  }
+  25% {
     background: linear-gradient(
       to right,
       #f88064,
       #42bdc8,
       #f1cc54,
-      #48BE67,
+      #48be67,
       #d3b43d,
       #4cbb5d,
-      #eb7023e8
-      #D3B43D,
+      #eb7023e8 #d3b43d,
       #19bce0,
-      #f88064,
-  );
-  }50%{
+      #f88064
+    );
+  }
+  50% {
     background: linear-gradient(
       to right,
       #42bdc8,
       #d3b43d,
-      #48BE67,
+      #48be67,
       #f88064,
       #19bce0,
       #f1cc54,
       #4cbb5d,
       #f88064,
-      #D3B43D,
+      #d3b43d,
       #eb7023e8
-  );
-  }75%{
+    );
+  }
+  75% {
     background: linear-gradient(
       to right,
       #d3b43d,
       #42bdc8,
       #4cbb5d,
-      #48BE67,
+      #48be67,
       #f1cc54,
       #f88064,
-      #D3B43D,
+      #d3b43d,
       #19bce0,
-      #eb7023e8
-      #f88064,
-  );
-  }100%{
+      #eb7023e8 #f88064
+    );
+  }
+  100% {
     background: linear-gradient(
       to right,
       #f88064,
       #d3b43d,
       #42bdc8,
-      #48BE67,
+      #48be67,
       #f1cc54,
       #4cbb5d,
       #19bce0,
-      #D3B43D,
+      #d3b43d,
       #f88064,
       #eb7023e8
-  );
+    );
   }
 }

@@ -5,6 +5,7 @@ import About from "./Pages/About";
 import Pokemons from "./Pages/Pokemons";
 import PokemonDetails from "./Pages/PokemonDetails";
 import { Route, Routes } from "react-router-dom";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (< >
@@ -15,7 +16,7 @@ const App = () => {
       <Route path="/pokemon" element={<Pokemons/>}/>
       <Route path="/pokemonDetails" element={<PokemonDetails/>}/>
     </Routes>
-
+    <Footer/>
   </>
   )
 }

@@ -6,7 +6,7 @@ const LoadMoreButton = (props) => {
       {props.pokeapi && (
         <button
           onClick={props.pokeCard}
-          className="text-xl cursor-pointer px-6 w-fit py-3 bg-blue-500 text-black-700 rounded font-semibold hover:bg-blue-400"
+          className="text-xl mt-4.5 cursor-pointer px-6 w-fit py-3 bg-blue-500 text-black-700 rounded font-semibold hover:bg-blue-400"
         >
           Load Pokémon
         </button>

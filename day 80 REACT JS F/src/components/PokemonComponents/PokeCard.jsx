@@ -1,29 +1,9 @@
 import React, { useState } from "react";
+import { typeColors } from "../../utils/typeColors";
 
 const PokeCard = (props) => {
   const [image, setimage] = useState(props.image);
   const primaryType = props.type?.[0];
-
-  const typeColors = {
-    fire: "orange-500",
-    water: "blue-500",
-    grass: "green-500",
-    electric: "yellow-400",
-    poison: "purple-600",
-    flying: "sky-400",
-    bug: "lime-600",
-    normal: "zinc-400",
-    ground: "amber-600",
-    fairy: "rose-300",
-    fighting: "red-700",
-    psychic: "pink-500",
-    rock: "stone-600",
-    ghost: "indigo-700",
-    ice: "cyan-400",
-    dragon: "indigo-500",
-    dark: "neutral-800",
-    steel: "slate-400",
-  };
 
 
 
@@ -45,7 +25,7 @@ const PokeCard = (props) => {
           >
             <div className={`bg-${typeColors[primaryType]} z-0 w-30 h-30 rounded-full blur-3xl top-0 left-0 absolute`}></div>
             <img
-              className="w-30 h-30 relative z-10"
+              className="w-30 h-30 relative z-10 hover:scale-80"
               src={image || "/placeholder.png"}
               alt="Pokemon character image"
             />

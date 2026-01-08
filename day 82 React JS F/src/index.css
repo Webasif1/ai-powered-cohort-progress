@@ -1,0 +1,42 @@
+@import "tailwindcss";
+body {
+  background-color: #18181b;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.g-dent {
+  height: 30rem;
+  width: 30rem;
+  position: absolute;
+  top: 3rem;
+  left: 17rem;
+  border-radius: 50%;
+  background-color: #19bce0;
+  z-index: -1;
+  filter: blur(90px);
+  transform: scale(1.2);
+  animation: g-dent-animation 10s infinite linear;
+}
+
+@keyframes g-dent-animation {
+  10% {
+    margin-top: 0px;
+    background-color: #f88064;
+  }
+  25% {
+    margin-top: 20px;
+    background-color: #f1cc54;
+  }
+  50% {
+    margin-top: -20px;
+    background-color: #42bdc8;
+  }
+  75% {
+    margin-top: 20px;
+    background-color: #48be67;
+  }
+  100% {
+    margin-top: 0px;
+    background-color: #f88064;
+  }
+}

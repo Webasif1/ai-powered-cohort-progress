@@ -126,3 +126,79 @@ function motivationalQuote() {
 }
 
 motivationalQuote();
+
+// Pomodoro Timer
+
+const timers =document.querySelector(".pomo-timer h4")
+const session= document.querySelector('.pomodoro-fullpage .session')
+const startBtn =document.querySelector(".pomo-timer .start-timer")
+const pasueBtn =document.querySelector(".pomo-timer .pause-timer")
+const resetBtn =document.querySelector(".pomo-timer .reset-timer")
+let isWorkSession = true
+let timerInterval = null;
+let totalSeconds = 25 * 60;
+
+function updateTimer(){
+let minutes = Math.floor(totalSeconds / 60);
+let seconds = totalSeconds % 60;
+timers.innerHTML = `${String(minutes).padStart('2','0')}:${String(seconds).padStart('2','0')}`
+}
+console.log(session);
+function startTimer(){
+  clearInterval(timerInterval)
+  if(isWorkSession){
+    timerInterval = setInterval(()=>{
+      if(totalSeconds > 0){
+        totalSeconds--
+        updateTimer()
+      }else{
+        isWorkSession =false
+        clearInterval(timerInterval)
+        session.innerHTML = "Break Session"
+        session.style.backgroundColor ='var(--blue)'
+        timers.innerHTML = '05:00'
+        totalSeconds = 5*60
+      }
+    },1000)
+  }else{
+    timerInterval = setInterval(()=>{
+      if(totalSeconds > 0){
+        totalSeconds--
+        updateTimer()
+      }else{
+        isWorkSession =true
+        clearInterval(timerInterval)
+        session.innerHTML = "Work  Session"
+        session.style.backgroundColor ='var(--green)'
+        timers.innerHTML = '25:00'
+        totalSeconds = 25*60
+      }
+    },10)
+  }
+
+}
+
+function pauseTimer(){
+  clearInterval(timerInterval)
+    updateTimer()
+}
+function resetTimer(){
+  clearInterval(timerInterval)
+  totalSeconds = 25*60
+    updateTimer()
+}
+
+startBtn.addEventListener('click', ()=>{
+  startTimer()
+  // upDateTimer()
+})
+pasueBtn.addEventListener('click', ()=>{
+  pauseTimer()
+  // upDateTimer()
+})
+resetBtn.addEventListener('click', ()=>{
+  resetTimer()
+  // upDateTimer()
+})
+
+

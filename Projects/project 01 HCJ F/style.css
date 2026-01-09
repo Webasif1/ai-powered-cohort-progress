@@ -4,6 +4,8 @@
   --tri1: #feba17;
   --tri2: #74512d;
   --red: crimson;
+  --green: rgb(9, 138, 89);
+  --blue: rgb(0, 191, 255);
 }
 
 @font-face {
@@ -374,11 +376,10 @@ section.allElems {
 /*** Pomodoro page css start  */
 
 .pomodoro-fullpage{
-  display: block;
   position: relative;
 }
 .pomodoro-fullpage h2{
-  font-size: 65px;
+  font-size: 50px;
 }
 .pomodoro-fullpage .pomo-timer{
   position: absolute;
@@ -388,7 +389,7 @@ section.allElems {
   text-align: center;
 }
 .pomo-timer h4{
-  font-size: 160px;
+  font-size: 170px;
 }
 .pomo-timer button{
   background-color: var(--tri2);
@@ -400,10 +401,21 @@ section.allElems {
   box-shadow: 7px 7px 0px black;
   cursor: pointer;
   transition: all ease .2s;
+  font-weight: 700;
 }
 .pomo-timer button:active{
   box-shadow: 0px 0px 0px black;
   scale: 0.7;
+}
+.pomodoro-fullpage .session{
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%,0);
+  background-color: var(--green);
+  padding: 15px 30px;
+  font-size: 40px;
+  border-radius: 8px;
 }
 
 /*** Pomodoro page css end  */

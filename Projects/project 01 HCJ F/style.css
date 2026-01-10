@@ -36,17 +36,13 @@ body {
   height: 100%;
   width: 100%;
 }
+body{
+  background-color: var(--sec);
+}
 #main {
   width: 100%;
   height: 100%;
-  background-color: var(--sec);
 }
-/* nav {
-  position: fixed;
-  width: 100%;
-  height: 60px;
-  background-color: var(--tri2);
-} */
 section.allElems{
   width: 100%;
   height: 100%;
@@ -68,8 +64,43 @@ section.allElems .allFeatures{
 section.allElems  header{
   width: 100%;
   height: 400px;
-  background-color: var(--tri2) ;
+  background-image: url(https://images.unsplash.com/photo-1437751059337-ea72d4f73fcf?q=80&w=1161&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
   border-radius: 20px;
+  margin-bottom: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px;
+}
+section.allElems  header .header1 h2{
+  font-size: 45px;
+  font-weight: 500;
+}
+section.allElems  header .header1 h1{
+  font-size: 100px;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+section.allElems  header .header1 h4{
+  font-size: 70px;
+  font-weight: 500;
+}
+section.allElems  header .header2 h2{
+  font-size: 60px;
+  font-weight: 500;
+}
+section.allElems  header .header2 p{
+  font-size: 30px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+section.allElems  header .header2 h5{
+  font-size: 20px;
+  font-weight: 500;
+  opacity: 0.8;
 }
 .elem {
   background-color: var(--tri1);
@@ -90,7 +121,7 @@ section.allElems  header{
 }
 .elem h2 {
   position: absolute;
-  bottom: 4%;
+  top: 4%;
   right: 5%;
   font-weight: 500;
   font-size: 30px;

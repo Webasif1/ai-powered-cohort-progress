@@ -129,7 +129,8 @@ motivationalQuote();
 
 // Pomodoro Timer
 
-const timers =document.querySelector(".pomo-timer h4")
+function pomodoroTimer(){
+  const timers =document.querySelector(".pomo-timer h4")
 const session= document.querySelector('.pomodoro-fullpage .session')
 const startBtn =document.querySelector(".pomo-timer .start-timer")
 const pasueBtn =document.querySelector(".pomo-timer .pause-timer")
@@ -200,5 +201,7 @@ resetBtn.addEventListener('click', ()=>{
   resetTimer()
   // upDateTimer()
 })
+}
+pomodoroTimer()
 
 

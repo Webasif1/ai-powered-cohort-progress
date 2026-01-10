@@ -1,0 +1,104 @@
+/* base rule  */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  --primary-color: #8600ff;
+  --sec-color: #ff6f46;
+  --text-color: #acacac;
+  --text-color1: #c5c5c5;
+  --text-color2: #a922c7;
+  --text-bg1: #fff48a;
+  --text-bg2: #ffcb00;
+}
+html {
+  font-size: 62.5%;
+  /* 1rem = 10px  */
+  /* scroll-behavior: smooth; */
+  /* scroll-snap-type: Y proximity; */
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Poppins", sans-serif;
+}
+p,
+li,
+a,
+label {
+  font-family: "Urbanist", sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 0.1rem;
+  font-weight: 400;
+  color: var(--para-color);
+  line-height: 1.5;
+}
+a,Link {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+.container{
+  width: 190rem;
+  margin: 0 auto;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+#root {
+  min-height: 100%;
+  width: 100%;
+}
+
+@mixin flex-col($gap:1rem,$align:center,$justify:space-between){
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  gap: $gap;
+}
+
+.navBar {
+  @include flex-col(0rem, center,space-between);
+  padding: 20px 30px;
+  border-bottom: 2px solid var(--text-color1);
+  .navLink{
+    @include flex-col(3rem, center, center);
+    Link{
+      font-size: 1.6rem;
+    }
+  }
+  .NavLogo {
+    @include flex-col(1rem,center , center);
+    img {
+      width: 30px;
+    }
+    h2{
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+  }
+  .navBtns{
+    @include flex-col(3rem, center, center);
+    Link{
+      font-size: 1.6rem;
+    }
+    .contactUs-btn{
+      padding: 10px 20px;
+      border: 2px solid var(--text-bg1);
+      border-radius: 50px;
+      i{
+        color: var(--primary-color);
+      }
+    }
+  }
+}

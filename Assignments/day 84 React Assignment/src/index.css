@@ -10,7 +10,7 @@
   --primary-color: #8600ff;
   --sec-color: #ff6f46;
   --text-color: #acacac;
-  --text-color1: #c5c5c5;
+  --text-color1: #969393;
   --text-color2: #a922c7;
   --text-bg1: #fff48a;
   --text-bg2: #ffcb00;
@@ -92,7 +92,7 @@ body {
 }
 .navBar .navLink .navItem::after {
   content: "";
-  border-bottom: 4px solid var(--primary-color);
+  border-bottom: 0.2rem solid var(--primary-color);
   border-radius: 50px;
   position: absolute;
   bottom: -3px;
@@ -122,6 +122,22 @@ body {
   justify-content: center;
   gap: 3rem;
 }
+.navBar .navBtns .careersNav {
+  position: relative;
+}
+.navBar .navBtns .careersNav::after {
+  content: "";
+  border-bottom: 0.2rem solid var(--primary-color);
+  border-radius: 50px;
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0%;
+  transition: all 0.3s linear(0 0%, 0.76 107.35%);
+}
+.navBar .navBtns .careersNav:hover::after {
+  width: 100%;
+}
 .navBar .navBtns Link {
   font-size: 1.6rem;
 }
@@ -136,6 +152,79 @@ body {
 
 .mobileMenu {
   display: none;
+}
+
+.heroSection {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0rem;
+  position: relative;
+}
+.heroSection .heroImg1 {
+  width: 30rem;
+  height: 35rem;
+  background-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0rem;
+  border-radius: 2rem 2rem 50rem 50rem;
+  position: absolute;
+  left: 15%;
+  top: 8%;
+  z-index: -20;
+  transform: rotate(-15deg);
+}
+.heroSection .heroImg1 img {
+  width: 90%;
+}
+.heroSection .heroContent h4 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--text-color1);
+  margin-bottom: 1rem;
+}
+.heroSection .heroContent h1 {
+  text-align: center;
+  font-size: 12rem;
+  font-weight: 500;
+}
+.heroSection .heroContent h1 .heroTextImageBox {
+  display: inline-block;
+}
+.heroSection .heroContent h1 .heroTextImageBox .heroTextImg {
+  width: 8rem;
+  height: 8rem;
+  border: 0.2rem solid var(--primary-color);
+  border-radius: 5rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0rem;
+}
+.heroSection .heroContent h1 .heroTextImageBox .heroTextImg img {
+  height: 10rem;
+}
+.heroSection .magic {
+  position: relative;
+  color: var(--primary-color);
+}
+.heroSection .magic .magicIn {
+  width: 40rem;
+  height: 13rem;
+  background-color: var(--text-bg1);
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.8rem;
+  transform: rotate(3deg);
+  position: absolute;
+  top: 8%;
+  left: -2%;
+  z-index: -10;
 }
 
 @media (max-width: 765px) {

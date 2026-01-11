@@ -16,7 +16,7 @@ const NavBar = () => {
         <h2 className='logoText'>Astratto</h2>
       </Link>
       <div className="navBtns">
-        <Link to='/'>Careers</Link>
+        <Link className='careersNav' to='/'>Careers</Link>
         <Link className='contactUs-btn' to="/">Contact Us <i class="ri-arrow-right-up-long-line"></i> </Link>
       </div>
 

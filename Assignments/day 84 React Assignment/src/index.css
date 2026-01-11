@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Urbanist", sans-serif;
 }
 
 :root {
@@ -43,7 +44,8 @@ label {
   line-height: 1.5;
 }
 
-a, Link {
+a,
+Link {
   text-decoration: none;
 }
 
@@ -52,8 +54,9 @@ li {
 }
 
 .container {
-  width: 190rem;
+  max-width: 190rem;
   margin: 0 auto;
+  padding: 9.6rem 2.4rem;
 }
 
 html,
@@ -72,8 +75,8 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 0rem;
-  padding: 20px 30px;
-  border-bottom: 2px solid var(--text-color1);
+  border-bottom: 0.2rem solid var(--text-color1);
+  padding: 2.5rem 2.4rem;
 }
 .navBar .navLink {
   display: flex;
@@ -81,8 +84,24 @@ body {
   justify-content: center;
   gap: 3rem;
 }
-.navBar .navLink Link {
-  font-size: 1.6rem;
+.navBar .navLink .navItem {
+  font-size: 1.8rem;
+  font-weight: 500;
+  position: relative;
+  transition: all 0.3s linear(0 0%, 0.76 107.35%);
+}
+.navBar .navLink .navItem::after {
+  content: "";
+  border-bottom: 4px solid var(--primary-color);
+  border-radius: 50px;
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0%;
+  transition: all 0.3s linear(0 0%, 0.76 107.35%);
+}
+.navBar .navLink .navItem:hover::after {
+  width: 100%;
 }
 .navBar .NavLogo {
   display: flex;
@@ -95,7 +114,7 @@ body {
 }
 .navBar .NavLogo h2 {
   font-size: 2.5rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 .navBar .navBtns {
   display: flex;
@@ -113,4 +132,77 @@ body {
 }
 .navBar .navBtns .contactUs-btn i {
   color: var(--primary-color);
+}
+
+.mobileMenu {
+  display: none;
+}
+
+@media (max-width: 765px) {
+  html {
+    font-size: 60%;
+  }
+  .container {
+    max-width: 100rem;
+    margin: 0 auto;
+  }
+  .navBar {
+    padding: 3rem 2rem;
+  }
+  .navBar .navLink {
+    display: none;
+  }
+  .navBar .NavLogo {
+    gap: 0.8rem;
+  }
+  .navBar .NavLogo img {
+    width: 40px;
+  }
+  .navBar .NavLogo h2 {
+    font-size: 3.5rem;
+  }
+  .navBar .navBtns {
+    display: none;
+  }
+  .mobileNav {
+    cursor: pointer;
+  }
+  .mobileNav i {
+    font-size: 4.5rem;
+    font-weight: 500;
+  }
+  .mobileMenu {
+    display: block;
+  }
+  .mobileNavList {
+    position: absolute;
+    right: 0%;
+    top: 12%;
+    background-color: rgba(255, 255, 255, 0.417);
+    -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+    width: 100%;
+    padding: 2rem 0;
+    animation: menuPopup 0.3s linear;
+  }
+  .mobileNavList .mobNavLink {
+    margin-right: 3.5rem;
+  }
+  .mobileNavList .mobNavLink .navItem {
+    font-size: 2.5rem;
+    display: block;
+    text-align: right;
+    margin-bottom: 1rem;
+  }
+  .mobileNavList .mobNavLink .contactUs-btn {
+    text-decoration: underline;
+  }
+}
+@keyframes menuPopup {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }/*# sourceMappingURL=index.css.map */

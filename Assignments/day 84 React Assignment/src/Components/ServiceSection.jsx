@@ -23,21 +23,12 @@ const ServiceSection = () => {
                 <img src={elem.img} alt="Services" />
               </div>
             </div>
-
-              console.log(<div key={idx} className="service">
-              <div className="serviceTop">
-                <h4>{elem.tittle}</h4>
-                <i class="ri-arrow-right-up-long-line"></i>
-              </div>
-              <p className="ServiceMiddle">
-                {elem.des}
-              </p>
-              <div className="serviceBottom">
-                <img src={elem.img} alt="Services" />
-              </div>
-            </div>);
-
           })}
+        </div>
+
+        <div className="serviceBottomText">
+          <p><div className='line'></div>ABOUT ARTISAN</p>
+          <h6>Our visionary artisan collaborate<br/> seamless craft inspiring experiences,<br/> leaving lasting imprints on brands<br/> and space</h6>
         </div>
       </div>
     </div>

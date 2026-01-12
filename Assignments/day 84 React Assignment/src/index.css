@@ -324,13 +324,16 @@ body {
   align-items: center;
   justify-content: center;
   gap: 2rem;
+  flex-wrap: wrap;
   margin-top: 5rem;
 }
 .serviceSection .serviceElement .services .service {
   padding: 2rem;
-  width: 30%;
+  width: 32%;
   border: 0.2rem solid var(--primary-color);
   border-radius: 2rem;
+  transition: all 0.2s linear;
+  position: relative;
 }
 .serviceSection .serviceElement .services .service .serviceTop {
   display: flex;
@@ -345,9 +348,10 @@ body {
   font-size: 3.5rem;
   font-weight: 500;
   line-height: 1.3;
+  width: 15rem;
 }
 .serviceSection .serviceElement .services .service .serviceTop i {
-  font-size: 3rem;
+  font-size: 5rem;
   padding: 1.2rem 1.4rem;
   background-color: var(--primary-color);
   color: white;
@@ -356,19 +360,72 @@ body {
 .serviceSection .serviceElement .services .service .ServiceMiddle {
   font-size: 1.8rem;
   font-weight: 400;
-  margin: 3rem 0;
+  padding: 3rem 0;
 }
 .serviceSection .serviceElement .services .service .serviceBottom {
-  height: 30rem;
+  width: 100%;
+  height: 35rem;
   -o-object-fit: cover;
      object-fit: cover;
   -o-object-position: center;
      object-position: center;
   border-radius: 1.2rem;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0rem;
 }
 .serviceSection .serviceElement .services .service .serviceBottom img {
   width: 100%;
+  scale: 0.98;
+}
+.serviceSection .serviceElement .services .service:hover {
+  border-bottom-left-radius: 35rem;
+  background-color: var(--primary-color);
+  color: white;
+}
+.serviceSection .serviceElement .services .service:hover .serviceBottom {
+  overflow: hidden;
+  border-bottom-left-radius: 35rem;
+}
+.serviceSection .serviceElement .services .service:hover .serviceTop {
+  border-color: white;
+}
+.serviceSection .serviceElement .services .service:hover .serviceTop i {
+  position: absolute;
+  bottom: 15%;
+  background-color: white;
+  z-index: 100;
+  border: 0.2rem solid var(--primary-color);
+  color: var(--primary-color);
+  font-size: 5rem;
+}
+.serviceSection .serviceElement .serviceBottomText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-direction: column;
+  margin-top: 5rem;
+}
+.serviceSection .serviceElement .serviceBottomText p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  font-size: 2rem;
+}
+.serviceSection .serviceElement .serviceBottomText p .line {
+  border-bottom: 0.3rem solid var(--text-color);
+  width: 4rem;
+}
+.serviceSection .serviceElement .serviceBottomText h6 {
+  font-size: 6rem;
+  font-weight: 500;
+  line-height: 1.4;
+  width: 80%;
+  text-align: center;
 }
 
 @media (max-width: 1600px) {
@@ -422,6 +479,15 @@ body {
   .magic .magicIn {
     width: 30rem !important;
     height: 10rem !important;
+  }
+  .service {
+    width: 48% !important;
+  }
+  .service .serviceTop h4 {
+    font-size: 3rem !important;
+  }
+  .service .serviceTop i {
+    font-size: 4rem !important;
   }
 }
 @media (max-width: 765px) {
@@ -569,6 +635,41 @@ body {
     color: white;
     cursor: pointer;
     border: 0.2rem solid var(--primary-color);
+  }
+  .services {
+    margin-top: 3rem !important;
+  }
+  .services .service {
+    width: 100% !important;
+  }
+  .services .service .serviceTop {
+    padding-top: 0.8rem !important;
+    padding-bottom: 2rem !important;
+  }
+  .services .service .serviceTop h4 {
+    font-size: 2.5rem !important;
+  }
+  .services .service .serviceTop i {
+    font-size: 3rem !important;
+    padding: 1rem 1.1rem !important;
+  }
+  .services .service .ServiceMiddle {
+    font-size: 1.8rem;
+    font-weight: 400;
+    padding: 2rem 0 !important;
+  }
+  .services .service .serviceBottom {
+    width: 100%;
+    height: 20rem !important;
+    -o-object-fit: cover;
+       object-fit: cover;
+    -o-object-position: center;
+       object-position: center;
+    border-radius: 1.2rem;
+    overflow: hidden;
+  }
+  .services .service:hover {
+    border-bottom-left-radius: 24rem !important;
   }
 }
 @media (max-width: 465px) {

@@ -52,7 +52,15 @@ li {
   margin: 0 auto;
   padding: 9.6rem 2.4rem;
 }
-
+.commonTitle{
+  font-size: 4.5rem;
+  font-weight: 500;
+}
+.commonDes{
+  font-size: 1.8rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
 html,
 body {
   height: 100%;
@@ -148,6 +156,23 @@ body {
   height: 80vh;
   @include flex-col(0rem, center, center);
   position: relative;
+  .heroTopBtns{
+    position: absolute;
+    top: 5%;
+    right:5%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    row-gap: 1.5rem;
+    button{
+      font-size: 2rem;
+      border: none;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 5rem;
+    }
+  }
   .heroImg1 {
     width: 30rem;
     height: 35rem;
@@ -159,6 +184,7 @@ body {
     top: 8%;
     z-index: -20;
     transform: rotate(-15deg);
+    animation: upDownTop 3s infinite ease-in-out;
     img {
       width: 90%;
     }
@@ -207,18 +233,190 @@ body {
       z-index: -10;
     }
   }
+
+  .heroImg2 {
+    width: 30rem;
+    height: 35rem;
+    position: absolute;
+    right: 12%;
+    bottom: 0%;
+    z-index: -20;
+    transform: rotate(15deg);
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50rem 50rem 2rem 2rem;
+    overflow: hidden;
+    animation: upDownBottom 3s infinite ease-in-out;
+    img {
+      height: 100%;
+    }
+  }
+  .heroBtnBottom{
+    position: absolute;
+    bottom: 5%;
+    left: 2%;
+    position: cursor;
+    transform: rotate(-10deg);
+    .heroMagicBtn{
+      font-size: 2.5rem;
+      padding: 1.2rem 2.8rem;
+      border: .2rem solid var(--text-bg2);
+      border-radius: 5rem;
+      font-weight: 500;
+    }
+    i{
+      font-size: 3rem;
+      padding: 1rem;
+      border: .2rem solid var(--text-bg2);
+      border-radius: 5rem;
+      transition: all .3s linear;
+       &:hover{
+        background-color: var(--primary-color);
+        color: white;
+        cursor: pointer;
+        border:.2rem solid var(--primary-color);
+      }
+    }
+  }
 }
 // Hero Section css end
+// Service Section css Start
+.serviceSection{
+  .container{
+    padding: 3rem 1rem;
+  }
+  .serviceElement{
+    border: .1rem solid var(--text-color);
+    border-radius: 1.2rem;
+    padding: 6.4rem 1.4rem;
+    .serviceContent{
+      @include flex-col(0rem, flex-start, space-between);
+      p{
+        width: 50rem;
+      }
+    }
+    .services{
+      @include flex-col(2rem, center, center);
+      margin-top: 5rem;
+      .service{
+        padding: 2rem;
+        width: 30%;
+        border: .2rem solid var(--primary-color);
+        border-radius: 2rem;
+        .serviceTop{
+          @include flex-col(00rem, center, space-between);
+          border-bottom: .2rem solid var(--primary-color);
+          padding-top: 1rem;
+          padding-bottom: 4rem;
+          h4{
+            font-size: 3.5rem;
+            font-weight: 500;
+            line-height: 1.3;
+          }
+          i{
+            font-size: 3rem;
+            padding: 1.2rem 1.4rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 5rem;
+          }
+        }
+        .ServiceMiddle{
+          font-size: 1.8rem;
+          font-weight: 400;
+          margin: 3rem 0;
+        }
+        .serviceBottom{
+          height: 30rem;
+          object-fit: cover;
+          object-position: center;
+          border-radius: 1.2rem;
+          overflow: hidden;
+          img{
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+// Service Section css end
+
+//** Screen <= 1600px
+@media (max-width: 1600px) {
+  html {
+    font-size: 60%;
+  }
+  .container {
+    max-width: 160rem;
+    margin: 0 auto;
+  }
+  .heroImg1 {
+    left: 5% !important;
+    top: 10% !important;
+  }
+  .heroImg2 {
+    right: 5% !important;
+  }
+}
+
+//** Screen <= 1200px
+@media (max-width: 1200px) {
+  .container {
+    max-width: 1200rem;
+    margin: 0 auto;
+  }
+  .heroImg1 {
+    left: 5% !important;
+    top: 10% !important;
+    width: 25rem !important;
+    height: 25rem !important;
+    img {
+      width: 80% !important;
+    }
+  }
+
+  .heroImg2 {
+    width: 25rem !important;
+    height: 25rem !important;
+    img {
+      height: 100%;
+    }
+  }
+
+  .heroContent {
+    h1 {
+      font-size: 9rem !important;
+      line-height: 1.2;
+      .heroTextImageBox {
+        .heroTextImg {
+          width: 6rem !important;
+          height: 6rem !important;
+          img {
+            height: 8rem !important;
+          }
+        }
+      }
+    }
+  }
+  .magic {
+    .magicIn {
+      width: 30rem !important;
+      height: 10rem !important;
+    }
+  }
+}
 
 //** Screen <= 765
 @media (max-width: 765px) {
   // Navbar mobile css Start
   html {
-    font-size: 60%;
+    font-size: 55%;
   }
   .container {
-    max-width: 100rem;
+    max-width: 76.5rem;
     margin: 0 auto;
+    padding: 5.6rem 2rem;
   }
   .navBar {
     padding: 3rem 2rem;
@@ -247,11 +445,12 @@ body {
   }
   .mobileMenu {
     display: block;
+    z-index: 9999;
   }
   .mobileNavList {
     position: absolute;
     right: 0%;
-    top: 12%;
+    top: 11%;
     background-color: rgba(255, 255, 255, 0.417);
     backdrop-filter: blur(20px);
     width: 100%;
@@ -263,7 +462,7 @@ body {
         font-size: 2.5rem;
         display: block;
         text-align: right;
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
       }
       .contactUs-btn {
         text-decoration: underline;
@@ -271,6 +470,142 @@ body {
     }
   }
   // Navbar mobile css End
+
+  // Hero Content
+  .heroContent {
+    h1 {
+      font-size: 8rem !important;
+      line-height: 1.2;
+    }
+  }
+  .magic {
+    .magicIn {
+      width: 26rem !important;
+    }
+  }
+
+  // service content
+      .serviceContent{
+      flex-direction: column;
+      row-gap: 2rem !important;
+      p{
+        width: 90% !important;
+      }
+    }
+}
+
+//** Screen <= 665
+@media (max-width: 665px) {
+    .container {
+    max-width: 66.5rem;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+  .commonTitle{
+    font-size: 3rem !important;
+  }
+  .heroSection {
+    align-items: flex-start;
+  }
+  // Hero Content
+    .heroSection {
+  height: 50vh;
+  }
+  .heroContent {
+    margin-top: 10rem;
+    h4 {
+      font-size: 1.8rem !important;
+    }
+    h1 {
+      font-size: 5rem !important;
+      .heroTextImageBox {
+        .heroTextImg {
+          width: 6rem !important;
+          height: 6rem !important;
+        }
+      }
+    }
+  }
+  .magic {
+    .magicIn {
+      width: 17rem !important;
+      height: 6rem !important;
+    }
+  }
+
+  .heroImg1 {
+    left: 8% !important;
+    top: 15% !important;
+    width: 15rem !important;
+    height: 15rem !important;
+  }
+
+  .heroImg2 {
+    width: 15rem !important;
+    height: 15rem !important;
+    right: 4% !important;
+    bottom: 0% !important;
+  }
+      .heroBtnBottom{
+    top: 78%;
+    left: 8% !important;
+    position: cursor;
+    transform: rotate(-8deg);
+    .heroMagicBtn{
+      font-size: 2rem !important;
+      padding: 1rem 2rem !important;
+      border: .2rem solid var(--text-bg2);
+      border-radius: 5rem;
+      font-weight: 500;
+    }
+    i{
+      font-size: 3rem;
+      padding: 1rem;
+      border: .2rem solid var(--text-bg2);
+      border-radius: 5rem;
+      transition: all .3s linear;
+       &:hover{
+        background-color: var(--primary-color);
+        color: white;
+        cursor: pointer;
+        border:.2rem solid var(--primary-color);
+      }
+    }
+  }
+}
+//** Screen <= 465
+@media (max-width: 465px) {
+  .heroContent {
+    h4 {
+      font-size: 1.6rem !important;
+    }
+    h1 {
+      font-size: 4rem !important;
+      .heroTextImageBox {
+        .heroTextImg {
+          width: 4rem !important;
+          height: 4rem !important;
+          img {
+            height: 10%;
+          }
+        }
+      }
+    }
+  }
+
+  .magic {
+    .magicIn {
+      width: 13.4rem !important;
+      height: 5rem !important;
+    }
+  }
+
+    .heroImg2 {
+    width: 15rem !important;
+    height: 15rem !important;
+    right: 5% !important;
+    bottom: 5% !important;
+  }
 }
 
 // animation
@@ -280,5 +615,29 @@ body {
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes upDownBottom {
+  0% {
+    transform: rotate(15deg) translateY(0);
+  }
+  50% {
+    transform: rotate(15deg) translateY(-20px);
+  }
+  100% {
+    transform: rotate(15deg) translateY(0);
+  }
+}
+
+@keyframes upDownTop {
+  0% {
+    transform: rotate(-15deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-15deg) translateY(-20px);
+  }
+  100% {
+    transform: rotate(-15deg) translateY(0);
   }
 }

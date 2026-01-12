@@ -17,7 +17,7 @@ const NavBar = () => {
       </Link>
       <div className="navBtns">
         <Link className='careersNav' to='/'>Careers</Link>
-        <Link className='contactUs-btn' to="/">Contact Us <i class="ri-arrow-right-up-long-line"></i> </Link>
+        <Link className='contactUs-btn' to="/">Contact Us <i className="ri-arrow-right-up-long-line"></i> </Link>
       </div>
 
       {/* Mobile Menu  */}
@@ -25,7 +25,7 @@ const NavBar = () => {
         <div onClick={() => {
           setToggleMenu((prev) => !prev)
         }} className='mobileNav'>
-          {toggleMenu ? <i class="ri-close-large-line"></i> :
+          {toggleMenu ? <i className="ri-close-large-line"></i> :
           <i class="ri-menu-3-fill"></i>
           }
         </div>
@@ -35,7 +35,7 @@ const NavBar = () => {
             <Link className='navItem'>Work</Link>
             <Link className='navItem'>About</Link>
             <Link className='navItem' to='/'>Careers</Link>
-            <Link className='navItem contactUs-btn' to="/">Contact Us <i class="ri-arrow-right-up-long-line"></i> </Link>
+            <Link className='navItem contactUs-btn' to="/">Contact Us <i className="ri-arrow-right-up-long-line"></i> </Link>
           </div>
         </div>}
       </div>

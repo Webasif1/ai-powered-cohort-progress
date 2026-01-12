@@ -59,6 +59,17 @@ li {
   padding: 9.6rem 2.4rem;
 }
 
+.commonTitle {
+  font-size: 4.5rem;
+  font-weight: 500;
+}
+
+.commonDes {
+  font-size: 1.8rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
 html,
 body {
   height: 100%;
@@ -163,6 +174,23 @@ body {
   gap: 0rem;
   position: relative;
 }
+.heroSection .heroTopBtns {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  row-gap: 1.5rem;
+}
+.heroSection .heroTopBtns button {
+  font-size: 2rem;
+  border: none;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 5rem;
+}
 .heroSection .heroImg1 {
   width: 30rem;
   height: 35rem;
@@ -177,6 +205,7 @@ body {
   top: 8%;
   z-index: -20;
   transform: rotate(-15deg);
+  animation: upDownTop 3s infinite ease-in-out;
 }
 .heroSection .heroImg1 img {
   width: 90%;
@@ -226,14 +255,183 @@ body {
   left: -2%;
   z-index: -10;
 }
+.heroSection .heroImg2 {
+  width: 30rem;
+  height: 35rem;
+  position: absolute;
+  right: 12%;
+  bottom: 0%;
+  z-index: -20;
+  transform: rotate(15deg);
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+  border-radius: 50rem 50rem 2rem 2rem;
+  overflow: hidden;
+  animation: upDownBottom 3s infinite ease-in-out;
+}
+.heroSection .heroImg2 img {
+  height: 100%;
+}
+.heroSection .heroBtnBottom {
+  position: absolute;
+  bottom: 5%;
+  left: 2%;
+  position: cursor;
+  transform: rotate(-10deg);
+}
+.heroSection .heroBtnBottom .heroMagicBtn {
+  font-size: 2.5rem;
+  padding: 1.2rem 2.8rem;
+  border: 0.2rem solid var(--text-bg2);
+  border-radius: 5rem;
+  font-weight: 500;
+}
+.heroSection .heroBtnBottom i {
+  font-size: 3rem;
+  padding: 1rem;
+  border: 0.2rem solid var(--text-bg2);
+  border-radius: 5rem;
+  transition: all 0.3s linear;
+}
+.heroSection .heroBtnBottom i:hover {
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  border: 0.2rem solid var(--primary-color);
+}
 
-@media (max-width: 765px) {
+.serviceSection .container {
+  padding: 3rem 1rem;
+}
+.serviceSection .serviceElement {
+  border: 0.1rem solid var(--text-color);
+  border-radius: 1.2rem;
+  padding: 6.4rem 1.4rem;
+}
+.serviceSection .serviceElement .serviceContent {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0rem;
+}
+.serviceSection .serviceElement .serviceContent p {
+  width: 50rem;
+}
+.serviceSection .serviceElement .services {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 5rem;
+}
+.serviceSection .serviceElement .services .service {
+  padding: 2rem;
+  width: 30%;
+  border: 0.2rem solid var(--primary-color);
+  border-radius: 2rem;
+}
+.serviceSection .serviceElement .services .service .serviceTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0rem;
+  border-bottom: 0.2rem solid var(--primary-color);
+  padding-top: 1rem;
+  padding-bottom: 4rem;
+}
+.serviceSection .serviceElement .services .service .serviceTop h4 {
+  font-size: 3.5rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.serviceSection .serviceElement .services .service .serviceTop i {
+  font-size: 3rem;
+  padding: 1.2rem 1.4rem;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 5rem;
+}
+.serviceSection .serviceElement .services .service .ServiceMiddle {
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin: 3rem 0;
+}
+.serviceSection .serviceElement .services .service .serviceBottom {
+  height: 30rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+  border-radius: 1.2rem;
+  overflow: hidden;
+}
+.serviceSection .serviceElement .services .service .serviceBottom img {
+  width: 100%;
+}
+
+@media (max-width: 1600px) {
   html {
     font-size: 60%;
   }
   .container {
-    max-width: 100rem;
+    max-width: 160rem;
     margin: 0 auto;
+  }
+  .heroImg1 {
+    left: 5% !important;
+    top: 10% !important;
+  }
+  .heroImg2 {
+    right: 5% !important;
+  }
+}
+@media (max-width: 1200px) {
+  .container {
+    max-width: 1200rem;
+    margin: 0 auto;
+  }
+  .heroImg1 {
+    left: 5% !important;
+    top: 10% !important;
+    width: 25rem !important;
+    height: 25rem !important;
+  }
+  .heroImg1 img {
+    width: 80% !important;
+  }
+  .heroImg2 {
+    width: 25rem !important;
+    height: 25rem !important;
+  }
+  .heroImg2 img {
+    height: 100%;
+  }
+  .heroContent h1 {
+    font-size: 9rem !important;
+    line-height: 1.2;
+  }
+  .heroContent h1 .heroTextImageBox .heroTextImg {
+    width: 6rem !important;
+    height: 6rem !important;
+  }
+  .heroContent h1 .heroTextImageBox .heroTextImg img {
+    height: 8rem !important;
+  }
+  .magic .magicIn {
+    width: 30rem !important;
+    height: 10rem !important;
+  }
+}
+@media (max-width: 765px) {
+  html {
+    font-size: 55%;
+  }
+  .container {
+    max-width: 76.5rem;
+    margin: 0 auto;
+    padding: 5.6rem 2rem;
   }
   .navBar {
     padding: 3rem 2rem;
@@ -262,11 +460,12 @@ body {
   }
   .mobileMenu {
     display: block;
+    z-index: 9999;
   }
   .mobileNavList {
     position: absolute;
     right: 0%;
-    top: 12%;
+    top: 11%;
     background-color: rgba(255, 255, 255, 0.417);
     -webkit-backdrop-filter: blur(20px);
             backdrop-filter: blur(20px);
@@ -281,10 +480,120 @@ body {
     font-size: 2.5rem;
     display: block;
     text-align: right;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
   .mobileNavList .mobNavLink .contactUs-btn {
     text-decoration: underline;
+  }
+  .heroContent h1 {
+    font-size: 8rem !important;
+    line-height: 1.2;
+  }
+  .magic .magicIn {
+    width: 26rem !important;
+  }
+  .serviceContent {
+    flex-direction: column;
+    row-gap: 2rem !important;
+  }
+  .serviceContent p {
+    width: 90% !important;
+  }
+}
+@media (max-width: 665px) {
+  .container {
+    max-width: 66.5rem;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+  .commonTitle {
+    font-size: 3rem !important;
+  }
+  .heroSection {
+    align-items: flex-start;
+  }
+  .heroSection {
+    height: 50vh;
+  }
+  .heroContent {
+    margin-top: 10rem;
+  }
+  .heroContent h4 {
+    font-size: 1.8rem !important;
+  }
+  .heroContent h1 {
+    font-size: 5rem !important;
+  }
+  .heroContent h1 .heroTextImageBox .heroTextImg {
+    width: 6rem !important;
+    height: 6rem !important;
+  }
+  .magic .magicIn {
+    width: 17rem !important;
+    height: 6rem !important;
+  }
+  .heroImg1 {
+    left: 8% !important;
+    top: 15% !important;
+    width: 15rem !important;
+    height: 15rem !important;
+  }
+  .heroImg2 {
+    width: 15rem !important;
+    height: 15rem !important;
+    right: 4% !important;
+    bottom: 0% !important;
+  }
+  .heroBtnBottom {
+    top: 78%;
+    left: 8% !important;
+    position: cursor;
+    transform: rotate(-8deg);
+  }
+  .heroBtnBottom .heroMagicBtn {
+    font-size: 2rem !important;
+    padding: 1rem 2rem !important;
+    border: 0.2rem solid var(--text-bg2);
+    border-radius: 5rem;
+    font-weight: 500;
+  }
+  .heroBtnBottom i {
+    font-size: 3rem;
+    padding: 1rem;
+    border: 0.2rem solid var(--text-bg2);
+    border-radius: 5rem;
+    transition: all 0.3s linear;
+  }
+  .heroBtnBottom i:hover {
+    background-color: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    border: 0.2rem solid var(--primary-color);
+  }
+}
+@media (max-width: 465px) {
+  .heroContent h4 {
+    font-size: 1.6rem !important;
+  }
+  .heroContent h1 {
+    font-size: 4rem !important;
+  }
+  .heroContent h1 .heroTextImageBox .heroTextImg {
+    width: 4rem !important;
+    height: 4rem !important;
+  }
+  .heroContent h1 .heroTextImageBox .heroTextImg img {
+    height: 10%;
+  }
+  .magic .magicIn {
+    width: 13.4rem !important;
+    height: 5rem !important;
+  }
+  .heroImg2 {
+    width: 15rem !important;
+    height: 15rem !important;
+    right: 5% !important;
+    bottom: 5% !important;
   }
 }
 @keyframes menuPopup {
@@ -293,5 +602,27 @@ body {
   }
   to {
     opacity: 1;
+  }
+}
+@keyframes upDownBottom {
+  0% {
+    transform: rotate(15deg) translateY(0);
+  }
+  50% {
+    transform: rotate(15deg) translateY(-20px);
+  }
+  100% {
+    transform: rotate(15deg) translateY(0);
+  }
+}
+@keyframes upDownTop {
+  0% {
+    transform: rotate(-15deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-15deg) translateY(-20px);
+  }
+  100% {
+    transform: rotate(-15deg) translateY(0);
   }
 }/*# sourceMappingURL=index.css.map */

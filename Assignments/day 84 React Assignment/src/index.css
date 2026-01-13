@@ -324,7 +324,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  flex-wrap: wrap;
+  overflow: hidden;
   margin-top: 5rem;
 }
 .serviceSection .serviceElement .services .service {
@@ -400,6 +400,42 @@ body {
   border: 0.2rem solid var(--primary-color);
   color: var(--primary-color);
   font-size: 5rem;
+}
+.serviceSection .serviceElement .arrow-dots {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0rem;
+  margin-top: 3rem;
+  padding: 0rem 2rem;
+}
+.serviceSection .serviceElement .arrow-dots .arrows i {
+  font-size: 3rem;
+  cursor: pointer;
+  padding: 0.8rem;
+  background-color: var(--text-color);
+  border-radius: 50rem;
+  color: white;
+  margin-right: 1rem;
+  transition: all 0.2s ease-in-out;
+}
+.serviceSection .serviceElement .arrow-dots .arrows i:active {
+  background-color: var(--text-color1);
+}
+.serviceSection .serviceElement .arrow-dots .dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.serviceSection .serviceElement .arrow-dots .dots .dot {
+  height: 1rem;
+  width: 1rem;
+  border-radius: 50rem;
+  background-color: var(--text-color);
+}
+.serviceSection .serviceElement .arrow-dots .dots .active-dot {
+  background-color: var(--text-color1);
 }
 .serviceSection .serviceElement .serviceBottomText {
   display: flex;
@@ -641,6 +677,7 @@ body {
   }
   .services .service {
     width: 100% !important;
+    display: block;
   }
   .services .service .serviceTop {
     padding-top: 0.8rem !important;
@@ -654,8 +691,8 @@ body {
     padding: 1rem 1.1rem !important;
   }
   .services .service .ServiceMiddle {
-    font-size: 1.8rem;
-    font-weight: 400;
+    font-size: 1.6rem !important;
+    line-height: 1.2 !important;
     padding: 2rem 0 !important;
   }
   .services .service .serviceBottom {

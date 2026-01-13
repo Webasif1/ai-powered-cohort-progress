@@ -9,6 +9,7 @@ const ServiceSection = () => {
           <h2 className="commonTitle">Our Service</h2>
           <p className="commonDes">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis suscipit rem harum hic dolores? Tempora culpa similique eius quia! Tempore!</p>
         </div>
+
         <div className="services">
           {ServicesContent.map((elem, idx) => {
             return <div key={idx} className="service">
@@ -25,6 +26,20 @@ const ServiceSection = () => {
             </div>
           })}
         </div>
+
+
+          <div className="arrow-dots">
+            <div className="arrows">
+            <i class="ri-arrow-left-line"></i>
+            <i class="ri-arrow-right-line"></i>
+            </div>
+            <div className="dots">
+              {ServicesContent.map((_,idx)=>(
+                <div key={idx} className="dot active-dot" id={idx}></div>
+              ))}
+            </div>
+          </div>
+
 
         <div className="serviceBottomText">
           <p><div className='line'></div>ABOUT ARTISAN</p>

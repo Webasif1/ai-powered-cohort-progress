@@ -894,6 +894,9 @@ body {
   .projects .project {
     width: 90%;
   }
+  .projects .project :nth-child(2) {
+    margin-top: 0rem !important;
+  }
 }
 @keyframes menuPopup {
   from {

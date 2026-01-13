@@ -44,8 +44,7 @@ label {
   line-height: 1.5;
 }
 
-a,
-Link {
+a {
   text-decoration: none;
 }
 
@@ -121,7 +120,7 @@ body {
   gap: 1rem;
 }
 .navBar .NavLogo img {
-  width: 30px;
+  width: 5rem;
 }
 .navBar .NavLogo h2 {
   font-size: 2.5rem;
@@ -201,7 +200,7 @@ body {
   gap: 0rem;
   border-radius: 2rem 2rem 50rem 50rem;
   position: absolute;
-  left: 15%;
+  left: 10%;
   top: 8%;
   z-index: -20;
   transform: rotate(-15deg);
@@ -222,22 +221,8 @@ body {
   font-size: 12rem;
   font-weight: 500;
 }
-.heroSection .heroContent h1 .heroTextImageBox {
-  display: inline-block;
-}
-.heroSection .heroContent h1 .heroTextImageBox .heroTextImg {
-  width: 8rem;
-  height: 8rem;
-  border: 0.2rem solid var(--primary-color);
-  border-radius: 5rem;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0rem;
-}
-.heroSection .heroContent h1 .heroTextImageBox .heroTextImg img {
-  height: 10rem;
+.heroSection .heroContent h1 img {
+  width: 8%;
 }
 .heroSection .magic {
   position: relative;
@@ -259,7 +244,7 @@ body {
   width: 30rem;
   height: 35rem;
   position: absolute;
-  right: 12%;
+  right: 5%;
   bottom: 0%;
   z-index: -20;
   transform: rotate(15deg);
@@ -278,7 +263,7 @@ body {
   position: absolute;
   bottom: 5%;
   left: 2%;
-  position: cursor;
+  cursor: pointer;
   transform: rotate(-10deg);
 }
 .heroSection .heroBtnBottom .heroMagicBtn {
@@ -309,6 +294,7 @@ body {
   border: 0.1rem solid var(--text-color);
   border-radius: 1.2rem;
   padding: 6.4rem 1.4rem;
+  position: relative;
 }
 .serviceSection .serviceElement .serviceContent {
   display: flex;
@@ -324,7 +310,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  overflow: hidden;
+  flex-wrap: wrap;
   margin-top: 5rem;
 }
 .serviceSection .serviceElement .services .service {
@@ -462,27 +448,168 @@ body {
   line-height: 1.4;
   width: 80%;
   text-align: center;
+  color: #0e0e0e;
+}
+.serviceSection .serviceElement .serviceBottomText h6 img {
+  width: 5%;
+}
+.serviceSection .serviceElement .serviceBottomText h6 .gray {
+  color: var(--text-color);
+}
+.serviceSection .serviceElement .serviceBottomText h6 .orange {
+  color: var(--text-bg2);
+}
+.serviceSection .serviceElement .serviceBottomText h6 .purple {
+  color: var(--text-color2);
+}
+.serviceSection .serviceElement .bottomImg {
+  position: absolute;
+  left: 5%;
+  bottom: 0%;
+  transform: rotate(25deg);
+}
+.serviceSection .serviceElement .bottomImg img {
+  width: 40%;
 }
 
-@media (max-width: 1600px) {
-  html {
-    font-size: 60%;
-  }
-  .container {
-    max-width: 160rem;
-    margin: 0 auto;
-  }
-  .heroImg1 {
-    left: 5% !important;
-    top: 10% !important;
-  }
-  .heroImg2 {
-    right: 5% !important;
-  }
+.projectContent {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
 }
-@media (max-width: 1200px) {
+.projectContent p {
+  width: 50rem;
+}
+
+.projects {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+.projects .project {
+  width: 45%;
+}
+.projects .project .prTop {
+  width: 100%;
+  height: 50rem;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 3rem;
+  position: relative;
+}
+.projects .project .prTop .tag {
+  font-size: 2rem;
+  font-weight: 500;
+  padding: 1rem 2rem;
+  color: black;
+  background-color: white;
+  width: -moz-fit-content;
+  width: fit-content;
+  border-radius: 5rem;
+  position: absolute;
+  bottom: 2%;
+  left: 2%;
+  cursor: pointer;
+}
+.projects .project .prTop .proIcon {
+  position: absolute;
+  right: 2%;
+  top: 2%;
+  cursor: pointer;
+}
+.projects .project .prTop .proIcon i {
+  font-size: 4rem;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 5rem;
+}
+.projects .project .prBottom h4 {
+  font-size: 3.4rem;
+  color: var(--primary-color);
+  font-weight: 500;
+}
+.projects .project .prBottom p {
+  font-size: 1.7rem;
+  padding: 0rem;
+  margin-top: 1rem;
+}
+.projects :nth-child(2) {
+  margin-top: 5rem;
+}
+
+.footer {
+  padding: 3.7rem 1rem 0rem 1rem;
+}
+.footer .footerElem {
+  border: 0.1rem solid var(--text-color);
+  border-radius: 1.2rem;
+  padding: 2rem 3rem;
+}
+.footer .footerElem .footerText {
+  padding: 5rem 0;
+  border-bottom: 0.1rem solid var(--text-color1);
+  text-align: center;
+}
+.footer .footerElem .footerText h6 {
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+.footer .footerElem .footerText h2 {
+  font-size: 5.5rem;
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 2rem 0;
+}
+.footer .footerElem .footerText h2 .textColo {
+  background-color: var(--text-bg2);
+  border-radius: 5rem;
+  color: white;
+  padding: 0.5rem 1.5rem;
+}
+.footer .footerElem .footerText p {
+  padding: 0 30rem;
+  text-align: center;
+  color: var(--text-color1);
+}
+.footer .footerElem .footerBottom {
+  padding: 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.footer .footerElem .footerBottom p {
+  font-size: 1.6rem;
+  font-weight: 100;
+  color: var(--text-color1);
+}
+.footer .footerElem .footerBottom .social {
+  display: flex;
+  gap: 1rem;
+}
+.footer .footerElem .footerBottom .social i {
+  font-size: 3rem;
+  font-weight: 500;
+  color: var(--text-color1);
+}
+.footer .footerElem .footerBottom .privacyCopy {
+  display: flex;
+  gap: 1rem;
+}
+.footer .footerElem .footerBottom .privacyCopy .privacy {
+  font-size: 1.8rem;
+  color: var(--text-color1);
+}
+
+@media (max-width: 1265px) {
   .container {
-    max-width: 1200rem;
+    max-width: 120rem;
     margin: 0 auto;
   }
   .heroImg1 {
@@ -505,13 +632,6 @@ body {
     font-size: 9rem !important;
     line-height: 1.2;
   }
-  .heroContent h1 .heroTextImageBox .heroTextImg {
-    width: 6rem !important;
-    height: 6rem !important;
-  }
-  .heroContent h1 .heroTextImageBox .heroTextImg img {
-    height: 8rem !important;
-  }
   .magic .magicIn {
     width: 30rem !important;
     height: 10rem !important;
@@ -524,6 +644,21 @@ body {
   }
   .service .serviceTop i {
     font-size: 4rem !important;
+  }
+  .serviceBottomText h6 {
+    font-size: 4rem !important;
+    width: 100% !important;
+  }
+  .bottomImg {
+    left: 0% !important;
+    bottom: -4% !important;
+  }
+  .footerText h2 {
+    font-size: 4rem !important;
+    margin: 1.5rem 0 !important;
+  }
+  .footerText p {
+    padding: 0 10rem !important;
   }
 }
 @media (max-width: 765px) {
@@ -593,6 +728,7 @@ body {
   }
   .magic .magicIn {
     width: 26rem !important;
+    height: 9rem !important;
   }
   .serviceContent {
     flex-direction: column;
@@ -601,8 +737,53 @@ body {
   .serviceContent p {
     width: 90% !important;
   }
+  .bottomImg {
+    bottom: 0% !important;
+  }
+  .projectContent {
+    flex-direction: column;
+  }
+  .projectContent p {
+    width: 80%;
+  }
+  .project {
+    width: 45%;
+  }
+  .project .tag {
+    font-size: 1.8rem !important;
+  }
+  .project .proIcon {
+    cursor: pointer;
+  }
+  .project .proIcon i {
+    font-size: 3.5rem !important;
+  }
+  .prBottom h4 {
+    font-size: 2.8rem !important;
+  }
+  .prBottom p {
+    font-size: 1.6rem !important;
+  }
+  .footerText h2 {
+    font-size: 2.6rem !important;
+    line-height: 1.4 !important;
+  }
+  .footerText p {
+    padding: 0 0rem !important;
+  }
+  .footerBottom {
+    flex-direction: column;
+    gap: 1.5rem !important;
+  }
+  .privacyCopy {
+    flex-direction: column;
+    text-align: center;
+  }
 }
 @media (max-width: 665px) {
+  html {
+    font-size: 52%;
+  }
   .container {
     max-width: 66.5rem;
     margin: 0 auto;
@@ -626,10 +807,6 @@ body {
   .heroContent h1 {
     font-size: 5rem !important;
   }
-  .heroContent h1 .heroTextImageBox .heroTextImg {
-    width: 6rem !important;
-    height: 6rem !important;
-  }
   .magic .magicIn {
     width: 17rem !important;
     height: 6rem !important;
@@ -643,7 +820,7 @@ body {
   .heroImg2 {
     width: 15rem !important;
     height: 15rem !important;
-    right: 4% !important;
+    right: 6% !important;
     bottom: 0% !important;
   }
   .heroBtnBottom {
@@ -708,30 +885,14 @@ body {
   .services .service:hover {
     border-bottom-left-radius: 24rem !important;
   }
-}
-@media (max-width: 465px) {
-  .heroContent h4 {
-    font-size: 1.6rem !important;
+  .serviceBottomText h6 {
+    font-size: 2.5rem !important;
   }
-  .heroContent h1 {
-    font-size: 4rem !important;
+  .projects {
+    justify-content: center;
   }
-  .heroContent h1 .heroTextImageBox .heroTextImg {
-    width: 4rem !important;
-    height: 4rem !important;
-  }
-  .heroContent h1 .heroTextImageBox .heroTextImg img {
-    height: 10%;
-  }
-  .magic .magicIn {
-    width: 13.4rem !important;
-    height: 5rem !important;
-  }
-  .heroImg2 {
-    width: 15rem !important;
-    height: 15rem !important;
-    right: 5% !important;
-    bottom: 5% !important;
+  .projects .project {
+    width: 90%;
   }
 }
 @keyframes menuPopup {

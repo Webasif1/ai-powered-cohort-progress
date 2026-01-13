@@ -39,8 +39,7 @@ label {
   color: var(--para-color);
   line-height: 1.5;
 }
-a,
-Link {
+a {
   text-decoration: none;
 }
 
@@ -108,7 +107,7 @@ body {
   .NavLogo {
     @include flex-col(1rem, center, center);
     img {
-      width: 30px;
+      width: 5rem;
     }
     h2 {
       font-size: 2.5rem;
@@ -180,7 +179,7 @@ body {
     @include flex-col(0rem, center, center);
     border-radius: 2rem 2rem 50rem 50rem;
     position: absolute;
-    left: 15%;
+    left: 10%;
     top: 8%;
     z-index: -20;
     transform: rotate(-15deg);
@@ -201,20 +200,9 @@ body {
       text-align: center;
       font-size: 12rem;
       font-weight: 500;
-      .heroTextImageBox {
-        display: inline-block;
-        .heroTextImg {
-          width: 8rem;
-          height: 8rem;
-          border: 0.2rem solid var(--primary-color);
-          border-radius: 5rem;
-          overflow: hidden;
-          @include flex-col(0rem, center, center);
           img {
-            height: 10rem;
+            width: 8%;
           }
-        }
-      }
     }
   }
   .magic {
@@ -238,7 +226,7 @@ body {
     width: 30rem;
     height: 35rem;
     position: absolute;
-    right: 12%;
+    right: 5%;
     bottom: 0%;
     z-index: -20;
     transform: rotate(15deg);
@@ -255,7 +243,7 @@ body {
     position: absolute;
     bottom: 5%;
     left: 2%;
-    position: cursor;
+    cursor: pointer;
     transform: rotate(-10deg);
     .heroMagicBtn {
       font-size: 2.5rem;
@@ -289,6 +277,7 @@ body {
     border: 0.1rem solid var(--text-color);
     border-radius: 1.2rem;
     padding: 6.4rem 1.4rem;
+    position: relative;
     .serviceContent {
       @include flex-col(0rem, flex-start, space-between);
       p {
@@ -297,7 +286,7 @@ body {
     }
     .services {
       @include flex-col(2rem, center, center);
-      overflow: hidden;
+      flex-wrap: wrap;
       margin-top: 5rem;
       .service {
         padding: 2rem;
@@ -419,34 +408,187 @@ body {
         line-height: 1.4;
         width: 80%;
         text-align: center;
+        color: #0e0e0e;
+        img{
+          width: 5%;
+        }
+        .gray{
+          color: var(--text-color);
+        }
+        .orange{
+          color: var(--text-bg2);
+        }
+        .purple{
+          color: var(--text-color2);
+        }
+      }
+    }
+    .bottomImg{
+      position: absolute;
+      left: 5%;
+      bottom: 0%;
+      transform: rotate(25deg);
+      img{
+        width: 40%;
       }
     }
   }
 }
 // Service Section css end
-
-//** Screen <= 1600px
-@media (max-width: 1600px) {
-  html {
-    font-size: 60%;
+// Project Section css Start
+.projectContent{
+  @include flex-col(2rem, flex-start, space-between);
+  p{
+    width: 50rem;
   }
-  .container {
-    max-width: 160rem;
-    margin: 0 auto;
+}
+.projects{
+  @include flex-col(2rem, center, space-between);
+  margin-top: 3rem;
+  flex-wrap: wrap;
+  .project{
+    width: 45%;
+    .prTop{
+      width: 100%;
+      height: 50rem;
+      // background-image: url(./project-1.jpg);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: 3rem;
+      position: relative;
+      .tag{
+        font-size: 2rem;
+        font-weight: 500;
+        padding: 1rem 2rem;
+        color: black;
+        background-color: white;
+        width: fit-content;
+        border-radius: 5rem;
+        position: absolute;
+        bottom: 2%;
+        left: 2%;
+        cursor: pointer;
+      }
+      .proIcon{
+        position: absolute;
+        right: 2%;
+        top: 2%;
+        cursor: pointer;
+        i{
+          font-size: 4rem;
+          background-color: white;
+          padding: 1.5rem;
+          border-radius: 5rem;
+        }
+      }
+    }
+    .prBottom{
+      h4{
+        font-size: 3.4rem;
+        color: var(--primary-color);
+        font-weight: 500;
+      }
+      p{
+        font-size: 1.7rem;
+        padding: 0rem;
+        margin-top: 1rem;
+      }
+    }
   }
-  .heroImg1 {
-    left: 5% !important;
-    top: 10% !important;
-  }
-  .heroImg2 {
-    right: 5% !important;
+  :nth-child(2){
+    margin-top: 5rem;
   }
 }
 
+// Project Section css end
+// Footer Section css start
+.footer{
+  padding: 3.7rem 1rem 0rem 1rem;
+  .footerElem{
+    border: .1rem solid var(--text-color);
+    border-radius: 1.2rem;
+    padding: 2rem 3rem;
+    .footerText{
+      padding: 5rem 0;
+      border-bottom: .1rem solid var(--text-color1);
+      text-align: center;
+      h6{
+        color: var(--primary-color);
+        font-size: 1.8rem;
+        font-weight: 500;
+      }
+      h2{
+        font-size: 5.5rem;
+        font-weight: 500;
+        line-height: 1.3;
+        margin: 2rem 0;
+        .textColo{
+          background-color: var(--text-bg2);
+          border-radius: 5rem;
+          color: white;
+          padding: .5rem 1.5rem;
+        }
+      }
+      p{
+        padding: 0 30rem;
+        text-align: center;
+        color: var(--text-color1);
+      }
+    }
+    .footerBottom{
+      padding: 2rem 0;
+      @include flex-col(1rem, center, space-between);
+      p{
+        font-size: 1.6rem;
+        font-weight: 100;
+        color: var(--text-color1);
+      }
+      .social{
+        display: flex;
+        gap: 1rem;
+        i{
+          font-size: 3rem;
+          font-weight: 500;
+          color: var(--text-color1);
+        }
+      }
+      .privacyCopy{
+        display: flex;
+        gap: 1rem;
+        .privacy{
+          font-size: 1.8rem;
+          color: var(--text-color1);
+        }
+      }
+    }
+  }
+}
+// Footer Section css end
+
+
+// //** Screen <= 1600px
+// @media (max-width: 1600px) {
+//   html {
+//     font-size: 60%;
+//   }
+//   .container {
+//     max-width: 160rem;
+//     margin: 0 auto;
+//   }
+//   .heroImg1 {
+//     left: 5% !important;
+//     top: 10% !important;
+//   }
+//   .heroImg2 {
+//     right: 5% !important;
+//   }
+// }
+
 //** Screen <= 1200px
-@media (max-width: 1200px) {
+@media (max-width: 1265px) {
   .container {
-    max-width: 1200rem;
+    max-width: 120rem;
     margin: 0 auto;
   }
   .heroImg1 {
@@ -471,17 +613,8 @@ body {
     h1 {
       font-size: 9rem !important;
       line-height: 1.2;
-      .heroTextImageBox {
-        .heroTextImg {
-          width: 6rem !important;
-          height: 6rem !important;
-          img {
-            height: 8rem !important;
-          }
-        }
       }
     }
-  }
   .magic {
     .magicIn {
       width: 30rem !important;
@@ -500,8 +633,28 @@ body {
       }
     }
   }
-}
+  .serviceBottomText{
+    h6{
+      font-size: 4rem !important;
+      width: 100% !important;
+    }
+  }
+  .bottomImg{
+      left: 0% !important;
+      bottom: -4% !important;
+    }
 
+    // Footer -
+    .footerText{
+      h2{
+        font-size: 4rem !important;
+        margin: 1.5rem 0 !important;
+      }
+      p{
+        padding: 0 10rem !important;
+      }
+    }
+}
 //** Screen <= 765
 @media (max-width: 765px) {
   // Navbar mobile css Start
@@ -576,6 +729,7 @@ body {
   .magic {
     .magicIn {
       width: 26rem !important;
+      height: 9rem !important;
     }
   }
 
@@ -587,10 +741,64 @@ body {
       width: 90% !important;
     }
   }
+    .bottomImg{
+      bottom: 0% !important;
+    }
+
+    // Project mob css
+    .projectContent{
+  flex-direction: column;
+  p{
+    width: 80%;
+  }
+}
+
+.project{
+    width: 45%;
+      .tag{
+        font-size: 1.8rem !important;
+      }
+      .proIcon{
+        cursor: pointer;
+        i{
+          font-size: 3.5rem !important;
+        }
+      }
+  }
+      .prBottom{
+      h4{
+        font-size: 2.8rem !important;
+      }
+      p{
+        font-size: 1.6rem !important;
+      }
+    }
+
+    // Footer
+        .footerText{
+      h2{
+        font-size: 2.6rem !important;
+        line-height: 1.4 !important;
+      }
+      p{
+        padding: 0 0rem !important;
+      }
+    }
+        .footerBottom{
+          flex-direction: column;
+          gap: 1.5rem !important;
+        }
+              .privacyCopy{
+                flex-direction: column;
+                text-align: center;
+              }
 }
 
 //** Screen <= 665
 @media (max-width: 665px) {
+  html{
+    font-size: 52%;
+  }
   .container {
     max-width: 66.5rem;
     margin: 0 auto;
@@ -613,12 +821,6 @@ body {
     }
     h1 {
       font-size: 5rem !important;
-      .heroTextImageBox {
-        .heroTextImg {
-          width: 6rem !important;
-          height: 6rem !important;
-        }
-      }
     }
   }
   .magic {
@@ -638,7 +840,7 @@ body {
   .heroImg2 {
     width: 15rem !important;
     height: 15rem !important;
-    right: 4% !important;
+    right: 6% !important;
     bottom: 0% !important;
   }
   .heroBtnBottom {
@@ -702,41 +904,47 @@ body {
       }
     }
   }
-}
-//** Screen <= 465
-@media (max-width: 465px) {
-  .heroContent {
-    h4 {
-      font-size: 1.6rem !important;
-    }
-    h1 {
-      font-size: 4rem !important;
-      .heroTextImageBox {
-        .heroTextImg {
-          width: 4rem !important;
-          height: 4rem !important;
-          img {
-            height: 10%;
-          }
-        }
-      }
+
+  .serviceBottomText{
+    h6{
+      font-size: 2.5rem !important;
     }
   }
 
-  .magic {
-    .magicIn {
-      width: 13.4rem !important;
-      height: 5rem !important;
-    }
-  }
 
-  .heroImg2 {
-    width: 15rem !important;
-    height: 15rem !important;
-    right: 5% !important;
-    bottom: 5% !important;
+  // Project Mobile css
+  .projects{
+    justify-content: center;
+  .project{
+    width: 90%;
   }
 }
+}
+// //** Screen <= 465
+// @media (max-width: 465px) {
+//   .heroContent {
+//     h4 {
+//       font-size: 1.6rem !important;
+//     }
+//     h1 {
+//       font-size: 4rem !important;
+//     }
+//   }
+
+//   .magic {
+//     .magicIn {
+//       width: 13.4rem !important;
+//       height: 5rem !important;
+//     }
+//   }
+
+//   .heroImg2 {
+//     width: 15rem !important;
+//     height: 15rem !important;
+//     right: 5% !important;
+//     bottom: 5% !important;
+//   }
+// }
 
 // animation
 @keyframes menuPopup {

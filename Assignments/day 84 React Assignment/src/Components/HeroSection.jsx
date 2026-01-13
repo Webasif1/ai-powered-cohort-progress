@@ -15,11 +15,7 @@ const HeroSection = () => {
       <h1>
         Unleash Your
         <br /> Brand {""}
-        <div className="heroTextImageBox">
-          <span className="heroTextImg">
-            <img src="./hero-text-1.png" alt="hero-text-logo" />
-          </span>
-        </div>
+            <img src="./hero-text-1.jpg" alt="hero-text-logo" />
         {""} with Our <br /> <span className="magic"><div className="magicIn"></div> Magico</span> Design
       </h1>
       </div>

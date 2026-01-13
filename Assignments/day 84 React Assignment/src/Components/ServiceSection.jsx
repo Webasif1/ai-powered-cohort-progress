@@ -43,7 +43,16 @@ const ServiceSection = () => {
 
         <div className="serviceBottomText">
           <p><div className='line'></div>ABOUT ARTISAN</p>
-          <h6>Our visionary artisan collaborate<br/> seamless craft inspiring experiences,<br/> leaving lasting imprints on brands<br/> and space</h6>
+          <h6> <img src="./service-text-1.png" alt="" /> Our {" "}
+             <span className='gray'>visionary</span> {" "}
+             <span className='orange'>artisan</span> {" "}
+             collaborate<br/>
+             {" "} <span className='purple'>seamless</span> {" "}
+             craft <img src="./favicon-1.png" alt="" /> inspiring {" "}<span className='gray'>experiences</span>,<br/> <span className='orange'>leaving</span> lasting <span className='gray'>imprints</span>{" "} on <span className='purple'>brands</span><br/> and space <img src="./service-text-2.png" alt="" /> </h6>
+        </div>
+
+        <div className="bottomImg">
+          <img src="./line-purple.png" alt="" />
         </div>
       </div>
     </div>

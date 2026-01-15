@@ -917,9 +917,32 @@ body {
     justify-content: center;
   .project{
     width: 90%;
-      :nth-child(2){
-    margin-top: 0rem !important;
+    .prTop{
+      .tag{
+        bottom: 5% !important;
+        left: 6% !important;
+      }
+      .proIcon {
+        right: 5% !important;
+      }
+    }
   }
+}
+.project:nth-child(2){
+  margin-top: 0rem !important;
+}
+
+// Footer
+.footer {
+  .footerElem {
+    padding: 2rem !important;
+    .footerText{
+       h2{
+        font-size: 2.2rem !important;
+        line-height: 1.4 !important;
+        width: 100% !important;
+       }
+    }
   }
 }
 }

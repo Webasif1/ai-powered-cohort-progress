@@ -894,8 +894,23 @@ body {
   .projects .project {
     width: 90%;
   }
-  .projects .project :nth-child(2) {
+  .projects .project .prTop .tag {
+    bottom: 5% !important;
+    left: 6% !important;
+  }
+  .projects .project .prTop .proIcon {
+    right: 5% !important;
+  }
+  .project:nth-child(2) {
     margin-top: 0rem !important;
+  }
+  .footer .footerElem {
+    padding: 2rem !important;
+  }
+  .footer .footerElem .footerText h2 {
+    font-size: 2.2rem !important;
+    line-height: 1.4 !important;
+    width: 100% !important;
   }
 }
 @keyframes menuPopup {

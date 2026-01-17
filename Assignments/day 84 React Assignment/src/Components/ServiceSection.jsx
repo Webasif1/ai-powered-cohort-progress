@@ -27,7 +27,6 @@ const ServiceSection = () => {
           })}
         </div>
 
-
           <div className="arrow-dots">
             <div className="arrows">
             <i class="ri-arrow-left-line"></i>

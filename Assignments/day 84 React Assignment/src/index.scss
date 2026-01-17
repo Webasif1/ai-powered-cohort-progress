@@ -200,9 +200,9 @@ body {
       text-align: center;
       font-size: 12rem;
       font-weight: 500;
-          img {
-            width: 8%;
-          }
+      img {
+        width: 8%;
+      }
     }
   }
   .magic {
@@ -355,35 +355,35 @@ body {
         }
       }
     }
-    .arrow-dots{
+    .arrow-dots {
       @include flex-col(0rem, center, space-between);
       margin-top: 3rem;
       padding: 0rem 2rem;
-      .arrows{
-        i{
+      .arrows {
+        i {
           font-size: 3rem;
           cursor: pointer;
-          padding: .8rem;
+          padding: 0.8rem;
           background-color: var(--text-color);
           border-radius: 50rem;
           color: white;
           margin-right: 1rem;
-          transition: all .2s ease-in-out;
-          &:active{
-            background-color: var(--text-color1)
+          transition: all 0.2s ease-in-out;
+          &:active {
+            background-color: var(--text-color1);
           }
         }
       }
-      .dots{
-        @include flex-col(1rem, center,center );
-        .dot{
+      .dots {
+        @include flex-col(1rem, center, center);
+        .dot {
           height: 1rem;
           width: 1rem;
           border-radius: 50rem;
           background-color: var(--text-color);
         }
-        .active-dot{
-          background-color: var(--text-color1)
+        .active-dot {
+          background-color: var(--text-color1);
         }
       }
     }
@@ -409,26 +409,26 @@ body {
         width: 80%;
         text-align: center;
         color: #0e0e0e;
-        img{
+        img {
           width: 5%;
         }
-        .gray{
+        .gray {
           color: var(--text-color);
         }
-        .orange{
+        .orange {
           color: var(--text-bg2);
         }
-        .purple{
+        .purple {
           color: var(--text-color2);
         }
       }
     }
-    .bottomImg{
+    .bottomImg {
       position: absolute;
       left: 5%;
       bottom: 0%;
       transform: rotate(25deg);
-      img{
+      img {
         width: 40%;
       }
     }
@@ -436,19 +436,19 @@ body {
 }
 // Service Section css end
 // Project Section css Start
-.projectContent{
+.projectContent {
   @include flex-col(2rem, flex-start, space-between);
-  p{
+  p {
     width: 50rem;
   }
 }
-.projects{
+.projects {
   @include flex-col(2rem, center, space-between);
   margin-top: 3rem;
   flex-wrap: wrap;
-  .project{
+  .project {
     width: 45%;
-    .prTop{
+    .prTop {
       width: 100%;
       height: 50rem;
       // background-image: url(./project-1.jpg);
@@ -457,7 +457,7 @@ body {
       background-repeat: no-repeat;
       border-radius: 3rem;
       position: relative;
-      .tag{
+      .tag {
         font-size: 2rem;
         font-weight: 500;
         padding: 1rem 2rem;
@@ -470,12 +470,12 @@ body {
         left: 2%;
         cursor: pointer;
       }
-      .proIcon{
+      .proIcon {
         position: absolute;
         right: 2%;
         top: 2%;
         cursor: pointer;
-        i{
+        i {
           font-size: 4rem;
           background-color: white;
           padding: 1.5rem;
@@ -483,80 +483,80 @@ body {
         }
       }
     }
-    .prBottom{
-      h4{
+    .prBottom {
+      h4 {
         font-size: 3.4rem;
         color: var(--primary-color);
         font-weight: 500;
       }
-      p{
+      p {
         font-size: 1.7rem;
         padding: 0rem;
         margin-top: 1rem;
       }
     }
   }
-  :nth-child(2){
+  :nth-child(2) {
     margin-top: 5rem;
   }
 }
 
 // Project Section css end
 // Footer Section css start
-.footer{
+.footer {
   padding: 3.7rem 1rem 0rem 1rem;
-  .footerElem{
-    border: .1rem solid var(--text-color);
+  .footerElem {
+    border: 0.1rem solid var(--text-color);
     border-radius: 1.2rem;
     padding: 2rem 3rem;
-    .footerText{
+    .footerText {
       padding: 5rem 0;
-      border-bottom: .1rem solid var(--text-color1);
+      border-bottom: 0.1rem solid var(--text-color1);
       text-align: center;
-      h6{
+      h6 {
         color: var(--primary-color);
         font-size: 1.8rem;
         font-weight: 500;
       }
-      h2{
+      h2 {
         font-size: 5.5rem;
         font-weight: 500;
         line-height: 1.3;
         margin: 2rem 0;
-        .textColo{
+        .textColo {
           background-color: var(--text-bg2);
           border-radius: 5rem;
           color: white;
-          padding: .5rem 1.5rem;
+          padding: 0.5rem 1.5rem;
         }
       }
-      p{
+      p {
         padding: 0 30rem;
         text-align: center;
         color: var(--text-color1);
       }
     }
-    .footerBottom{
+    .footerBottom {
       padding: 2rem 0;
       @include flex-col(1rem, center, space-between);
-      p{
+      p {
         font-size: 1.6rem;
         font-weight: 100;
         color: var(--text-color1);
       }
-      .social{
+      .social {
         display: flex;
         gap: 1rem;
-        i{
+        i {
           font-size: 3rem;
           font-weight: 500;
           color: var(--text-color1);
         }
       }
-      .privacyCopy{
+      .privacyCopy {
         display: flex;
         gap: 1rem;
-        .privacy{
+        .privacy {
           font-size: 1.8rem;
           color: var(--text-color1);
         }
@@ -565,7 +565,6 @@ body {
   }
 }
 // Footer Section css end
-
 
 // //** Screen <= 1600px
 // @media (max-width: 1600px) {
@@ -613,8 +612,8 @@ body {
     h1 {
       font-size: 9rem !important;
       line-height: 1.2;
-      }
     }
+  }
   .magic {
     .magicIn {
       width: 30rem !important;
@@ -633,27 +632,27 @@ body {
       }
     }
   }
-  .serviceBottomText{
-    h6{
+  .serviceBottomText {
+    h6 {
       font-size: 4rem !important;
       width: 100% !important;
     }
   }
-  .bottomImg{
-      left: 0% !important;
-      bottom: -4% !important;
-    }
+  .bottomImg {
+    left: 0% !important;
+    bottom: -4% !important;
+  }
 
-    // Footer -
-    .footerText{
-      h2{
-        font-size: 4rem !important;
-        margin: 1.5rem 0 !important;
-      }
-      p{
-        padding: 0 10rem !important;
-      }
+  // Footer -
+  .footerText {
+    h2 {
+      font-size: 4rem !important;
+      margin: 1.5rem 0 !important;
     }
+    p {
+      padding: 0 10rem !important;
+    }
+  }
 }
 //** Screen <= 765
 @media (max-width: 765px) {
@@ -741,62 +740,62 @@ body {
       width: 90% !important;
     }
   }
-    .bottomImg{
-      bottom: 0% !important;
-    }
-
-    // Project mob css
-    .projectContent{
-  flex-direction: column;
-  p{
-    width: 80%;
+  .bottomImg {
+    bottom: 0% !important;
   }
-}
 
-.project{
+  // Project mob css
+  .projectContent {
+    flex-direction: column;
+    p {
+      width: 80%;
+    }
+  }
+
+  .project {
     width: 45%;
-      .tag{
-        font-size: 1.8rem !important;
+    .tag {
+      font-size: 1.8rem !important;
+    }
+    .proIcon {
+      cursor: pointer;
+      i {
+        font-size: 3.5rem !important;
       }
-      .proIcon{
-        cursor: pointer;
-        i{
-          font-size: 3.5rem !important;
-        }
-      }
+    }
   }
-      .prBottom{
-      h4{
-        font-size: 2.8rem !important;
-      }
-      p{
-        font-size: 1.6rem !important;
-      }
+  .prBottom {
+    h4 {
+      font-size: 2.8rem !important;
     }
+    p {
+      font-size: 1.6rem !important;
+    }
+  }
 
-    // Footer
-        .footerText{
-      h2{
-        font-size: 2.6rem !important;
-        line-height: 1.4 !important;
-      }
-      p{
-        padding: 0 0rem !important;
-      }
+  // Footer
+  .footerText {
+    h2 {
+      font-size: 2.6rem !important;
+      line-height: 1.4 !important;
     }
-        .footerBottom{
-          flex-direction: column;
-          gap: 1.5rem !important;
-        }
-              .privacyCopy{
-                flex-direction: column;
-                text-align: center;
-              }
+    p {
+      padding: 0 0rem !important;
+    }
+  }
+  .footerBottom {
+    flex-direction: column;
+    gap: 1.5rem !important;
+  }
+  .privacyCopy {
+    flex-direction: column;
+    text-align: center;
+  }
 }
 
 //** Screen <= 665
 @media (max-width: 665px) {
-  html{
+  html {
     font-size: 52%;
   }
   .container {
@@ -905,46 +904,45 @@ body {
     }
   }
 
-  .serviceBottomText{
-    h6{
+  .serviceBottomText {
+    h6 {
       font-size: 2.5rem !important;
     }
   }
 
-
   // Project Mobile css
-  .projects{
+  .projects {
     justify-content: center;
-  .project{
-    width: 90%;
-    .prTop{
-      .tag{
-        bottom: 5% !important;
-        left: 6% !important;
-      }
-      .proIcon {
-        right: 5% !important;
+    .project {
+      width: 90%;
+      .prTop {
+        .tag {
+          bottom: 5% !important;
+          left: 6% !important;
+        }
+        .proIcon {
+          right: 5% !important;
+        }
       }
     }
   }
-}
-.project:nth-child(2){
-  margin-top: 0rem !important;
-}
+  .project:nth-child(2) {
+    margin-top: 0rem !important;
+  }
 
-// Footer
-.footer {
-  .footerElem {
-    padding: 2rem !important;
-    .footerText{
-       h2{
-        font-size: 1.8rem !important;
-        line-height: 1.5 !important;
-        width: 100% !important;
-       }
+  // Footer
+  .footer {
+    .footerElem {
+      padding: 2rem !important;
+      .footerText {
+        h2 {
+          font-size: 1.8rem !important;
+          line-height: 1.5 !important;
+          width: 100% !important;
+        }
+      }
     }
   }
-}
 }
 // //** Screen <= 465
 // @media (max-width: 465px) {

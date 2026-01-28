@@ -135,3 +135,118 @@
 // }
 // arr.push(16)
 // console.log(arr);
+
+
+//*** ## Loops
+
+// 21. Write a program that prints the numbers from 1 to 50 using a `for` loop.
+
+
+// for(let i = 1; i <= 50; i++){
+//   console.log(i);
+// }
+
+// 22. Using a `while` loop, calculate and print the sum of numbers from 1 to 10.
+
+// let sum = 0;
+// let i = 0;
+
+// while(i<10){
+//   i++
+//   sum  = sum + i
+// }
+// console.log(sum);
+
+// 23. Iterate through each character of the string `"JavaScript"` using a `for...of` loop and print each character.
+
+// const str = "JavaScript";
+
+// for(const chr of str){
+//   console.log(chr);
+// }
+
+
+// 24. Using a `for` loop, print all odd numbers from 1 to 20. Use `continue` to skip even numbers.
+
+// for (let i = 1; i<=20; i++){
+//   if(i % 2 === 0){
+//     continue;
+//   }
+//   console.log(i);
+// }
+
+// 25. Use a `do...while` loop to print the numbers from 5 down to 1.
+
+// let i = 5;
+
+// do{
+//   console.log(i);
+//   i--;
+// }while(i >= 1)
+
+// 26. Write a program to calculate the factorial of 5 using a loop and print the result.
+
+// let factorial = 1;
+// for(let i = 5; i>=1; i--){
+//   factorial = factorial * i
+// }
+
+// console.log(factorial);
+
+// let n = 1;
+// let i = 5;
+// while(i > 1){
+//   n = n * i
+//   i--;
+// }
+// console.log(n);
+
+
+// 27. Use nested `for` loops to print a 3×3 grid pattern where each row contains the numbers 1 to 3.
+
+  // Example output format:
+
+  // 1 2 3
+  // 1 2 3
+  // 1 2 3
+
+// for(let row = 1; row <= 3; row++){
+//   console.log(row);
+//   let rowStr = "";
+//   for(let col = 1; col <= 3; col++){
+//     console.log(col);
+//     rowStr += col + " ";
+//   }
+//   console.log(rowStr);
+// }
+
+// 28. Reverse an array manually (without using the `reverse()` method) and print the reversed array.
+//  let arr = [14, 22, 32, 44, 33]
+//  let arrNew = new Array()
+//  console.log(arrNew);
+//  for(let i = arr.length - 1; i >= 0; i--){
+//    console.log(arr[i])
+//    arrNew.push(arr[i])
+//   }
+//   console.log(arrNew);
+
+// 29. Using a `while` loop, print all numbers between 1 and 100 that are divisible by 5.
+
+// let i = 1;
+// while(i <= 100){
+//   if(i % 5 === 0){
+//     console.log(i);
+//   }
+//   i++;
+// }
+
+
+// 30. Create an object with keys like `name` and `age`. Use a `for...in` loop to print all the keys of the object.
+
+const person = {
+  name: "Asif",
+  age: 22
+};
+for(let key in person){
+  console.log(key,":",person[key]);
+}

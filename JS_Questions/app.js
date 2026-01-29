@@ -243,10 +243,133 @@
 
 // 30. Create an object with keys like `name` and `age`. Use a `for...in` loop to print all the keys of the object.
 
-const person = {
-  name: "Asif",
-  age: 22
-};
-for(let key in person){
-  console.log(key,":",person[key]);
-}
+// const person = {
+//   name: "Asif",
+//   age: 22
+// };
+// for(let key in person){
+//   console.log(key,":",person[key]);
+// }
+
+
+//*** ## Arrays
+
+// 31. Create an array of movie names and print them in a single line separated by ` - ` using `join()`.
+
+// const movies = [
+//   "The Shawshank Redemption",
+//   "The Godfather",
+//   "The Dark Knight",
+//   "Pulp Fiction",
+//   "Forrest Gump",
+//   "Inception",
+//   "The Matrix",
+//   "Goodfellas"
+// ];
+// console.log(movies.join(" - "));
+
+// 32. Create an array of numbers and print the value at index 1.
+
+// const arr = [12,124,13,12,41,411,24,25]
+// console.log(arr[1]);
+
+// 33. Add two elements to the beginning of an array using `unshift()` and print the updated array.
+
+// let arr = [12,124,13,12,41,411,24,25]
+
+// arr.unshift(1,2)
+// console.log(arr);
+
+// 34. Create an array of song names, remove the last element using `pop()`, and print the remaining elements.
+
+// const songs = [
+//   "Bohemian Rhapsody",
+//   "Hotel California",
+//   "Imagine",
+//   "Billie Jean",
+//   "Like a Rolling Stone",
+//   "Smells Like Teen Spirit",
+//   "Blinding Lights",
+//   "Watermelon Sugar",
+//   "Stay",
+//   "Heat Waves"
+// ];
+// songs.pop()
+// console.log(songs);
+
+// 35. Given an array, extract the first three elements using `slice()` and print them.
+
+// const songs = [
+//   "Bohemian Rhapsody",
+//   "Hotel California",
+//   "Imagine",
+//   "Billie Jean",
+//   "Like a Rolling Stone",
+//   "Smells Like Teen Spirit",
+//   "Blinding Lights",
+//   "Watermelon Sugar",
+//   "Stay",
+//   "Heat Waves"
+// ];
+// let sliceSong = songs.slice(0,3)
+// console.log(sliceSong);
+
+// 36. Create an array of numbers and find the index of the number `5` using `indexOf()`.
+
+
+// const arr = [12,124,13,12,41,411,24,5,25]
+
+// console.log(arr.indexOf(5));
+
+// 37. Create an array of values and use `includes()` to check whether the value `3` exists in the array. Print the result.
+
+// const mixedArray = [
+//   "Hello",
+//   3,
+//   true,
+//   null,
+//   undefined,
+//   {name: "John"},
+//   [1, 2, 3],
+//   function() {
+//     return "I'm a function";
+//   },
+//   Symbol("id"),
+//   new Date()
+// ];
+
+
+// if(mixedArray.includes(3)){
+//   console.log("Value 3 exists in the array");
+// } else {
+//   console.log("Value 3 does not exist in the array");
+// }
+
+// 38. Concatenate two arrays using `concat()` and print the resulting combined array.
+
+// const arr1 = [1, 2, 3];
+// const arr2 = [4, 5, 6];
+
+// console.log(arr1.concat(arr2));
+
+
+
+// 39. Sort an array of numbers in ascending order using a custom comparator function and print the sorted array.
+
+// const fruits = ["banana", "apple", "cherry", "date"];
+// const numbers = [10, 5, 100, 2, 25];
+
+// fruits.sort()
+// numbers.sort((a,b)=>a - b)
+
+// console.log(fruits,numbers);
+
+// 40. Create a copy of an array using the spread operator (`...`). Print the copied array and also print whether the copied array and original array reference the same memory.
+
+// const fruits = ["banana", "apple", "cherry", "date"];
+// const copyFruits = [...fruits]
+
+// console.log(typeof fruits);
+
+// console.log("Copied array:", copyFruits);
+// console.log("Same reference?", copyFruits === fruits);

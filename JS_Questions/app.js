@@ -373,3 +373,64 @@
 
 // console.log("Copied array:", copyFruits);
 // console.log("Same reference?", copyFruits === fruits);
+
+// 41. Write a function that takes a number as input and returns whether it is "even" or "odd".
+
+// function evenOdd (){
+//   const number = prompt("Write a number")
+//   if(Number(number) % 2 === 0){
+//     console.log("It's a even number");
+//   }else{
+//   console.log("It's a odd number");
+//   }
+// }
+// evenOdd()
+
+// 42. Create a function that calculates and returns the area of a circle given its radius.
+
+// function circle(){
+//   let r = Number(prompt("Give a value"))
+
+//   let area = Math.PI * r * r
+
+//   return area
+// }
+// console.log(circle());
+
+
+// 43. Write a function that takes an array of numbers and returns the sum of all elements in the array.
+
+// function sumOfArray(numbers){
+//   let sum = 0;
+//   for(let i = 0; i <= numbers.length -1; i++){
+//     sum += numbers[i]
+//   }
+//   return sum
+// }
+// console.log(sumOfArray([1, 2, 3, 4, 5]));
+
+// 44. Write a function that checks whether a given string starts with a specified character. Return `true` or `false`.
+
+// function specifiedCharacter(char){
+//   let firstChar = char[0];
+//   if(firstChar === "H"){
+//     return true
+//   }else{
+//     return false
+//   }
+// }
+
+// console.log(specifiedCharacter('World'));
+
+// 45. Create a function that takes two numbers and returns the larger of the two.
+
+function largerSmall(num1,num2){
+  if(num1 > num2){
+    return `${num1} is bigger than ${num2}`
+  }else{
+    return `${num2} is bigger than ${num1}`
+  }
+}
+
+console.log(largerSmall(4,5));
+console.log(largerSmall(20,100));

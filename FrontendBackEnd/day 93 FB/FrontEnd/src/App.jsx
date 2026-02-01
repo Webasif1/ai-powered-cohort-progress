@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 
- const App =  () => {
+const App = () => {
   const [notes, setNotes] = useState([
     {
       title: "title 1",
@@ -22,23 +22,25 @@ import axios from 'axios'
     },
   ])
 
-  axios.get("http://localhost:3000/api/notes")
-  .then((res)=>{
-    setNotes(res.data.note)
-  })
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/notes")
+      .then((res) => {
+        setNotes(res.data.note)
+      })
+  }, [])
 
 
 
   return (
     <>
-    <div className="notes">
-      {notes.map((elem,id)=>{
-        return  <div key={id} className="note">
-        <h2 className='title'>{elem.title}</h2>
-        <p className="info">{elem.description}</p>
+      <div className="notes">
+        {notes.map((elem, id) => {
+          return <div key={id} className="note">
+            <h2 className='title'>{elem.title}</h2>
+            <p className="info">{elem.description}</p>
+          </div>
+        })}
       </div>
-      })}
-    </div>
     </>
   )
 }

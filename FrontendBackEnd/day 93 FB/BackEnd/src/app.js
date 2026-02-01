@@ -1,14 +1,19 @@
 /*Require Express from express */
 const express = require("express");
+/**Require cors to unblock server */
+const cors = require("cors")
 /**Import noteModel from ./models/note.model */
-const noteMOdel = require("./models/note.model");
 const noteModel = require("./models/note.model");
+
 /*Create app variable */
 const app = express();
 
 /**Middlewares */
 /**Request element from body */
 app.use(express.json());
+/**app.use cors */
+app.use(cors())
+
 
 /**Create post API  for create note*/
 app.post("/api/notes", async (req, res) => {
@@ -16,7 +21,7 @@ app.post("/api/notes", async (req, res) => {
   const { title, description } = req.body;
 
   /**Create noteModel */
-  const note = await noteMOdel.create({
+  const note = await noteModel.create({
     title,
     description,
   });
@@ -31,7 +36,7 @@ app.post("/api/notes", async (req, res) => {
 /**Create get API for get data*/
 app.get("/api/notes", async (req, res) => {
   /**Fetch data from noteModel server*/
-  const note = await noteMOdel.find();
+  const note = await noteModel.find();
 
   /**Send response */
   res.status(200).json({

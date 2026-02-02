@@ -5,8 +5,6 @@ const notesModel = require('./models/notes.models')
 
 /**Cerate app variable */
 const app = express();
-
-
 /**Middleware to parse json data */
 app.use(express.json());
 

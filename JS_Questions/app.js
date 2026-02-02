@@ -424,13 +424,13 @@
 
 // 45. Create a function that takes two numbers and returns the larger of the two.
 
-function largerSmall(num1,num2){
-  if(num1 > num2){
-    return `${num1} is bigger than ${num2}`
-  }else{
-    return `${num2} is bigger than ${num1}`
-  }
-}
+// function largerSmall(num1,num2){
+//   if(num1 > num2){
+//     return `${num1} is bigger than ${num2}`
+//   }else{
+//     return `${num2} is bigger than ${num1}`
+//   }
+// }
 
-console.log(largerSmall(4,5));
+// console.log(largerSmall(4,5));
 console.log(largerSmall(20,100));

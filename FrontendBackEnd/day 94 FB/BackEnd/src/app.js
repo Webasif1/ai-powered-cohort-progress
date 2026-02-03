@@ -1,5 +1,7 @@
 /**Express require from express (node_model) */
 const express = require("express")
+/**Cors require from cors (node_model) */
+const cors = require("cors")
 /**Require Notes model */
 const notesModel = require('./models/notes.models')
 
@@ -7,6 +9,8 @@ const notesModel = require('./models/notes.models')
 const app = express();
 /**Middleware to parse json data */
 app.use(express.json());
+/**Use cors middleware */
+app.use(cors());
 
 /**Create post api for create note api */
 app.post('/api/notes', async (req, res) => {

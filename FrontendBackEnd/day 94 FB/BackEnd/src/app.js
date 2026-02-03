@@ -2,6 +2,8 @@
 const express = require("express")
 /**Cors require from cors (node_model) */
 const cors = require("cors")
+/**Path require for path */
+const path = require("path")
 /**Require Notes model */
 const notesModel = require('./models/notes.models')
 
@@ -11,6 +13,8 @@ const app = express();
 app.use(express.json());
 /**Use cors middleware */
 app.use(cors());
+/**Path middleware */
+app.use(express.static(path.join(__dirname, '../public')));
 
 /**Create post api for create note api */
 app.post('/api/notes', async (req, res) => {
@@ -61,6 +65,10 @@ app.patch('/api/notes/:id', async (req, res) => {
     message: "Note updated successfully",
     updatedNote
   });
+})
+
+app.get('*name', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 })
 
 /**Module exports app to server.js for running server */

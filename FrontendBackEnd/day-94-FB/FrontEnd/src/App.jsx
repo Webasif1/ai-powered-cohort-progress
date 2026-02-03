@@ -15,24 +15,24 @@ const App = () => {
   }, [])
 
   async function fetchNotes() {
-    await axios.get("http://localhost:3000/api/notes").then((res) => {
+    await axios.get("https://note-ucmb.onrender.com/api/notes").then((res) => {
       setNote(res.data.notes)
     })
   }
   async function createNote(title, description) {
-    await axios.post("http://localhost:3000/api/notes", { title, description }).then((res) => {
+    await axios.post("https://note-ucmb.onrender.com/api/notes", { title, description }).then((res) => {
       fetchNotes()
     })
   }
 
   async function deleteNote(id) {
-    await axios.delete(`http://localhost:3000/api/notes/${id}`).then((res) => {
+    await axios.delete(`https://note-ucmb.onrender.com/api/notes/${id}`).then((res) => {
       fetchNotes()
     })
   }
 
   async function updateNote(id, title, description) {
-    await axios.patch(`http://localhost:3000/api/notes/${id}`, { title, description }).then((res) => {
+    await axios.patch(`https://note-ucmb.onrender.com/api/notes/${id}`, { title, description }).then((res) => {
       fetchNotes()
     })
   }

@@ -1,0 +1,92 @@
+ [
+  {
+    "id": 1,
+    "img": "https://picsum.photos/seed/project1/600/400",
+    "title": "React Todo App",
+    "description": "A simple todo application built with React hooks.",
+    "tag": ["React"],
+    "repolink": "https://github.com/facebook/react",
+    "demolink": "https://react.dev/"
+  },
+  {
+    "id": 2,
+    "img": "https://picsum.photos/seed/project2/600/400",
+    "title": "Landing Page UI",
+    "description": "Modern responsive landing page using HTML and CSS.",
+    "tag": ["HTML, CSS"],
+    "repolink": "https://github.com/tailwindlabs/tailwindcss",
+    "demolink": "https://tailwindcss.com/"
+  },
+  {
+    "id": 3,
+    "img": "https://picsum.photos/seed/project3/600/400",
+    "title": "JavaScript Calculator",
+    "description": "A basic calculator with clean UI and logic.",
+    "tag": ["JavaScript"],
+    "repolink": "https://github.com/javascript-tutorial/en.javascript.info",
+    "demolink": "https://javascript.info/"
+  },
+  {
+    "id": 4,
+    "img": "https://picsum.photos/seed/project4/600/400",
+    "title": "Portfolio Website",
+    "description": "Personal portfolio website with smooth scrolling.",
+    "tag": ["Frontend"],
+    "repolink": "https://github.com/vercel/next.js",
+    "demolink": "https://nextjs.org/"
+  },
+  {
+    "id": 5,
+    "img": "https://picsum.photos/seed/project5/600/400",
+    "title": "Blog Layout",
+    "description": "Responsive blog layout with grid system.",
+    "tag": ["CSS Grid"],
+    "repolink": "https://github.com/mdn/content",
+    "demolink": "https://developer.mozilla.org/"
+  },
+  {
+    "id": 6,
+    "img": "https://picsum.photos/seed/project6/600/400",
+    "title": "Weather App",
+    "description": "Weather app using public API and async JavaScript.",
+    "tag": ["API"],
+    "repolink": "https://github.com/axios/axios",
+    "demolink": "https://axios-http.com/"
+  },
+  {
+    "id": 7,
+    "img": "https://picsum.photos/seed/project7/600/400",
+    "title": "E-commerce UI",
+    "description": "Product listing UI for an e-commerce site.",
+    "tag": ["UI Design"],
+    "repolink": "https://github.com/shopify/dawn",
+    "demolink": "https://themes.shopify.com/themes/dawn"
+  },
+  {
+    "id": 8,
+    "img": "https://picsum.photos/seed/project8/600/400",
+    "title": "Dashboard Layout",
+    "description": "Admin dashboard layout with sidebar navigation.",
+    "tag": ["Dashboard"],
+    "repolink": "https://github.com/chartjs/Chart.js",
+    "demolink": "https://www.chartjs.org/"
+  },
+  {
+    "id": 9,
+    "img": "https://picsum.photos/seed/project9/600/400",
+    "title": "Form Validation",
+    "description": "Client-side form validation using JavaScript.",
+    "tag": ["Forms"],
+    "repolink": "https://github.com/react-hook-form/react-hook-form",
+    "demolink": "https://react-hook-form.com/"
+  },
+  {
+    "id": 10,
+    "img": "https://picsum.photos/seed/project10/600/400",
+    "title": "Dark Mode Toggle",
+    "description": "Light and dark mode toggle with localStorage.",
+    "tag": ["UX"],
+    "repolink": "https://github.com/alpinejs/alpine",
+    "demolink": "https://alpinejs.dev/"
+  }
+]

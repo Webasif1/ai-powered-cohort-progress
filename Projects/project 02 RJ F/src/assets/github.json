@@ -88,5 +88,14 @@
     "tag": ["UX"],
     "repolink": "https://github.com/alpinejs/alpine",
     "demolink": "https://alpinejs.dev/"
+  },
+  {
+    "id": 9,
+    "img": "https://picsum.photos/seed/project9/600/400",
+    "title": "Form Validation",
+    "description": "Client-side form validation using JavaScript.",
+    "tag": ["Forms"],
+    "repolink": "https://github.com/react-hook-form/react-hook-form",
+    "demolink": "https://react-hook-form.com/"
   }
 ]

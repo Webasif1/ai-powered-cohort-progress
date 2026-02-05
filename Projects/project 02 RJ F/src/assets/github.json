@@ -13,7 +13,7 @@
     "img": "https://picsum.photos/seed/project2/600/400",
     "title": "Landing Page UI",
     "description": "Modern responsive landing page using HTML and CSS.",
-    "tag": ["HTML, CSS"],
+    "tag": ["HTML", "CSS"],
     "repolink": "https://github.com/tailwindlabs/tailwindcss",
     "demolink": "https://tailwindcss.com/"
   },

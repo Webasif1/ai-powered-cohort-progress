@@ -1,15 +1,14 @@
 /**Dotenv   */
-require('dotenv').config();
+require("dotenv").config();
 /**Require express router */
-const express = require('express');
+const express = require("express");
 /**Require jwt */
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 /**Import userModel */
-const userModel = require('../models/user.model');
+const userModel = require("../models/user.model");
 
 /**Create authRouter for authentication routes */
 const authRouter = express.Router();
-
 
 /**
  * @route POST /api/auth/register
@@ -17,28 +16,42 @@ const authRouter = express.Router();
  * @access Public
  */
 /**Route for user registration */
-authRouter.post('/register', async (req, res) => {
+authRouter.post("/register", async (req, res) => {
   //Request body destructuring name, email, password
   const { name, email, password } = req.body;
 
   //Check if user with the same email already exists in the database
   const isUserAlreadyExists = await userModel.findOne({ email });
 
-  if(isUserAlreadyExists) {
+  if (isUserAlreadyExists) {
     return res.status(400).json({
-      message: 'User with this email already exists'
-    })
+      message: "User with this email already exists",
+    });
   }
 
   //Create new user in the database
   const newUser = await userModel.create({ name, email, password });
 
+  /**Generate JWT token for the new user */
+  const token = jwt.sign(
+    {
+      id: newUser._id,
+      email: newUser.email,
+    },
+    process.env.JWT_SECRET,
+  );
+
+
+  //Set token in cookie
+  res.cookie("JWT_TOKEN", token );
+
   //Send response with the created user
   res.status(201).json({
-    message: 'User registered successfully',
-    newUser
+    message: "User registered successfully",
+    newUser,
+    token,
   });
-})
+});
 
 /**export authRouter */
 module.exports = authRouter;

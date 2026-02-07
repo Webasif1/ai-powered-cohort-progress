@@ -1,16 +1,13 @@
-/**Config dotenv */
-require("dotenv").config()
-/**Require mongoose from mongoose to connect db */
-const mongoose = require("mongoose");
-
-
-/**Create database fnc */
-function connectToDB(){
-  mongoose.connect(process.env.MONGO_URI)
-  .then(()=>{
-    console.log("Connected to mongodb");
-  })
+/**Dotenv */
+require('dotenv').config();
+/**Require mongoose */
+const mongoose = require('mongoose');
+/**Connect to MongoDB using mongoose */
+function connectDB() {
+  mongoose.connect(process.env.MONGO_URL)
+    .then(() => console.log('MongoDB connected'))
+    .catch((err) => console.error('MongoDB connection error:', err));
 }
 
-/**Export connectToDB fnc */
-module.exports = connectToDB
+/**Export the connectDB function */
+module.exports = connectDB;

@@ -1,20 +1,17 @@
-/**Require mongoose from mongoose to create user Schema */
-const mongoose = require("mongoose");
+/**Mongoose model for User */
+const mongoose = require('mongoose');
 
-
-/**Define user Schema */
+/**Define the User schema */
 const userSchema = new mongoose.Schema({
-  name:String,
-  email:{
-    type:String,
-    unique: [true,'With this email user already exist please try another one']
+  name: String,
+  email: {
+    type: String,
+    unique: [true, 'With this email already exists, please try another one.'],
   },
-  password:String,
-})
+  password: String,
+});
 
-
-/**Create userModel */
-const userModel = mongoose.model("userModel",userSchema)
-
-/**Export userModel */
-module.exports = userModel
+/**Create the User model from the schema */
+const User = mongoose.model('User', userSchema);
+/**Export the User model */
+module.exports = User;

@@ -93,5 +93,9 @@ authRouter.post("/login", async (req, res) => {
   });
 });
 
+
+//Logout router
+authRouter.post("/logout", async(req,res)=>{})
+
 /** module.exports authRouter */
 module.exports = authRouter;

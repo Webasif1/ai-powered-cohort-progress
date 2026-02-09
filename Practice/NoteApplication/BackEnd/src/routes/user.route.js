@@ -95,7 +95,9 @@ authRouter.post("/login", async (req, res) => {
 
 
 //Logout router
-authRouter.post("/logout", async(req,res)=>{})
+authRouter.post("/logout", async(req,res)=>{
+  const {email} = req.body
+})
 
 /** module.exports authRouter */
 module.exports = authRouter;

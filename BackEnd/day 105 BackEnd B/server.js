@@ -1,3 +1,5 @@
+/**dotenv */
+require("dotenv").config()
 /**Require app  */
 const app = require("./src/app")
 /**Connect to DB Function */

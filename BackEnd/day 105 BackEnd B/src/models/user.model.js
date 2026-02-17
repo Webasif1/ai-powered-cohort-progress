@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
   },
   profilePicture: {
     type: String,
-    default: ""
+    default: "https://ik.imagekit.io/webasifdotio/user_image.jpg"
   }
 })
 

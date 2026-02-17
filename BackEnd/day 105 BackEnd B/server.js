@@ -1,7 +1,13 @@
 /**Require app  */
 const app = require("./src/app")
+/**Connect to DB Function */
+const connectToDB = require("./src/config/database")
 
 
+/**
+ * -Call connectToDB to Connect ot mongodb
+ */
+connectToDB()
 /**
  * -Create Listen api to run the server
  */

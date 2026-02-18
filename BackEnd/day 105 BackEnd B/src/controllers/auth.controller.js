@@ -3,13 +3,18 @@
  */
 const userModel = require("../models/user.model");
 /**
- * Require crypto
+ * Require crypto for hash password
  */
 const crypto = require("crypto");
 /**
- * Require jsonwebtoken
+ * Require jsonwebtoken to create token
  */
 const jwt = require("jsonwebtoken");
+
+/**
+ * Require bcryptjs to hash password more easy way
+ */
+const bcrypt = require("bcryptjs")
 
 /**
  * registerController
@@ -55,8 +60,10 @@ async function registerController (req, res) {
     });
   }
 
-  //Hash password
-  const hash = crypto.createHash("sha256").update(password).digest("hex");
+  //Hash password with crypto
+  // const hash = crypto.createHash("sha256").update(password).digest("hex");
+  //Hash password with bcryptjs
+  const hash = await bcrypt.hash(password, 10)
 
   //Create user
   const user = await userModel.create({
@@ -104,6 +111,16 @@ async function loginController (req,res){
   const {username ,email ,password}= req.body
 
   //Find user
+
+  /**
+   * login user base on
+   * -username
+   * -password
+   *
+   * -email
+   * -password
+   */
+
   const user = await userModel.findOne({
     $or:[
       {username:username},
@@ -119,9 +136,11 @@ async function loginController (req,res){
   }
 
   //if user found check hash password
-  const hash = crypto.createHash("sha256").update(password).digest("hex")
+  //*** const hash = crypto.createHash("sha256").update(password).digest("hex")
   // compare hash pass to body pass
-  const isPasswordValid = hash === user.password
+  //*** const isPasswordValid = hash === user.password
+  //Compare password with bcrypt
+  const isPasswordValid = await bcrypt.compare(password, user.password)
   // if password is not valid
   if(!isPasswordValid){{
     return res.status(401).json({

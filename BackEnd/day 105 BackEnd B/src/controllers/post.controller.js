@@ -32,14 +32,31 @@ async function createPostController(req,res){
     })
   }
 
-  const decoded = jwt.verify(token, process.env.JWT_SECRET)
+  let decoded = null;
+  try{
+    decoded = jwt.verify(token, process.env.JWT_SECRET)
+  }catch(err){
+    res.status(401).json({
+      message:"User not authorized"
+    })
+  }
 
-  // const file = await imageKit.files.upload({
-  //   file: await toFile(Buffer.from(req.file.buffer), "file"),
-  //   fileName:"Test"
-  // })
+  const file = await imageKit.files.upload({
+    file: await toFile(Buffer.from(req.file.buffer), "file"),
+    fileName:"Test",
+    folder:"cohort2"
+  })
 
-  // res.send(file)
+  const post = await postModel.create({
+    caption:req.body.caption,
+    imgUrl:file.url,
+    user:decoded.id
+  })
+
+  res.status(201).json({
+    message:"Post created successfully",
+    post
+  })
 }
 
 

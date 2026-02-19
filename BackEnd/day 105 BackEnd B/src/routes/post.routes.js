@@ -5,12 +5,16 @@ const express = require("express");
 /**
  * Require multer for upload file
  */
-const multer = require("multer")
-const upload = multer({storage: multer.memoryStorage()})
+const multer = require("multer");
+const upload = multer({ storage: multer.memoryStorage() });
 /**
  * Import createPostController
  */
-const {createPostController} = require("../controllers/post.controller")
+const {
+  createPostController,
+  getPostController,
+  getPostDetailsController,
+} = require("../controllers/post.controller");
 /**
  * Create postRouter
  */
@@ -20,7 +24,18 @@ const postRouter = express.Router();
  * Post/api/posts/
  * req.body = {caption, imageFile}
  */
-postRouter.post("/", upload.single("image"), createPostController)
+postRouter.post("/", upload.single("image"), createPostController);
+
+/**
+ * Get /api/posts/ [Protected]
+ */
+postRouter.get("/", getPostController);
+
+/**
+ * Get / api/posts/details/:postid
+ * -return an detail about specific post with the post id. Also check whether the post belongs to the user that is requesting come from
+ */
+postRouter.get("/details/:postId", getPostDetailsController);
 
 /**module.exports = postRouter */
-module.exports = postRouter
+module.exports = postRouter;

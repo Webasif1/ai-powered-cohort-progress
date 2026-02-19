@@ -16,6 +16,10 @@ const {
   getPostDetailsController,
 } = require("../controllers/post.controller");
 /**
+ * Import identifyUser from ../middlewares/auth.middleware
+ */
+const identifyUser = require("../middlewares/auth.middleware")
+/**
  * Create postRouter
  */
 const postRouter = express.Router();
@@ -24,18 +28,18 @@ const postRouter = express.Router();
  * Post/api/posts/
  * req.body = {caption, imageFile}
  */
-postRouter.post("/", upload.single("image"), createPostController);
+postRouter.post("/", upload.single("image"), identifyUser, createPostController);
 
 /**
  * Get /api/posts/ [Protected]
  */
-postRouter.get("/", getPostController);
+postRouter.get("/", identifyUser, getPostController);
 
 /**
  * Get / api/posts/details/:postid
  * -return an detail about specific post with the post id. Also check whether the post belongs to the user that is requesting come from
  */
-postRouter.get("/details/:postId", getPostDetailsController);
+postRouter.get("/details/:postId", identifyUser, getPostDetailsController);
 
 /**module.exports = postRouter */
 module.exports = postRouter;

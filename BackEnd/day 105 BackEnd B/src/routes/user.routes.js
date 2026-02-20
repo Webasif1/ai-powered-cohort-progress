@@ -5,7 +5,7 @@ const express = require("express");
 /**
  * Import followUserController
  */
-const { followUserController } = require("../controllers/user.controller");
+const { followUserController, unFollowUserController } = require("../controllers/user.controller");
 /**
  * Import identifyUser from ../middlewares/auth.middleware
  */
@@ -21,6 +21,13 @@ const userRouter = express.Router();
  * @access private
  */
 userRouter.post("/follow/:username", identifyUser, followUserController)
+
+/**
+ * @route Post /api/users/unfollow/:username
+ * @description Unfollow a user
+ * @access private
+ */
+userRouter.post("/unfollow/:username", identifyUser, unFollowUserController)
 
 /**
  * module.exports = userRouter

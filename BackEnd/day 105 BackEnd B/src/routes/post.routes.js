@@ -42,7 +42,7 @@ postRouter.get("/", identifyUser, getPostController);
  */
 postRouter.get("/details/:postId", identifyUser, getPostDetailsController);
 /**
- * Get / api/posts/like/:postid
+ * Get / api/post/like/:postid
  * Like post with the id provided in the request params
  */
 postRouter.get("/post/:postId", identifyUser, likePotController);

@@ -14,6 +14,7 @@ const {
   createPostController,
   getPostController,
   getPostDetailsController,
+  likePotController
 } = require("../controllers/post.controller");
 /**
  * Import identifyUser from ../middlewares/auth.middleware
@@ -40,6 +41,11 @@ postRouter.get("/", identifyUser, getPostController);
  * -return an detail about specific post with the post id. Also check whether the post belongs to the user that is requesting come from
  */
 postRouter.get("/details/:postId", identifyUser, getPostDetailsController);
+/**
+ * Get / api/posts/like/:postid
+ * Like post with the id provided in the request params
+ */
+postRouter.get("/post/:postId", identifyUser, likePotController);
 
 /**module.exports = postRouter */
 module.exports = postRouter;

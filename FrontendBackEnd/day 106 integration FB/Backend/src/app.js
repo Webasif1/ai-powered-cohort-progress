@@ -2,6 +2,8 @@
 const express = require('express');
 /**Require cookie */
 const cookieParser = require("cookie-parser")
+/**Require cors */
+const cors = require("cors")
 
 
 /**Create app variable  */
@@ -12,6 +14,12 @@ const app = express()
  */
 app.use(express.json())
 app.use(cookieParser())
+app.use(cors({
+    origin: 'http://localhost:5173', // Your frontend URL
+    credentials: true, // Allow credentials (cookies, authorization headers)
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
+    allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
+}))
 
 //***Require routes */
 /**

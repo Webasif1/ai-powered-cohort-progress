@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import { useAuth } from '../hooks/useAuth'
 import "../style/form.scss"
 
@@ -10,12 +10,22 @@ const Login = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
+  const navigate = useNavigate()
+
   const handelSubmit = async (e) => {
     e.preventDefault()
 
     await handelLogin(username, password)
 
+    navigate("/")
+
     console.log("User loggedIn")
+  }
+
+  if (loading) {
+    return (<main>
+      <h1>Loading....</h1>
+    </main>)
   }
 
   return (

@@ -1,10 +1,30 @@
-import React from 'react'
-import { Link } from "react-router"
+import React, { useState } from 'react'
+import { Link, useNavigate } from "react-router"
+import { useAuth } from '../hooks/useAuth'
 
 const Register = () => {
 
+  const { user, loading, handelRegister } = useAuth()
+
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  const navigate = useNavigate()
   const handelSubmit = (e) => {
-    e.prevent.default
+    e.preventDefault()
+
+    handelRegister(username, email, password)
+
+    navigate("/")
+
+    console.log("Account has been created")
+  }
+
+  if (loading) {
+    return (<main>
+      <h1>Loading....</h1>
+    </main>)
   }
 
   return (
@@ -12,9 +32,24 @@ const Register = () => {
       <div className="form-container">
         <h1>Register</h1>
         <form onSubmit={handelSubmit}>
-          <input type="text" name="username" id="username" placeholder="Enter username" />
-          <input type="email" name="email" id="email" placeholder="Enter email address" />
-          <input type="password" name="password" id="password" placeholder="Enter password" />
+          <input
+            onInput={(e) => setUsername(e.target.value)}
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Enter username" />
+          <input
+            onInput={(e) => setEmail(e.target.value)}
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Enter email address" />
+          <input
+            onInput={(e) => setPassword(e.target.value)}
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Enter password" />
           <button className='button primary-button'>Register</button>
         </form>
         <p>Have an account ? <Link to={"/login"}>Login.</Link></p>

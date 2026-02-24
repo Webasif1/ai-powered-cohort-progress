@@ -14,12 +14,13 @@ const {
   createPostController,
   getPostController,
   getPostDetailsController,
-  likePotController
+  likePotController,
+  getFeedController,
 } = require("../controllers/post.controller");
 /**
  * Import identifyUser from ../middlewares/auth.middleware
  */
-const identifyUser = require("../middlewares/auth.middleware")
+const identifyUser = require("../middlewares/auth.middleware");
 /**
  * Create postRouter
  */
@@ -29,7 +30,12 @@ const postRouter = express.Router();
  * Post/api/posts/
  * req.body = {caption, imageFile}
  */
-postRouter.post("/", upload.single("image"), identifyUser, createPostController);
+postRouter.post(
+  "/",
+  upload.single("image"),
+  identifyUser,
+  createPostController,
+);
 
 /**
  * Get /api/posts/ [Protected]
@@ -46,6 +52,13 @@ postRouter.get("/details/:postId", identifyUser, getPostDetailsController);
  * Like post with the id provided in the request params
  */
 postRouter.post("/like/:postId", identifyUser, likePotController);
+
+/**
+ * @route Get /api/posts/feed
+ * @description get all the post created in DB
+ * @access private
+ */
+postRouter.get("/feed", identifyUser, getFeedController);
 
 /**module.exports = postRouter */
 module.exports = postRouter;

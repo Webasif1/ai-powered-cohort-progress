@@ -56,7 +56,7 @@ async function getPostController(req, res) {
 
 /**
  * getPostDetails
-*/
+ */
 async function getPostDetailsController(req, res) {
   const userId = req.user.id;
   const postId = req.params.postId;
@@ -85,25 +85,37 @@ async function getPostDetailsController(req, res) {
  * likePotController
  */
 async function likePotController(req, res) {
- const username = req.user.username
- const postId = req.params.postId
+  const username = req.user.username;
+  const postId = req.params.postId;
 
- const post = await postModel.findById(postId)
- if(!post){
-  return res.status(404).json({
-    message: "Post not found"
-  })
- }
+  const post = await postModel.findById(postId);
+  if (!post) {
+    return res.status(404).json({
+      message: "Post not found",
+    });
+  }
 
- const like = await likeModel.create({
-  post: postId,
-  user:username
- })
+  const like = await likeModel.create({
+    post: postId,
+    user: username,
+  });
 
- res.status(200).json({
-  message: "Post liked successfully",
-  like
- })
+  res.status(200).json({
+    message: "Post liked successfully",
+    like,
+  });
+}
+
+/**
+ * getFeedController
+ */
+async function getFeedController(req, res) {
+  const posts = await postModel.find().populate("user");
+
+  res.status(200).json({
+    message: "post fetch successfully",
+    posts,
+  });
 }
 
 /**module.exports = createPostController */
@@ -112,4 +124,5 @@ module.exports = {
   getPostController,
   getPostDetailsController,
   likePotController,
+  getFeedController,
 };

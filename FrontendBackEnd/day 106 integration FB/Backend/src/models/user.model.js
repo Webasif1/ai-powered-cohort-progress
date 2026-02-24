@@ -1,44 +1,48 @@
 /**Require mongoose */
-const mongoose = require("mongoose")
-
+const mongoose = require("mongoose");
 
 /**User Schema */
 
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: [ true, "Username is required"],
-    unique: [true, "Username must be unique"]
+    required: [true, "Username is required"],
+    unique: [true, "Username must be unique"],
   },
   email: {
     type: String,
     required: [true, "Email is required"],
-    unique: [true, "Email must be unique"]
+    unique: [true, "Email must be unique"],
   },
   password: {
     type: String,
-    required: [true, "Password is required"]
+    required: [true, "Password is required"],
+    select: false,
   },
   bio: {
     type: String,
-    default: ""
+    default: "",
   },
   profilePicture: {
     type: String,
-    default: "https://ik.imagekit.io/webasifdotio/user_image.jpg"
+    default: "https://ik.imagekit.io/webasifdotio/user_image.jpg",
   },
-  followers:[{
-    type:mongoose.Schema.Types.ObjectId,
-    ref: "users"
-  }],
-  following:[{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "users"
-  }]
-})
+  followers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    },
+  ],
+  following: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    },
+  ],
+});
 
 /**Create user model */
-const userModel = mongoose.model("User", userSchema)
+const userModel = mongoose.model("user", userSchema);
 
 /**Export User model */
-module.exports= userModel
+module.exports = userModel;

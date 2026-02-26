@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 /**Require crypto */
 const crypto = require("crypto");
 /**Require user model */
-const userModel = require("../../../../day 97 BackEnd B/src/models/user.model");
+const userModel = require("../models/user.model");
 
 /**Register logic */
 async function registerController(req, res) {

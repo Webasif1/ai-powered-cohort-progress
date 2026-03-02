@@ -49,53 +49,59 @@ async function authController(req, res) {
   });
 }
 
-async function loginController(req, res){
-  const {username, email, password} = req.body;
+async function loginController(req, res) {
+  const { username, email, password } = req.body;
 
   const user = await userModel.findOne({
-    $or:[
-      {username: username},
-      {email: email}
-    ]
-  })
+    $or: [{ username: username }, { email: email }],
+  });
 
-  if(!user){
-    return res.status(404).json({
-      message: "User not found"
-    })
+  if (!user) {
+    return res.status(401).json({
+      message: "Invalid credentials",
+    });
   }
 
-  const isPasswordValid = await bcrypt.compare(password, user.password)
+  const isPasswordValid = await bcrypt.compare(password, user.password);
 
-  if(!isPasswordValid){
+  if (!isPasswordValid) {
     return res.status(401).json({
-      message: "Invalid password"
-    })
+      message: "Invalid credentials",
+    });
   }
 
   const token = jwt.sign(
     {
-      id:user._id,
-      username:user.username
+      id: user._id,
+      username: user.username,
     },
     process.env.JWT_SECRET,
-    {expiresIn: "3d"}
-  )
+    { expiresIn: "3d" },
+  );
 
-  res.cookie("token", token)
+  res.cookie("token", token);
 
   res.status(200).json({
     message: "User logged in successfully",
-    user:{
+    user: {
       username: user.username,
       email: user.email,
       bio: user.bio,
-      profileImage: user.profileImage
-    }
-  })
+      profileImage: user.profileImage,
+    },
+  });
 }
 
+async function getMeController(req, res) {
+  const user = await userModel.findById(req.user.id);
+
+  res.status(200).json({
+    message: "User fetched successfully",
+    user,
+  });
+}
 module.exports = {
   authController,
-  loginController
+  loginController,
+  getMeController,
 };

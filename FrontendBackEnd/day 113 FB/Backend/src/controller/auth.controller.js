@@ -2,6 +2,7 @@ const userModel = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const blacklistModel = require("../models/blacklist.model");
+const redis = require("../config/cache")
 
 async function authController(req, res) {
   const { username, email, password, bio, profileImage } = req.body;
@@ -109,19 +110,14 @@ async function logoutController(req, res) {
 
   res.clearCookie("token");
 
-  await blacklistModel.create({
-    token,
-  });
+  //** use mongoose to store data
+  // await blacklistModel.create({
+  //   token,
+  // });
 
-  const isTokenBlacklisted = await blacklistModel.findOne({
-    token
-  })
+  //**use redis to store data */
+  await redis.set(token,Date.now().toString(), "EX", 60 * 60)
 
-  if(isTokenBlacklisted){
-    return res.status(401).json({
-      message: "Invalid Token"
-    })
-  }
 
   res.status(200).json({
     message: "logout successfully.",

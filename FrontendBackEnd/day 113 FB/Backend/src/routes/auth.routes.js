@@ -14,6 +14,6 @@ const { authUser } = require("../middleware/auth.middleware");
 authRouter.post("/register", authController);
 authRouter.post("/login", loginController);
 authRouter.get("/get-me", authUser, getMeController);
-authRouter.get("/logout", logoutController)
+authRouter.get("/logout",authUser, logoutController)
 
 module.exports = authRouter;

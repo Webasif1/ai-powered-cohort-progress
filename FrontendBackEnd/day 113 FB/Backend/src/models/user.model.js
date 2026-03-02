@@ -1,30 +1,30 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: [true, " Username is required"],
-    unique: [true, "Username Should me unique"]
+    unique: [true, "Username Should me unique"],
   },
   email: {
     type: String,
     required: [true, " Email is required"],
-    unique: [true, "Email Should me unique"]
+    unique: [true, "Email Should me unique"],
   },
   password: {
     type: String,
-    required: [true, "Password is required"]
+    required: [true, "Password is required"],
   },
   bio: {
     type: String,
-    default: ""
+    default: "",
   },
   profileImage: {
     type: String,
-    default: "https://ik.imagekit.io/webasifdotio/user_image.jpg"
-  }
-})
+    default: "https://ik.imagekit.io/webasifdotio/user_image.jpg",
+  },
+});
 
-const userModel = mongoose.model("users", userSchema)
+const userModel = mongoose.model("users", userSchema);
 
-module.exports = userModel
+module.exports = userModel;

@@ -12,7 +12,9 @@ app.use(cors({
 }))
 
 const authRouter = require("./routes/auth.routes")
+const songsRouter = require("./routes/song.routes")
 
 app.use("/api/auth", authRouter)
+app.use("/api/songs", songsRouter )
 
 module.exports = app

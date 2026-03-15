@@ -4,6 +4,7 @@ import { ChatMistralAI } from "@langchain/mistralai";
 import { HumanMessage, tool, createAgent } from "langchain";
 import { sendEmail } from "./mailer.service.js";
 import * as z from "zod";
+import { fetchInformation } from "./tavily.service.js";
 
 const messages = [];
 
@@ -14,6 +15,18 @@ const emailTool = tool(sendEmail, {
     to: z.string().describe("The recipient's email address"),
     html: z.string().describe("The HTML content of the email"),
     subject: z.string().describe("The subject of the email"),
+  }),
+});
+
+const newsTool = tool(fetchInformation, {
+  name: "newsTool",
+  description: "Use this tool to fetch new from internet",
+  schema: z.object({
+    question: z
+      .string()
+      .describe(
+        "Search the internet for current events, news, or information that may not be in the model's knowledge.",
+      ),
   }),
 });
 
@@ -50,17 +63,16 @@ const model = new ChatMistralAI({
 
 const agent = createAgent({
   model,
-  tools: [emailTool],
+  tools: [emailTool,newsTool],
 });
 
 while (true) {
   const userInput = await rl.question("You: ");
   messages.push(new HumanMessage(userInput));
   const response = await agent.invoke({
-    messages: [{ role: "user", content: "What is my name?" }],
+    messages,
   });
-  messages.push(response);
+  messages.push(response.messages[response.messages.length - 1]);
   console.log(response.messages[response.messages.length - 1].text);
 }
-// const response = await model.invoke("What is the capital of Bangladesh")
-
+rl.close();

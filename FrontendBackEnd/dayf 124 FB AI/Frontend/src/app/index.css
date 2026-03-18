@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+
+.input_area::-webkit-scrollbar {
+  display: none;
+}
+.chat_area::-webkit-scrollbar {
+  display: none;
+}

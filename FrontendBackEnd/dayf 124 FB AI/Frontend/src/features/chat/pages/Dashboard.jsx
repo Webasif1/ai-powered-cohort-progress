@@ -1,19 +1,23 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useChat } from '../hooks/useChat'
+import Sidebar from '../Components/Sidebar'
+import ChatArea from '../Components/ChatArea'
 
 const Dashboard = () => {
   const chat = useChat()
 
-  const { user } = useSelector(state => state.auth)
 
-  console.log(user)
+
 
   useEffect(() => {
     chat.initializeSocketConnection()
   }, [])
   return (
-    <div>Dashboard</div>
+    <div className="flex h-screen bg-[#24130a] text-gray-200 overflow-hidden">
+      <Sidebar/>
+      <ChatArea/>
+    </div>
   )
 }
 

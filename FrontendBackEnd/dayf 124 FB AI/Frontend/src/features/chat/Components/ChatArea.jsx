@@ -3,6 +3,7 @@ import Message from "./Message";
 import ChatInput from "./ChatInput";
 import { useSelector } from "react-redux";
 
+
 export default function ChatArea() {
   const chats = useSelector((state) => state.chat.chats)
   const currentChatId = useSelector((state) => state.chat.currentChatId)

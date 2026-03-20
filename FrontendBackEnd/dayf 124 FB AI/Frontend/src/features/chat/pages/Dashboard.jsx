@@ -7,16 +7,14 @@ import ChatArea from '../Components/ChatArea'
 const Dashboard = () => {
   const chat = useChat()
 
-
-
-
   useEffect(() => {
-    chat.initializeSocketConnection()
+    chat.initializeSocketConnection();
+    chat.handleGetChats()
   }, [])
   return (
     <div className="flex h-screen bg-[#24130a] text-gray-200 overflow-hidden">
-      <Sidebar/>
-      <ChatArea/>
+      <Sidebar />
+      <ChatArea />
     </div>
   )
 }

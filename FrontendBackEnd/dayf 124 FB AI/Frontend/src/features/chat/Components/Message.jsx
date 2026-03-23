@@ -11,7 +11,7 @@ export default function Message({ type, text }) {
       <div
         className={`max-w-[40vw] w-fit p-4 rounded-xl ${isUser
           ? "bg-[#5A2E1B] text-white"
-          : "bg-[#2D1A0F] text-gray-200"
+          : "bg-[#2D1A0F] text-white"
           }`}
       >
 

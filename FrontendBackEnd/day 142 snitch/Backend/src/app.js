@@ -1,11 +1,9 @@
-import { config } from "dotenv"
 import express from "express"
 import cookieParser from "cookie-parser"
 import morgan from "morgan"
 
 
 const app = express()
-config()
 
 app.use(morgan("dev"))
 app.use(express.json())

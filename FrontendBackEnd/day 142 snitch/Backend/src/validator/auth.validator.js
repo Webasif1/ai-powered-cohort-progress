@@ -18,7 +18,7 @@ export const validateRegister = [
   body("password")
     .isLength({ min: 6 })
     .withMessage("Password must be at list 6 character long"),
-  body("fullName").isEmpty().withMessage("Full name is required"),
+  body("fullName").notEmpty().withMessage("Full name is required"),
 
   validateRequest,
 ];

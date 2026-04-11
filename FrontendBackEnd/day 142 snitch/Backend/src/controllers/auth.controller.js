@@ -5,7 +5,7 @@ import { config } from "../config/config.js";
 async function sendTokenResponse(user, res, message) {
   const token = jwt.sign(
     {
-      id: user_id,
+      id: user._id,
     },
     config.JWT_SECRET,
     { expiresIn: "7d" },

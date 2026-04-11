@@ -30,4 +30,6 @@ export function useAuth() {
       dispatch(setLoading(false));
     }
   }
+
+  return { handelRegister, handelLogin };
 }

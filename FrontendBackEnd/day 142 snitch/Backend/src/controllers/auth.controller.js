@@ -40,14 +40,13 @@ export async function registerController(req, res) {
         success: false,
         error: "User already exist",
       });
-
-      const user = await userModel.create({
-        email,
-        contact,
-        password,
-        fullName,
-      });
     }
+    const user = await userModel.create({
+      email,
+      contact,
+      password,
+      fullName,
+    });
 
     await sendTokenResponse(user, res, "User Register Successfully");
   } catch (err) {

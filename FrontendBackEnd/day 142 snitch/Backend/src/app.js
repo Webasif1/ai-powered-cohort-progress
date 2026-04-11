@@ -10,7 +10,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 
-app.get("/", (req,res) =>{
+app.get("/", (_req,res) =>{
   res.send("The server is ok")
 })
 

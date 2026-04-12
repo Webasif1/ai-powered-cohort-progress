@@ -43,7 +43,7 @@ export function useAuth() {
     }
   }
 
-  async function getMe() {
+  async function handleGetMe() {
     try {
       dispatch(setLoading(true));
       const res = await getMe();
@@ -56,5 +56,5 @@ export function useAuth() {
       dispatch(setLoading(false));
     }
   }
-  return { handelRegister, handelLogin, getMe };
+  return { handelRegister, handelLogin, handleGetMe };
 }

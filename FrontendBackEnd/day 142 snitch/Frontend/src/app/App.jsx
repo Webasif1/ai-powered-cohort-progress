@@ -5,10 +5,9 @@ import "./App.css";
 import { useAuth } from "../features/auth/hooks/useAuth";
 
 const App = () => {
-  const { getMe } = useAuth();
-  console.log(getMe.res)
+  const { handleGetMe } = useAuth();
   useEffect(() => {
-    getMe();
+    handleGetMe();
   }, []);
   return <RouterProvider router={router} />;
 };

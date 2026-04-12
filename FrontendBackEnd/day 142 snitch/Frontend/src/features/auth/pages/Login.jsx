@@ -1,35 +1,30 @@
-import React, { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
 
-const Register = () => {
-  const { handelRegister } = useAuth();
+const Login = () => {
+  const { handelLogin } = useAuth();
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    contact: "",
+    identifier: "",
     password: "",
-    isSeller: false,
   });
   const [showPassword, setShowPassword] = useState(false);
-  const { loading } = useSelector((state) => state.auth);
-  const { user } = useSelector((state) => state.auth);
+  const { loading, user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSellerChange = (value) => {
-    setFormData((prev) => ({ ...prev, isSeller: value }));
-  };
-
-  console.log(user);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await handelRegister(formData);
+    const isEmail = formData.identifier.includes("@");
+    await handelLogin({
+      email: isEmail ? formData.identifier : undefined,
+      contact: !isEmail ? formData.identifier : undefined,
+      password: formData.password,
+    });
     navigate("/");
   };
 
@@ -88,15 +83,13 @@ const Register = () => {
             className="text-4xl font-black leading-tight mb-3"
             style={{ color: "#1e160f" }}
           >
-            Discover Your{" "}
-            <span style={{ color: "#b8915a" }}>Glow.</span>
+            Welcome Back to <span style={{ color: "#b8915a" }}>Zewar.</span>
           </h2>
           <p
             className="text-base font-medium leading-relaxed"
             style={{ color: "rgba(30,22,15,0.72)" }}
           >
-            Join a community of beauty lovers who trust Zewar for premium
-            cosmetics, skincare rituals, and self-care essentials.
+            Your premium cosmetics, skincare rituals, and self-care essentials await. Sign in to continue your journey.
           </p>
           {/* trust badges */}
           <div className="flex items-center gap-6 mt-6">
@@ -154,33 +147,32 @@ const Register = () => {
               className="text-3xl font-black mb-2 tracking-tight"
               style={{ color: "#1e160f" }}
             >
-              Create your account
+              Sign in to your account
             </h1>
             <p className="text-sm" style={{ color: "#8a7360" }}>
-              Already have an account?{" "}
+              Don't have an account?{" "}
               <Link
-                to="/login"
+                to="/register"
                 className="font-semibold transition-colors"
                 style={{ color: "#b8915a" }}
                 onMouseEnter={(e) => (e.target.style.color = "#8a6a35")}
                 onMouseLeave={(e) => (e.target.style.color = "#b8915a")}
               >
-                Sign in
+                Sign up
               </Link>
             </p>
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
-
-            {/* Full Name */}
+            {/* Email or Contact Number */}
             <div className="group">
               <label
-                htmlFor="fullName"
+                htmlFor="identifier"
                 className="block text-xs font-semibold uppercase tracking-widest mb-2"
                 style={{ color: "#8a7360" }}
               >
-                Full Name
+                Email or Contact Number
               </label>
               <div className="relative">
                 <span
@@ -192,101 +184,13 @@ const Register = () => {
                   </svg>
                 </span>
                 <input
-                  id="fullName"
-                  name="fullName"
+                  id="identifier"
+                  name="identifier"
                   type="text"
                   required
-                  value={formData.fullName}
+                  value={formData.identifier}
                   onChange={handleChange}
-                  placeholder="Jane Doe"
-                  className="w-full rounded-xl pl-11 pr-4 py-3.5 text-sm outline-none transition-all duration-200"
-                  style={{
-                    background: "#f5ede4",
-                    border: "1.5px solid #e8d5c0",
-                    color: "#1e160f",
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.borderColor = "#b8915a";
-                    e.target.style.boxShadow = "0 0 0 3px rgba(184,145,90,0.15)";
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.borderColor = "#e8d5c0";
-                    e.target.style.boxShadow = "none";
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Email */}
-            <div className="group">
-              <label
-                htmlFor="email"
-                className="block text-xs font-semibold uppercase tracking-widest mb-2"
-                style={{ color: "#8a7360" }}
-              >
-                Email Address
-              </label>
-              <div className="relative">
-                <span
-                  className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"
-                  style={{ color: "#c4a882" }}
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                </span>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="jane@example.com"
-                  className="w-full rounded-xl pl-11 pr-4 py-3.5 text-sm outline-none transition-all duration-200"
-                  style={{
-                    background: "#f5ede4",
-                    border: "1.5px solid #e8d5c0",
-                    color: "#1e160f",
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.borderColor = "#b8915a";
-                    e.target.style.boxShadow = "0 0 0 3px rgba(184,145,90,0.15)";
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.borderColor = "#e8d5c0";
-                    e.target.style.boxShadow = "none";
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Contact */}
-            <div className="group">
-              <label
-                htmlFor="contact"
-                className="block text-xs font-semibold uppercase tracking-widest mb-2"
-                style={{ color: "#8a7360" }}
-              >
-                Contact Number
-              </label>
-              <div className="relative">
-                <span
-                  className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"
-                  style={{ color: "#c4a882" }}
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                </span>
-                <input
-                  id="contact"
-                  name="contact"
-                  type="tel"
-                  required
-                  value={formData.contact}
-                  onChange={handleChange}
-                  placeholder="+880 1XX XXX XXXX"
+                  placeholder="jane@example.com or +880 1XX XXX XXXX"
                   className="w-full rounded-xl pl-11 pr-4 py-3.5 text-sm outline-none transition-all duration-200"
                   style={{
                     background: "#f5ede4",
@@ -309,10 +213,18 @@ const Register = () => {
             <div className="group">
               <label
                 htmlFor="password"
-                className="block text-xs font-semibold uppercase tracking-widest mb-2"
+                className="block text-xs font-semibold uppercase tracking-widest mb-2 flex justify-between"
                 style={{ color: "#8a7360" }}
               >
-                Password
+                <span>Password</span>
+                <span 
+                  className="cursor-pointer transition-colors normal-case" 
+                  style={{ color: "#b8915a" }}
+                  onMouseEnter={(e) => (e.target.style.color = "#8a6a35")}
+                  onMouseLeave={(e) => (e.target.style.color = "#b8915a")}
+                >
+                  Forgot password?
+                </span>
               </label>
               <div className="relative">
                 <span
@@ -368,107 +280,12 @@ const Register = () => {
               </div>
             </div>
 
-            {/* isSeller Radio */}
-            <div>
-              <label
-                className="block text-xs font-semibold uppercase tracking-widest mb-1"
-                style={{ color: "#8a7360" }}
-              >
-                Account Type
-              </label>
-              <p className="text-[11px] mb-3" style={{ color: "#a08872" }}>
-                Note: Check 'Seller' if you want to become a seller.
-              </p>
-              <div className="flex gap-4">
-                {/* Buyer */}
-                <label
-                  className="flex items-center gap-2 cursor-pointer select-none"
-                  htmlFor="isSeller-buyer"
-                >
-                  <div className="relative flex items-center justify-center">
-                    <input
-                      id="isSeller-buyer"
-                      type="radio"
-                      name="isSeller"
-                      checked={formData.isSeller === false}
-                      onChange={() => handleSellerChange(false)}
-                      className="sr-only"
-                    />
-                    <div
-                      className="w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-200"
-                      style={{
-                        borderColor: formData.isSeller === false ? "#b8915a" : "#c4a882",
-                        background: formData.isSeller === false ? "#b8915a" : "transparent",
-                      }}
-                    >
-                      {formData.isSeller === false && (
-                        <div className="w-2 h-2 rounded-full bg-white" />
-                      )}
-                    </div>
-                  </div>
-                  <span className="text-sm font-medium" style={{ color: "#3d2c1e" }}>
-                    Buyer
-                  </span>
-                </label>
-
-                {/* Seller */}
-                <label
-                  className="flex items-center gap-2 cursor-pointer select-none"
-                  htmlFor="isSeller-seller"
-                >
-                  <div className="relative flex items-center justify-center">
-                    <input
-                      id="isSeller-seller"
-                      type="radio"
-                      name="isSeller"
-                      checked={formData.isSeller === true}
-                      onChange={() => handleSellerChange(true)}
-                      className="sr-only"
-                    />
-                    <div
-                      className="w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-200"
-                      style={{
-                        borderColor: formData.isSeller === true ? "#b8915a" : "#c4a882",
-                        background: formData.isSeller === true ? "#b8915a" : "transparent",
-                      }}
-                    >
-                      {formData.isSeller === true && (
-                        <div className="w-2 h-2 rounded-full bg-white" />
-                      )}
-                    </div>
-                  </div>
-                  <span className="text-sm font-medium" style={{ color: "#3d2c1e" }}>
-                    Seller
-                  </span>
-                </label>
-              </div>
-            </div>
-
-            {/* Terms */}
-            <p className="text-xs leading-relaxed" style={{ color: "#a08872" }}>
-              By creating an account, you agree to our{" "}
-              <span
-                className="font-medium cursor-pointer transition-colors"
-                style={{ color: "#b8915a" }}
-              >
-                Terms of Service
-              </span>{" "}
-              and{" "}
-              <span
-                className="font-medium cursor-pointer transition-colors"
-                style={{ color: "#b8915a" }}
-              >
-                Privacy Policy
-              </span>
-              .
-            </p>
-
             {/* Submit */}
             <button
-              id="register-submit-btn"
+              id="login-submit-btn"
               type="submit"
               disabled={loading}
-              className="w-full font-black text-sm uppercase tracking-widest rounded-xl py-4 transition-all duration-200 flex items-center justify-center gap-2"
+              className="w-full font-black text-sm uppercase tracking-widest rounded-xl py-4 transition-all duration-200 flex items-center justify-center gap-2 mt-4"
               style={{
                 background: loading ? "#d4b896" : "#b8915a",
                 color: "#fdf8f3",
@@ -489,10 +306,10 @@ const Register = () => {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                   </svg>
-                  Creating account...
+                  Signing in...
                 </>
               ) : (
-                "Create Account"
+                "Sign In"
               )}
             </button>
           </form>
@@ -512,7 +329,7 @@ const Register = () => {
           {/* Social buttons — Google only */}
           <div className="mt-5">
             <button
-              id="register-google-btn"
+              id="login-google-btn"
               type="button"
               className="w-full flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-medium transition-all duration-200"
               style={{
@@ -544,4 +361,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

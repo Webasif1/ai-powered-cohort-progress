@@ -26,9 +26,9 @@ export const register = async ({
   }
 };
 
-export const login = async ({ email, password }) => {
+export const login = async ({ email, contact, password }) => {
   try {
-    const res = await authApi.post("/login", { email, password });
+    const res = await authApi.post("/login", { email, contact, password });
     return res.data;
   } catch (error) {
     throw error;

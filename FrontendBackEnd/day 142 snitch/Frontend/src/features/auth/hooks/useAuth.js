@@ -31,10 +31,10 @@ export function useAuth() {
     }
   }
 
-  async function handelLogin({ email, password }) {
+  async function handelLogin({ email, contact, password }) {
     try {
       dispatch(setLoading(true));
-      const res = await login({ email, password });
+      const res = await login({ email, contact, password });
       dispatch(setUser(res.user));
     } catch (error) {
       dispatch(setError(error.response?.data?.message || "Login failed"));

@@ -83,3 +83,25 @@ export async function loginController(req, res) {
     return res.status(500).json({ message: "Server error" });
   }
 }
+
+export async function getMeController(req, res) {
+  const id = req.user.id;
+  try {
+    const user = await userModel.findById(id);
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+        success: false,
+        error: "User not found",
+      });
+    }
+    return res.status(200).json({
+      message: "Successfully user fetched",
+      success: true,
+      user,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Server error" });
+  }
+}

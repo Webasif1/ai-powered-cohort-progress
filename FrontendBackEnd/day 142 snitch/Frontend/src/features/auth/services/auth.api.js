@@ -34,3 +34,12 @@ export const login = async ({ email, contact, password }) => {
     throw error;
   }
 };
+
+export const getMe = async () => {
+  try {
+    const res = await authApi.get("/get-me");
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};

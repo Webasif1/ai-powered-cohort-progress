@@ -25,7 +25,7 @@ const Login = () => {
       contact: !isEmail ? formData.identifier : undefined,
       password: formData.password,
     });
-    // navigate("/");
+    navigate("/");
   };
   console.log(user)
 

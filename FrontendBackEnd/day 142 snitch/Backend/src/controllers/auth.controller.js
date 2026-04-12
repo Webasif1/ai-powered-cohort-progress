@@ -27,7 +27,7 @@ async function sendTokenResponse(user, res, message) {
 }
 
 export async function registerController(req, res) {
-  const { email, contact, password, fullName } = req.body;
+  const { email, contact, password, fullName, isSeller } = req.body;
 
   try {
     const isUsrAlreadyExist = await userModel.findOne({
@@ -46,9 +46,38 @@ export async function registerController(req, res) {
       contact,
       password,
       fullName,
+      role: isSeller ? "seller" : "buyer",
     });
 
     await sendTokenResponse(user, res, "User Register Successfully");
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
+
+export async function loginController(req, res) {
+  const { email, contact, password } = req.body;
+  try {
+    const user = await userModel.findOne({
+      $or: [{ email }, { contact }],
+    });
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+        success: false,
+        error: "User not found",
+      });
+    }
+    const isPasswordValid = await user.comparePassword(password);
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        message: "Invalid password",
+        success: false,
+        error: "Invalid password",
+      });
+    }
+    await sendTokenResponse(user, res, "User Login Successfully");
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Server error" });

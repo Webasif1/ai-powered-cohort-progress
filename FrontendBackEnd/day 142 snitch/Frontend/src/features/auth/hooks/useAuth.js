@@ -5,10 +5,22 @@ import { setUser, setLoading, setError } from "../state/auth.slice";
 export function useAuth() {
   const dispatch = useDispatch();
 
-  async function handelRegister({ email, contact, password, fullName }) {
+  async function handelRegister({
+    email,
+    contact,
+    password,
+    fullName,
+    isSeller = false,
+  }) {
     try {
       dispatch(setLoading(true));
-      const res = await register({ email, contact, password, fullName });
+      const res = await register({
+        email,
+        contact,
+        password,
+        fullName,
+        isSeller,
+      });
       dispatch(setUser(res.user));
     } catch (error) {
       dispatch(

@@ -25,8 +25,9 @@ const Login = () => {
       contact: !isEmail ? formData.identifier : undefined,
       password: formData.password,
     });
-    navigate("/");
+    // navigate("/");
   };
+  console.log(user)
 
   if (!loading && user) {
     return <Navigate to="/" />;
@@ -217,8 +218,8 @@ const Login = () => {
                 style={{ color: "#8a7360" }}
               >
                 <span>Password</span>
-                <span 
-                  className="cursor-pointer transition-colors normal-case" 
+                <span
+                  className="cursor-pointer transition-colors normal-case"
                   style={{ color: "#b8915a" }}
                   onMouseEnter={(e) => (e.target.style.color = "#8a6a35")}
                   onMouseLeave={(e) => (e.target.style.color = "#b8915a")}

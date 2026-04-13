@@ -1,4 +1,5 @@
 import { Router } from "express";
+import passport from "passport";
 import { validateRegister } from "../validator/auth.validator.js";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 import {

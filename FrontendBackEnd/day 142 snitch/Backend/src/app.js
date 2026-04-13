@@ -11,11 +11,6 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-app.get("/", (_req, res) => {
-  res.send("The server is ok");
-});
-
 app.use(passport.initialize());
 
 passport.use(
@@ -23,13 +18,17 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/callback",
+      callbackURL: "/api/auth/google/callback",
     },
     (accessToken, refreshToken, profile, done) => {
       return done(null, profile);
     },
   ),
 );
+
+app.get("/", (_req, res) => {
+  res.send("The server is ok");
+});
 
 app.use("/api/auth", authRouter);
 

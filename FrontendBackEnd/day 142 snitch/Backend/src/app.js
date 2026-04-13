@@ -31,20 +31,6 @@ passport.use(
   ),
 );
 
-app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] }),
-);
-
-app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/", session: false }),
-  (req, res) => {
-    console.log(req.user);
-    res.send("Google authentication successful");
-  },
-);
-
 app.use("/api/auth", authRouter);
 
 export default app;

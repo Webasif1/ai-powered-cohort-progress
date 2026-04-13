@@ -105,3 +105,29 @@ export async function getMeController(req, res) {
     return res.status(500).json({ message: "Server error" });
   }
 }
+
+export async function googleCallback(req, res) {
+  try {
+    const { id, displayName, emails, photos } = req.user;
+    const email = emails[0].value;
+    const photo = photos[0].value;
+    const fullName = displayName;
+    let user = await userModel.findOne({ email });
+
+    if (!user) {
+      user = await userModel.create({
+        email,
+        fullName,
+        profileImage: photo,
+        googleId: id,
+        contact: null,
+        role: "buyer",
+      });
+    }
+    await sendTokenResponse(user, res, "User Login Successfully");
+    res.redirect("http://localhost:5173/");
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}

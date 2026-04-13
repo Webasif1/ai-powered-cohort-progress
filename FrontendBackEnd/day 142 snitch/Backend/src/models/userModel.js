@@ -9,12 +9,22 @@ const userSchema = mongoose.Schema({
   },
   contact: {
     type: Number,
-    require: [true, "Contact number is require"],
+    require: [
+      function () {
+        return !this.googleId;
+      },
+      "Contact number is require",
+    ],
     unique: [true, "Contact number should be unique"],
   },
   password: {
     type: String,
-    require: [true, "Password is require"],
+    require: [
+      function () {
+        return !this.googleId;
+      },
+      "Password is require",
+    ],
   },
   fullName: {
     type: String,
@@ -24,6 +34,12 @@ const userSchema = mongoose.Schema({
     type: String,
     enum: ["buyer", "seller"],
     default: "buyer",
+  },
+  googleId: {
+    type: String,
+  },
+  profileImage: {
+    type: String,
   },
 });
 

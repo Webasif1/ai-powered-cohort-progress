@@ -124,7 +124,16 @@ export async function googleCallback(req, res) {
         role: "buyer",
       });
     }
-    await sendTokenResponse(user, res, "User Login Successfully");
+
+    const token = jwt.sign(
+      {
+        id: user._id,
+      },
+      config.JWT_SECRET,
+      { expiresIn: "7d" },
+    );
+    res.cookie("token", token);
+
     res.redirect("http://localhost:5173/");
   } catch (error) {
     console.log(error);

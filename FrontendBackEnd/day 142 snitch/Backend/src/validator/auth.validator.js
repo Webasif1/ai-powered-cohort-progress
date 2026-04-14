@@ -19,7 +19,7 @@ export const validateRegister = [
     .isLength({ min: 6 })
     .withMessage("Password must be at list 6 character long"),
   body("fullName").notEmpty().withMessage("Full name is required"),
-  body("isSeller").isBoolean().withMessage("isSeller must be a boolean"),
+  body("role").optional().isIn(["buyer", "seller"]).withMessage("Invalid role"),
 
   validateRequest,
 ];

@@ -2,7 +2,7 @@ import produntModel from "../models/product.models.js";
 import { uploadFile } from "../services/store.service.js";
 
 export async function createProductController(req, res) {
-  const { title, description, price } = req.body;
+  const { title, description, priceAmount, priceCurrency } = req.body;
   const seller = req.user;
   const images = await Promise.all(
     req.files.map(async (file) => {
@@ -12,16 +12,17 @@ export async function createProductController(req, res) {
       });
     }),
   );
+  console.log(images);
   try {
     const product = await produntModel.create({
       title,
       description,
       price: {
-        amount: price,
-        currency: "INR",
+        amount: priceAmount,
+        currency: priceCurrency || "BDT",
       },
-      seller: seller._id,
       images,
+      seller: seller._id,
     });
     return res
       .status(201)

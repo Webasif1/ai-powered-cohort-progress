@@ -19,6 +19,9 @@ if (!process.env.GOOGLE_CLIENT_SECRET) {
 if (!process.env.NODE_ENV) {
   throw new Error("NODE_ENV is not defined in environment variable");
 }
+if (!process.env.IMAGEKIT_URI) {
+  throw new Error("IMAGEKIT_URI is not defined in environment variable");
+}
 
 export const config = {
   MONGO_URI: process.env.MONGO_URI,
@@ -26,4 +29,5 @@ export const config = {
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   NODE_ENV: process.env.NODE_ENV,
+  IMAGEKIT_URI: process.env.IMAGEKIT_URI,
 };

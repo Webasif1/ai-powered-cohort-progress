@@ -11,7 +11,8 @@ const Login = () => {
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-  const { loading, user } = useSelector((state) => state.auth);
+  const loading = useSelector((state) => state.auth.loading);
+  const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
 
   const handleChange = (e) => {

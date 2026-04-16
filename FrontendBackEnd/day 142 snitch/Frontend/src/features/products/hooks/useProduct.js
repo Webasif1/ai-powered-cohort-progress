@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux";
-import { createProduct, getSellerProducts } from "../services/productAPI";
+import { createProduct, getSellerProducts } from "../services/productAPI.js";
 import {
   setIsLoading,
   setError,
   setSellerProducts,
-} from "../state/product.slice";
+} from "../state/product.slice.js";
 
 export function useProduct() {
   const dispatch = useDispatch();

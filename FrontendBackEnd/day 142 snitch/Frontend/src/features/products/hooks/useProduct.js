@@ -1,6 +1,10 @@
 import { useDispatch } from "react-redux";
 import { createProduct } from "../services/productAPI";
-import { setIsLoading, setError, setProducts } from "../state/product.slice";
+import {
+  setIsLoading,
+  setError,
+  setSellerProducts,
+} from "../state/product.slice";
 
 export function useProduct() {
   const dispatch = useDispatch();
@@ -21,7 +25,7 @@ export function useProduct() {
         priceCurrency,
         images,
       });
-      dispatch(setProducts(res.product));
+      dispatch(setSellerProducts(res.product));
     } catch (error) {
       dispatch(
         setError(error.response?.data?.message || "Failed to create product"),

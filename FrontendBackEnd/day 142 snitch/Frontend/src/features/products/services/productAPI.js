@@ -10,10 +10,10 @@ export const createProduct = async ({
   description,
   priceAmount,
   priceCurrency,
-  images,
+  image,
 }) => {
   try {
-    const res = await productAPI.post("/create-product", {
+    const res = await productAPI.post("/", {
       title,
       description,
       priceAmount,

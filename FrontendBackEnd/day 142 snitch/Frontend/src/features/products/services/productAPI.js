@@ -10,7 +10,7 @@ export const createProduct = async ({
   description,
   priceAmount,
   priceCurrency,
-  image,
+  images,
 }) => {
   try {
     const res = await productAPI.post("/", {
@@ -20,6 +20,16 @@ export const createProduct = async ({
       priceCurrency,
       images,
     });
+    console.log(res);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getSellerProducts = async () => {
+  try {
+    const res = await productAPI.get("/seller");
     return res.data;
   } catch (error) {
     throw error;

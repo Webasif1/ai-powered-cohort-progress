@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { createProduct } from "../services/productAPI";
+import { createProduct, getSellerProducts } from "../services/productAPI";
 import {
   setIsLoading,
   setError,
@@ -34,5 +34,21 @@ export function useProduct() {
       dispatch(setIsLoading(false));
     }
   }
-  return { handleCreateProduct };
+
+  async function handleGerSellerProoducts() {
+    try {
+      dispatch(setIsLoading(true));
+      const res = await getSellerProducts();
+      dispatch(setSellerProducts(res.products));
+    } catch (error) {
+      dispatch(
+        setError(
+          error.response?.data?.message || "Failed to get seller products",
+        ),
+      );
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  }
+  return { handleCreateProduct, handleGerSellerProoducts };
 }

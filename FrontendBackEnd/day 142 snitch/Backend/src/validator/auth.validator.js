@@ -13,7 +13,7 @@ export const validateRegister = [
   body("contact")
     .notEmpty()
     .withMessage("Contact is required")
-    .isMobilePhone()
+    .isMobilePhone("bn-BD")
     .withMessage("Invalid phone number"),
   body("password")
     .isLength({ min: 6 })

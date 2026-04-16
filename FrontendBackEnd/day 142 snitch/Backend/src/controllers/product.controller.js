@@ -32,3 +32,14 @@ export async function createProductController(req, res) {
     return res.status(500).json({ message: "Internal server error" });
   }
 }
+
+export async function getSellerProductsController(req, res) {
+  const seller = req.user;
+  try {
+    const products = await produntModel.find({ seller: seller._id });
+    return res.status(200).json({ products });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}

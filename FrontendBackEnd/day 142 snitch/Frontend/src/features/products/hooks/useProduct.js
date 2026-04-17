@@ -9,22 +9,10 @@ import {
 export function useProduct() {
   const dispatch = useDispatch();
 
-  async function handleCreateProduct({
-    title,
-    description,
-    priceAmount,
-    priceCurrency,
-    images,
-  }) {
+  async function handleCreateProduct(formData) {
     try {
       dispatch(setIsLoading(true));
-      const res = await createProduct({
-        title,
-        description,
-        priceAmount,
-        priceCurrency,
-        images,
-      });
+      const res = await createProduct(formData);
       dispatch(setSellerProducts(res.product));
     } catch (error) {
       dispatch(
@@ -35,7 +23,7 @@ export function useProduct() {
     }
   }
 
-  async function handleGerSellerProoducts() {
+  async function handleGetSellerProoducts() {
     try {
       dispatch(setIsLoading(true));
       const res = await getSellerProducts();
@@ -50,5 +38,5 @@ export function useProduct() {
       dispatch(setIsLoading(false));
     }
   }
-  return { handleCreateProduct, handleGerSellerProoducts };
+  return { handleCreateProduct, handleGetSellerProoducts };
 }

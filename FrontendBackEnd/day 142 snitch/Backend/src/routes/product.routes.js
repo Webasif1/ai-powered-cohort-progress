@@ -19,8 +19,8 @@ const router = Router();
 router.post(
   "/",
   authenticateSeller,
-  productValidator,
   upload.array("images", 5),
+  productValidator,
   createProductController,
 );
 

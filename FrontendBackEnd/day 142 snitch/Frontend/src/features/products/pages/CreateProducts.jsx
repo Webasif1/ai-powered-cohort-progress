@@ -5,28 +5,30 @@ import { useNavigate } from 'react-router-dom'
 
 /* ─── colour tokens (same as Login / Register) ─── */
 const C = {
-  bg:          '#fdf8f3',
-  surface:     '#f5ede4',
-  border:      '#e8d5c0',
+  bg: '#fdf8f3',
+  surface: '#f5ede4',
+  border: '#e8d5c0',
   borderFocus: '#b8915a',
-  primary:     '#b8915a',
-  primaryHov:  '#a07848',
-  primaryLt:   '#d4b896',
-  textDark:    '#1e160f',
-  textMid:     '#8a7360',
-  textLight:   '#c4a882',
-  white:       '#fdf8f3',
-  danger:      '#c0392b',
-  shadow:      'rgba(184,145,90,0.18)',
+  primary: '#b8915a',
+  primaryHov: '#a07848',
+  primaryLt: '#d4b896',
+  textDark: '#1e160f',
+  textMid: '#8a7360',
+  textLight: '#c4a882',
+  white: '#fdf8f3',
+  danger: '#c0392b',
+  shadow: 'rgba(184,145,90,0.18)',
 }
 
 /* ─── tiny reusable bits ─── */
 const Label = ({ children, htmlFor }) => (
   <label
     htmlFor={htmlFor}
-    style={{ color: C.textMid, fontSize: 11, fontWeight: 700,
-             textTransform: 'uppercase', letterSpacing: '0.08em',
-             display: 'block', marginBottom: 6 }}
+    style={{
+      color: C.textMid, fontSize: 11, fontWeight: 700,
+      textTransform: 'uppercase', letterSpacing: '0.08em',
+      display: 'block', marginBottom: 6
+    }}
   >
     {children}
   </label>
@@ -42,7 +44,7 @@ const inputBase = {
 
 const useInputFocus = () => ({
   onFocus: e => { e.target.style.borderColor = C.borderFocus; e.target.style.boxShadow = `0 0 0 3px ${C.shadow}` },
-  onBlur:  e => { e.target.style.borderColor = C.border;      e.target.style.boxShadow = 'none' },
+  onBlur: e => { e.target.style.borderColor = C.border; e.target.style.boxShadow = 'none' },
 })
 
 const Input = ({ id, style, ...props }) => {
@@ -64,10 +66,12 @@ const Select = ({ id, children, style, ...props }) => {
       id={id}
       {...props}
       {...focus}
-      style={{ ...inputBase, appearance: 'none',
-               backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238a7360' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
-               backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center',
-               paddingRight: 36, cursor: 'pointer', ...style }}
+      style={{
+        ...inputBase, appearance: 'none',
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238a7360' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
+        backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center',
+        paddingRight: 36, cursor: 'pointer', ...style
+      }}
     >
       {children}
     </select>
@@ -84,8 +88,10 @@ const SectionCard = ({ title, children, style }) => (
     ...style,
   }}>
     {title && (
-      <h2 style={{ fontSize: 15, fontWeight: 800, color: C.textDark,
-                   margin: '0 0 18px 0', letterSpacing: '-0.01em' }}>
+      <h2 style={{
+        fontSize: 15, fontWeight: 800, color: C.textDark,
+        margin: '0 0 18px 0', letterSpacing: '-0.01em'
+      }}>
         {title}
       </h2>
     )}
@@ -100,25 +106,25 @@ const CreateProducts = () => {
   const navigate = useNavigate()
 
   /* form state */
-  const [title,           setTitle]           = useState('')
-  const [description,     setDescription]     = useState('')
-  const [category,        setCategory]        = useState('')
-  const [subCategory,     setSubCategory]     = useState('')
-  const [quantity,        setQuantity]        = useState('')
-  const [sku,             setSku]             = useState('')
-  const [sellingType,     setSellingType]     = useState('instore')
-  const [variants,        setVariants]        = useState([])
-  const [images,          setImages]          = useState([])          // array of File
-  const [imagePreviews,   setImagePreviews]   = useState([])
-  const [weight,          setWeight]          = useState('')
-  const [weightUnit,      setWeightUnit]      = useState('kg')
-  const [length,          setLength]          = useState('')
-  const [breadth,         setBreadth]         = useState('')
-  const [width,           setWidth]           = useState('')
-  const [priceAmount,     setPriceAmount]     = useState('')
-  const [comparePrice,    setComparePrice]    = useState('')
-  const [priceCurrency,   setPriceCurrency]   = useState('USD')
-  const [isDragging,      setIsDragging]      = useState(false)
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [category, setCategory] = useState('')
+  const [subCategory, setSubCategory] = useState('')
+  const [quantity, setQuantity] = useState('')
+  const [sku, setSku] = useState('')
+  const [sellingType, setSellingType] = useState('instore')
+  const [variants, setVariants] = useState([])
+  const [images, setImages] = useState([])          // array of File
+  const [imagePreviews, setImagePreviews] = useState([])
+  const [weight, setWeight] = useState('')
+  const [weightUnit, setWeightUnit] = useState('kg')
+  const [length, setLength] = useState('')
+  const [breadth, setBreadth] = useState('')
+  const [width, setWidth] = useState('')
+  const [priceAmount, setPriceAmount] = useState('')
+  const [comparePrice, setComparePrice] = useState('')
+  const [priceCurrency, setPriceCurrency] = useState('USD')
+  const [isDragging, setIsDragging] = useState(false)
   const fileInputRef = useRef(null)
 
   /* ── image handling ── */
@@ -152,7 +158,30 @@ const CreateProducts = () => {
   /* ── submit ── */
   const handleSubmit = e => {
     e.preventDefault()
-    handleCreateProduct({ title, description, priceAmount, priceCurrency, images })
+    
+    const formData = new FormData()
+    formData.append('title', title)
+    formData.append('description', description)
+    formData.append('category', category)
+    formData.append('subCategory', subCategory)
+    formData.append('quantity', quantity)
+    formData.append('sku', sku)
+    formData.append('sellingType', sellingType)
+    formData.append('weight', weight)
+    formData.append('weightUnit', weightUnit)
+    formData.append('length', length)
+    formData.append('breadth', breadth)
+    formData.append('width', width)
+    formData.append('priceAmount', priceAmount)
+    formData.append('comparePrice', comparePrice)
+    formData.append('priceCurrency', priceCurrency)
+    formData.append('variants', JSON.stringify(variants))
+    
+    images.forEach(img => {
+      formData.append('images', img)
+    })
+
+    handleCreateProduct(formData)
   }
 
   /* ── button helpers ── */
@@ -173,9 +202,11 @@ const CreateProducts = () => {
       }}>
         <button
           onClick={() => navigate(-1)}
-          style={{ background: 'none', border: 'none', cursor: 'pointer',
-                   display: 'flex', alignItems: 'center', gap: 6,
-                   color: C.textMid, fontSize: 13, fontWeight: 600, padding: 0 }}
+          style={{
+            background: 'none', border: 'none', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', gap: 6,
+            color: C.textMid, fontSize: 13, fontWeight: 600, padding: 0
+          }}
           onMouseEnter={e => e.currentTarget.style.color = C.primary}
           onMouseLeave={e => e.currentTarget.style.color = C.textMid}
         >
@@ -289,9 +320,9 @@ const CreateProducts = () => {
             {/* Selling Type */}
             <SectionCard title="Selling Type">
               {[
-                { value: 'instore',   label: 'In-store selling only' },
-                { value: 'online',    label: 'Online selling only' },
-                { value: 'both',      label: 'Available both in-store and online' },
+                { value: 'instore', label: 'In-store selling only' },
+                { value: 'online', label: 'Online selling only' },
+                { value: 'both', label: 'Available both in-store and online' },
               ].map(opt => (
                 <label
                   key={opt.value}
@@ -347,8 +378,10 @@ const CreateProducts = () => {
                     <button
                       type="button"
                       onClick={() => removeVariant(idx)}
-                      style={{ background: '#fef2f2', border: `1px solid #fecaca`, borderRadius: 8,
-                               color: C.danger, width: 38, cursor: 'pointer', fontSize: 16 }}
+                      style={{
+                        background: '#fef2f2', border: `1px solid #fecaca`, borderRadius: 8,
+                        color: C.danger, width: 38, cursor: 'pointer', fontSize: 16
+                      }}
                     >
                       ×
                     </button>
@@ -429,8 +462,10 @@ const CreateProducts = () => {
               {imagePreviews.length > 0 && (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
                   {imagePreviews.map((src, idx) => (
-                    <div key={idx} style={{ position: 'relative', borderRadius: 10, overflow: 'hidden',
-                                           border: `1px solid ${C.border}`, aspectRatio: '1' }}>
+                    <div key={idx} style={{
+                      position: 'relative', borderRadius: 10, overflow: 'hidden',
+                      border: `1px solid ${C.border}`, aspectRatio: '1'
+                    }}>
                       <img src={src} alt={`product-${idx}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       <button
                         type="button"
@@ -486,7 +521,7 @@ const CreateProducts = () => {
                 {[
                   { label: 'Length', val: length, set: setLength, id: 'pkg-length' },
                   { label: 'Breadth', val: breadth, set: setBreadth, id: 'pkg-breadth' },
-                  { label: 'Width',  val: width,  set: setWidth,  id: 'pkg-width' },
+                  { label: 'Width', val: width, set: setWidth, id: 'pkg-width' },
                 ].map(({ label, val, set, id }) => (
                   <div key={id}>
                     <p style={{ fontSize: 11, color: C.textMid, margin: '0 0 4px', fontWeight: 600 }}>{label}</p>
@@ -502,8 +537,10 @@ const CreateProducts = () => {
                 <div>
                   <Label htmlFor="price">Price</Label>
                   <div style={{ position: 'relative' }}>
-                    <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)',
-                                   color: C.textMid, fontSize: 13, fontWeight: 700, pointerEvents: 'none' }}>$</span>
+                    <span style={{
+                      position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)',
+                      color: C.textMid, fontSize: 13, fontWeight: 700, pointerEvents: 'none'
+                    }}>$</span>
                     <Input
                       id="price"
                       type="number"
@@ -520,8 +557,10 @@ const CreateProducts = () => {
                 <div>
                   <Label htmlFor="compare-price">Compare at Price</Label>
                   <div style={{ position: 'relative' }}>
-                    <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)',
-                                   color: C.textMid, fontSize: 13, fontWeight: 700, pointerEvents: 'none' }}>$</span>
+                    <span style={{
+                      position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)',
+                      color: C.textMid, fontSize: 13, fontWeight: 700, pointerEvents: 'none'
+                    }}>$</span>
                     <Input
                       id="compare-price"
                       type="number"
@@ -591,7 +630,7 @@ const CreateProducts = () => {
                 {isLoading ? (
                   <>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" className="animate-spin"
-                         style={{ animation: 'spin 1s linear infinite' }}>
+                      style={{ animation: 'spin 1s linear infinite' }}>
                       <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" opacity=".25" />
                       <path fill="currentColor" d="M4 12a8 8 0 018-8v8z" opacity=".75" />
                     </svg>

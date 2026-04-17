@@ -5,21 +5,9 @@ const productAPI = axios.create({
   withCredentials: true,
 });
 
-export const createProduct = async ({
-  title,
-  description,
-  priceAmount,
-  priceCurrency,
-  images,
-}) => {
+export const createProduct = async (formData) => {
   try {
-    const res = await productAPI.post("/", {
-      title,
-      description,
-      priceAmount,
-      priceCurrency,
-      images,
-    });
+    const res = await productAPI.post("/", formData);
     console.log(res);
     return res.data;
   } catch (error) {

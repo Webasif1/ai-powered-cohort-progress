@@ -9,10 +9,9 @@ function validateRequest(req, res, next) {
 }
 
 export const productValidator = [
-  body("name").notEmpty().withMessage("Name is required"),
+  body("title").notEmpty().withMessage("Title is required"),
   body("description").notEmpty().withMessage("Description is required"),
-  body("priceAmount").isNumeric().withMessage("Price is required"),
-  body("priceCurrency").notEmpty().withMessage("Price is required"),
-  body("image").notEmpty().withMessage("Image is required"),
+  body("priceAmount").isNumeric().withMessage("Price amount must be a number"),
+  body("priceCurrency").notEmpty().withMessage("Price currency is required"),
   validateRequest,
 ];

@@ -23,3 +23,12 @@ export const getSellerProducts = async () => {
     throw error;
   }
 };
+
+export const getAllProducts = async () => {
+  try {
+    const res = await productAPI.get("/");
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};

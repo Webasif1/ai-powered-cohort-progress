@@ -1,7 +1,7 @@
-import produntModel from "../models/product.models.js";
+import productModel from "../models/product.models.js";
 import { uploadFile } from "../services/store.service.js";
 
-export async function createProductController(req, res) {
+export async function createProduct(req, res) {
   const { title, description, priceAmount, priceCurrency } = req.body;
   const seller = req.user;
   const images = req.files
@@ -16,7 +16,7 @@ export async function createProductController(req, res) {
     : [];
   console.log(images);
   try {
-    const product = await produntModel.create({
+    const product = await productModel.create({
       title,
       description,
       price: {
@@ -35,13 +35,31 @@ export async function createProductController(req, res) {
   }
 }
 
-export async function getSellerProductsController(req, res) {
+export async function getSellerProducts(req, res) {
   const seller = req.user;
   try {
-    const products = await produntModel.find({ seller: seller._id });
-    return res.status(200).json({ products });
+    const products = await productModel.find({ seller: seller._id });
+    return res.status(200).json({
+      message: "Seller products fetched successfully",
+      success: true,
+      products,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+export async function getAllProducts(req, res) {
+  try {
+    const products = await productModel.find();
+    return res.status(200).json({
+      message: "All products fetched successfully",
+      success: true,
+      products,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Internal server error:" + err });
   }
 }

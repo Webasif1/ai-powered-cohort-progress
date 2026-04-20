@@ -5,12 +5,20 @@ import Protected from "../features/auth/components/Protected";
 import CreateProducts from "../features/products/pages/CreateProducts";
 import Home from "../features/products/pages/Home";
 import Dashboard from "../features/products/pages/Dashboard";
+import ProductDetails from "../features/products/pages/ProductDetails";
+
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Protected>
       <Home />
+    </Protected>,
+  },
+  {
+    path: "/product/:id",
+    element: <Protected>
+      <ProductDetails />
     </Protected>,
   },
   {

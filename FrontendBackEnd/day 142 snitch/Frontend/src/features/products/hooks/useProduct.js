@@ -3,6 +3,7 @@ import {
   createProduct,
   getSellerProducts,
   getAllProducts,
+  getSingleProduct,
 } from "../services/productAPI.js";
 import {
   setIsLoading,
@@ -59,9 +60,26 @@ export function useProduct() {
       dispatch(setIsLoading(false));
     }
   }
+
+  async function handleGetSingleProduct(id) {
+    try {
+      dispatch(setIsLoading(true));
+      const res = await getSingleProduct(id);
+      return res.product;
+    } catch (error) {
+      dispatch(
+        setError(
+          error.response?.data?.message || "Failed to get single product",
+        ),
+      );
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  }
   return {
     handleCreateProduct,
     handleGetSellerProoducts,
     handleGetAllProducts,
+    handleGetSingleProduct,
   };
 }

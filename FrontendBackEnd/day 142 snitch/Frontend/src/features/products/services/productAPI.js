@@ -32,3 +32,12 @@ export const getAllProducts = async () => {
     throw error;
   }
 };
+
+export const getSingleProduct = async (id) => {
+  try {
+    const res = await productAPI.get(`/${id}`);
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};

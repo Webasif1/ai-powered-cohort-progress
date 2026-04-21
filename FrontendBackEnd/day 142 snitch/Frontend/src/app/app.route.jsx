@@ -10,17 +10,6 @@ import ProductDetails from "../features/products/pages/ProductDetails";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Protected>
-      <Home />
-    </Protected>,
-  },
-  {
-    path: "/product/:id",
-    element: <ProductDetails />
-
-  },
-  {
     path: "/register",
     element: <Register />,
   },
@@ -29,15 +18,29 @@ export const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "/seller",
-    element: <Protected role="seller">
-      <Dashboard />
-    </Protected>
+    path: "/",
+    element: <Protected>
+      <Home />
+    </Protected>,
   },
   {
-    path: "/create-product",
-    element: <Protected role="seller">
-      <CreateProducts />
-    </Protected>
+    path: "/product/:id",
+    element: <ProductDetails />
+  },
+  {
+    path: "/seller",
+    children: [
+      {
+        element: <Protected role="/seller/dashboard">
+          <Dashboard />
+        </Protected>
+      },
+      {
+        path: "/seller/create-product",
+        element: <Protected role="seller">
+          <CreateProducts />
+        </Protected>
+      }
+    ]
   },
 ]);

@@ -23,40 +23,37 @@ const C = {
 }
 
 const SidebarItem = ({ icon, text, active, badge }) => (
-  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', borderRadius: 12, cursor: 'pointer', background: active ? 'rgba(184,145,90,0.08)' : 'transparent', color: active ? C.primary : C.textMid, fontWeight: active ? 700 : 600, transition: 'all 0.2s', marginBottom: 4 }}
-       onMouseEnter={e => !active && (e.currentTarget.style.color = C.primary)}
-       onMouseLeave={e => !active && (e.currentTarget.style.color = C.textMid)}
-  >
-    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-      <span style={{ fontSize: 18 }}>{icon}</span>
-      <span style={{ fontSize: 13 }}>{text}</span>
+  <div className={`flex items-center justify-between py-[12px] px-[16px] rounded-[12px] cursor-pointer transition-all duration-200 mb-[4px] ${active ? 'bg-[rgba(184,145,90,0.08)] text-[#b8915a] font-bold' : 'bg-transparent text-[#8a7360] font-semibold hover:text-[#b8915a]'}`}>
+    <div className="flex items-center gap-[12px]">
+      <span className="text-[18px]">{icon}</span>
+      <span className="text-[13px]">{text}</span>
     </div>
-    {badge && <span style={{ background: C.success, color: '#fff', fontSize: 10, fontWeight: 800, padding: '2px 8px', borderRadius: 100 }}>{badge}</span>}
+    {badge && <span className="bg-[#10b981] text-white text-[10px] font-extrabold py-[2px] px-[8px] rounded-full">{badge}</span>}
   </div>
 )
 
 const Tab = ({ text, active }) => (
-  <div style={{ padding: '12px 0', marginRight: 32, cursor: 'pointer', borderBottom: active ? `2px solid ${C.accent}` : '2px solid transparent', color: active ? C.accent : C.textMid, fontWeight: active ? 700 : 600, transition: 'all 0.2s', fontSize: 14 }}>
+  <div className={`py-[12px] px-0 mr-[32px] cursor-pointer transition-all duration-200 text-[14px] ${active ? 'border-b-2 border-[#7c3aed] text-[#7c3aed] font-bold' : 'border-b-2 border-transparent text-[#8a7360] font-semibold'}`}>
     {text}
   </div>
 )
 
 const FilterPill = ({ text, active, count }) => (
-  <div style={{ padding: '6px 16px', borderRadius: 100, border: `1px solid ${active ? C.accent : C.border}`, color: active ? C.accent : C.textMid, fontWeight: active ? 700 : 600, fontSize: 13, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, background: active ? 'rgba(124,58,237,0.05)' : 'transparent' }}>
-    {text} {count && <span style={{ color: C.textLight, fontSize: 12, fontWeight: 500 }}>{count}</span>}
+  <div className={`py-[6px] px-[16px] rounded-full text-[13px] cursor-pointer flex items-center gap-[6px] ${active ? 'border border-[#7c3aed] text-[#7c3aed] font-bold bg-[rgba(124,58,237,0.05)]' : 'border border-[rgba(232,213,192,0.6)] text-[#8a7360] font-semibold bg-transparent'}`}>
+    {text} {count && <span className="text-[#c4a882] text-[12px] font-medium">{count}</span>}
   </div>
 )
 
 const Toggle = ({ active }) => (
-  <div style={{ width: 36, height: 20, borderRadius: 100, background: active ? C.accent : '#e2e8f0', position: 'relative', cursor: 'pointer', transition: '0.3s' }}>
-    <div style={{ width: 14, height: 14, borderRadius: '50%', background: '#fff', position: 'absolute', top: 3, left: active ? 19 : 3, transition: '0.3s', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}></div>
+  <div className={`w-[36px] h-[20px] rounded-full relative cursor-pointer transition-colors duration-300 ${active ? 'bg-[#7c3aed]' : 'bg-[#e2e8f0]'}`}>
+    <div className={`w-[14px] h-[14px] rounded-full bg-white absolute top-[3px] transition-all duration-300 shadow-[0_2px_4px_rgba(0,0,0,0.1)] ${active ? 'left-[19px]' : 'left-[3px]'}`}></div>
   </div>
 )
 
 const getTypeColor = (type) => {
-  if(type === 'PREMIUM') return C.pillOrange;
-  if(type === 'STANDARD') return C.pillGreen;
-  if(type === 'LIMITED') return C.pillBlue;
+  if (type === 'PREMIUM') return C.pillOrange;
+  if (type === 'STANDARD') return C.pillGreen;
+  if (type === 'LIMITED') return C.pillBlue;
   return C.pillPurple;
 }
 
@@ -70,241 +67,241 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: C.bg, fontFamily: "'Outfit', sans-serif" }}>
-      
+    <div className="flex min-h-screen bg-[#fcfaf8] font-outfit">
+
       {/* SIDEBAR */}
-      <aside style={{ width: 260, background: C.surface, borderRight: `1px solid ${C.border}`, display: 'flex', flexDirection: 'column', position: 'fixed', height: '100vh', top: 0, left: 0, zIndex: 10 }}>
+      <aside className="w-[260px] bg-white border-r border-[rgba(232,213,192,0.6)] flex flex-col fixed h-screen top-0 left-0 z-10">
         {/* Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '24px', borderBottom: `1px solid ${C.border}` }}>
-          <div style={{ width: 36, height: 36, borderRadius: '12px', background: 'linear-gradient(135deg, #7c3aed, #4c1d95)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: 20 }}>Z</div>
-          <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: 22, fontWeight: 800, color: C.textDark, letterSpacing: '-0.02em' }}>ZewarAds</span>
+        <div className="flex items-center gap-[10px] p-[24px] border-b border-[rgba(232,213,192,0.6)]">
+          <div className="w-[36px] h-[36px] rounded-[12px] bg-gradient-to-br from-[#7c3aed] to-[#4c1d95] text-white flex items-center justify-center font-bold text-[20px]">Z</div>
+          <span className="font-outfit text-[22px] font-extrabold text-[#1e160f] tracking-[-0.02em]">ZewarAds</span>
         </div>
 
         {/* Store Selector */}
-        <div style={{ padding: '24px 16px 12px' }}>
-          <div style={{ padding: '12px 16px', borderRadius: 12, border: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer', boxShadow: '0 2px 8px rgba(184,145,90,0.05)' }}>
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: '#f8f9fa', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>🏡</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: C.textDark }}>Zewar Boutique</div>
-              <div style={{ fontSize: 11, color: C.textMid }}>Premium Store</div>
+        <div className="pt-[24px] px-[16px] pb-[12px]">
+          <div className="py-[12px] px-[16px] rounded-[12px] border border-[rgba(232,213,192,0.6)] flex items-center gap-[12px] cursor-pointer shadow-[0_2px_8px_rgba(184,145,90,0.05)]">
+            <div className="w-[32px] h-[32px] rounded-[8px] bg-[#f8f9fa] flex items-center justify-center text-[16px]">🏡</div>
+            <div className="flex-1">
+              <div className="text-[13px] font-bold text-[#1e160f]">Zewar Boutique</div>
+              <div className="text-[11px] text-[#8a7360]">Premium Store</div>
             </div>
-            <span style={{ color: C.textMid, fontSize: 10 }}>▼</span>
+            <span className="text-[#8a7360] text-[10px]">▼</span>
           </div>
         </div>
 
         {/* Navigation */}
-        <div style={{ padding: '12px 16px', flex: 1, overflowY: 'auto' }}>
-          <div style={{ fontSize: 11, fontWeight: 800, color: C.textLight, textTransform: 'uppercase', letterSpacing: 1, padding: '0 16px 12px' }}>ZEWAR BUSINESS</div>
+        <div className="py-[12px] px-[16px] flex-1 overflow-y-auto">
+          <div className="text-[11px] font-extrabold text-[#c4a882] uppercase tracking-[1px] pt-0 px-[16px] pb-[12px]">ZEWAR BUSINESS</div>
           <SidebarItem icon="📊" text="Business Dashboard" />
           <SidebarItem icon="⚙️" text="Store Settings" />
           <SidebarItem icon="📦" text="Orders" badge="12 ACTIVE" />
           <SidebarItem icon="📋" text="Menu & Products" active={true} />
           <SidebarItem icon="👥" text="Customer Management" />
           <SidebarItem icon="💳" text="Wallet Management" />
-          
-          <div style={{ marginTop: 24, padding: '0 16px 12px', fontSize: 11, fontWeight: 800, color: C.textLight, textTransform: 'uppercase', letterSpacing: 1 }}>REWARDS</div>
-          <div style={{ padding: '12px 16px', borderRadius: 12, border: `1px dashed ${C.primaryLt}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', marginBottom: 4 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span style={{ fontSize: 18 }}>🏆</span>
-              <span style={{ fontSize: 13, fontWeight: 700, color: C.primary }}>Refer & Earn</span>
+
+          <div className="mt-[24px] pt-0 px-[16px] pb-[12px] text-[11px] font-extrabold text-[#c4a882] uppercase tracking-[1px]">REWARDS</div>
+          <div className="py-[12px] px-[16px] rounded-[12px] border border-dashed border-[#d4b896] flex items-center justify-between cursor-pointer mb-[4px]">
+            <div className="flex items-center gap-[12px]">
+              <span className="text-[18px]">🏆</span>
+              <span className="text-[13px] font-bold text-[#b8915a]">Refer & Earn</span>
             </div>
-            <span style={{ background: 'rgba(184,145,90,0.1)', color: C.primary, fontSize: 11, fontWeight: 800, padding: '2px 6px', borderRadius: 100 }}>+15 PTS</span>
+            <span className="bg-[rgba(184,145,90,0.1)] text-[#b8915a] text-[11px] font-extrabold py-[2px] px-[6px] rounded-full">+15 PTS</span>
           </div>
           <SidebarItem icon="🪙" text="Points Dashboard" />
         </div>
       </aside>
 
       {/* MAIN CONTENT WRAPPER */}
-      <div style={{ flex: 1, marginLeft: 260, display: 'flex', flexDirection: 'column' }}>
-        
+      <div className="flex-1 ml-[260px] flex flex-col">
+
         {/* HEADER */}
-        <header style={{ height: 72, background: C.surface, borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 32px', position: 'sticky', top: 0, zIndex: 5 }}>
-           
-           <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
-             {/* Location */}
-             <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: C.textMid, fontSize: 13, fontWeight: 600 }}>
-               <span>📍</span> 380 W 62nd Ave, Denver, CO <span style={{ fontSize: 10, fontWeight: 800, background: '#f1f5f9', padding: '2px 6px', borderRadius: 4, marginLeft: 4 }}>RETAIL</span>
-             </div>
-             
-             {/* Search */}
-             <div style={{ display: 'flex', alignItems: 'center', background: C.bg, borderRadius: 100, padding: '8px 16px', width: 300, border: `1px solid ${C.border}` }}>
-               <span style={{ color: C.textLight, fontSize: 14 }}>🔍</span>
-               <input type="text" placeholder="Products, retailers & more..." style={{ border: 'none', background: 'transparent', outline: 'none', marginLeft: 8, fontSize: 13, color: C.textDark, width: '100%', fontWeight: 500 }} />
-             </div>
-           </div>
+        <header className="h-[72px] bg-white border-b border-[rgba(232,213,192,0.6)] flex items-center justify-between py-0 px-[32px] sticky top-0 z-[5]">
 
-           <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
-             {/* Toggles */}
-             <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 12, fontWeight: 600, color: C.textMid }}>
-               Products <span style={{fontSize:10}}>▼</span>
-             </div>
-             <div style={{ fontSize: 12, fontWeight: 600, color: C.textMid, cursor: 'pointer' }}>Brands</div>
-             <div style={{ fontSize: 12, fontWeight: 600, color: C.textMid, cursor: 'pointer' }}>Retailers</div>
+          <div className="flex items-center gap-[32px]">
+            {/* Location */}
+            <div className="flex items-center gap-[8px] text-[#8a7360] text-[13px] font-semibold">
+              <span>📍</span> 380 W 62nd Ave, Denver, CO <span className="text-[10px] font-extrabold bg-[#f1f5f9] py-[2px] px-[6px] rounded-[4px] ml-[4px]">RETAIL</span>
+            </div>
 
-             <div style={{ height: 24, width: 1, background: C.border }}></div>
+            {/* Search */}
+            <div className="flex items-center bg-[#fcfaf8] rounded-full py-[8px] px-[16px] w-[300px] border border-[rgba(232,213,192,0.6)]">
+              <span className="text-[#c4a882] text-[14px]">🔍</span>
+              <input type="text" placeholder="Products, retailers & more..." className="border-none bg-transparent outline-none ml-[8px] text-[13px] text-[#1e160f] w-full font-medium" />
+            </div>
+          </div>
 
-             {/* Profile */}
-             <div style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}>
-               <img src="https://i.pravatar.cc/100?img=33" style={{ width: 32, height: 32, borderRadius: '50%' }} alt="User" />
-               <span style={{ fontSize: 13, fontWeight: 700, color: C.textDark }}>Hi, jakubstaron <span style={{fontSize: 10, marginLeft: 4}}>▼</span></span>
-             </div>
+          <div className="flex items-center gap-[24px]">
+            {/* Toggles */}
+            <div className="flex items-center gap-[12px] text-[12px] font-semibold text-[#8a7360]">
+              Products <span className="text-[10px]">▼</span>
+            </div>
+            <div className="text-[12px] font-semibold text-[#8a7360] cursor-pointer">Brands</div>
+            <div className="text-[12px] font-semibold text-[#8a7360] cursor-pointer">Retailers</div>
 
-             {/* Icons */}
-             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-               <span style={{ fontSize: 20, color: C.accent, cursor: 'pointer' }}>💜</span>
-               <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: C.accent, padding: '8px 16px', borderRadius: 100, color: '#fff', cursor: 'pointer', boxShadow: '0 4px 12px rgba(124,58,237,0.3)' }}>
-                 <span style={{fontSize: 16}}>🛒</span> <span style={{ fontSize: 13, fontWeight: 800 }}>90.99 USD</span>
-               </div>
-             </div>
-           </div>
+            <div className="h-[24px] w-[1px] bg-[rgba(232,213,192,0.6)]"></div>
+
+            {/* Profile */}
+            <div className="flex items-center gap-[12px] cursor-pointer">
+              <img src="https://i.pravatar.cc/100?img=33" className="w-[32px] h-[32px] rounded-full" alt="User" />
+              <span className="text-[13px] font-bold text-[#1e160f]">Hi, jakubstaron <span className="text-[10px] ml-[4px]">▼</span></span>
+            </div>
+
+            {/* Icons */}
+            <div className="flex items-center gap-[16px]">
+              <span className="text-[20px] text-[#7c3aed] cursor-pointer">💜</span>
+              <div className="flex items-center gap-[8px] bg-[#7c3aed] py-[8px] px-[16px] rounded-full text-white cursor-pointer shadow-[0_4px_12px_rgba(124,58,237,0.3)]">
+                <span className="text-[16px]">🛒</span> <span className="text-[13px] font-extrabold">90.99 USD</span>
+              </div>
+            </div>
+          </div>
         </header>
 
         {/* DASHBOARD CONTENT */}
-        <main style={{ padding: '40px 48px', flex: 1 }}>
-           
-           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24 }}>
-             <h1 style={{ fontFamily: "'Outfit', sans-serif", fontSize: 28, fontWeight: 800, color: C.textDark, margin: 0 }}>Menu & Products</h1>
-             
-             {/* Top Right Illustration Block (Simulated) */}
-             <div style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.1), rgba(253,248,243,0))', padding: '16px 24px', borderRadius: 16, display: 'flex', alignItems: 'center', gap: 16 }}>
-                <div style={{ fontSize: 24 }}>✨</div>
-                <div>
-                  <div style={{ fontSize: 14, fontWeight: 800, color: C.textDark }}>Store Performance</div>
-                  <div style={{ fontSize: 12, color: C.textMid, fontWeight: 500 }}>Looking good this week.</div>
+        <main className="py-[40px] px-[48px] flex-1">
+
+          <div className="flex justify-between items-start mb-[24px]">
+            <h1 className="font-outfit text-[28px] font-extrabold text-[#1e160f] m-0">Menu & Products</h1>
+
+            {/* Top Right Illustration Block (Simulated) */}
+            <div className="bg-gradient-to-br from-[rgba(124,58,237,0.1)] to-[rgba(253,248,243,0)] py-[16px] px-[24px] rounded-[16px] flex items-center gap-[16px]">
+              <div className="text-[24px]">✨</div>
+              <div>
+                <div className="text-[14px] font-extrabold text-[#1e160f]">Store Performance</div>
+                <div className="text-[12px] text-[#8a7360] font-medium">Looking good this week.</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Tabs */}
+          <div className="flex border-b border-[rgba(232,213,192,0.6)] mb-[32px]">
+            <Tab text="My Menu" active={true} />
+            <Tab text="Discounts & Specials" />
+            <Tab text="Hot Deals" />
+            <Tab text="Boost Product" />
+            <Tab text="Boost Dispensary" />
+            <Tab text="Connect API" />
+          </div>
+
+          {/* Main Data Card */}
+          <div className="bg-white rounded-[24px] p-[32px] shadow-[0_10px_40px_rgba(184,145,90,0.06)] border border-[rgba(232,213,192,0.6)]">
+
+            {/* Toolbar */}
+            <div className="flex justify-between items-center mb-[24px]">
+              <div className="flex gap-[24px] text-[15px]">
+                <span className="font-extrabold text-[#7c3aed] border-b-2 border-[#7c3aed] pb-[8px]">Products ({allProducts.length})</span>
+                <span className="font-semibold text-[#8a7360] cursor-pointer">Drafts (3)</span>
+              </div>
+
+              <div className="flex gap-[16px] items-center">
+                <div className="flex items-center bg-[#fcfaf8] rounded-full py-[10px] px-[20px] w-[280px] border border-[rgba(232,213,192,0.6)]">
+                  <span className="text-[#c4a882] text-[14px]">🔍</span>
+                  <input type="text" placeholder="Search for Product..." className="border-none bg-transparent outline-none ml-[8px] text-[13px] text-[#1e160f] w-full font-medium" />
                 </div>
-             </div>
-           </div>
 
-           {/* Tabs */}
-           <div style={{ display: 'flex', borderBottom: `1px solid ${C.border}`, marginBottom: 32 }}>
-             <Tab text="My Menu" active={true} />
-             <Tab text="Discounts & Specials" />
-             <Tab text="Hot Deals" />
-             <Tab text="Boost Product" />
-             <Tab text="Boost Dispensary" />
-             <Tab text="Connect API" />
-           </div>
+                <Link to="/create-product" className="no-underline">
+                  <button className="bg-[#7c3aed] text-white border-none py-[12px] px-[24px] rounded-full text-[13px] font-bold cursor-pointer flex items-center gap-[8px] shadow-[0_4px_12px_rgba(124,58,237,0.3)]">
+                    <span>+</span> Add New Product to the Menu
+                  </button>
+                </Link>
+              </div>
+            </div>
 
-           {/* Main Data Card */}
-           <div style={{ background: C.surface, borderRadius: 24, padding: 32, boxShadow: '0 10px 40px rgba(184,145,90,0.06)', border: `1px solid ${C.border}` }}>
-             
-             {/* Toolbar */}
-             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-               <div style={{ display: 'flex', gap: 24, fontSize: 15 }}>
-                 <span style={{ fontWeight: 800, color: C.accent, borderBottom: `2px solid ${C.accent}`, paddingBottom: 8 }}>Products ({allProducts.length})</span>
-                 <span style={{ fontWeight: 600, color: C.textMid, cursor: 'pointer' }}>Drafts (3)</span>
-               </div>
-               
-               <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-                 <div style={{ display: 'flex', alignItems: 'center', background: C.bg, borderRadius: 100, padding: '10px 20px', width: 280, border: `1px solid ${C.border}` }}>
-                   <span style={{ color: C.textLight, fontSize: 14 }}>🔍</span>
-                   <input type="text" placeholder="Search for Product..." style={{ border: 'none', background: 'transparent', outline: 'none', marginLeft: 8, fontSize: 13, color: C.textDark, width: '100%', fontWeight: 500 }} />
-                 </div>
-                 
-                 <Link to="/create-product" style={{ textDecoration: 'none' }}>
-                   <button style={{ background: C.accent, color: '#fff', border: 'none', padding: '12px 24px', borderRadius: 100, fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 4px 12px rgba(124,58,237,0.3)' }}>
-                     <span>+</span> Add New Product to the Menu
-                   </button>
-                 </Link>
-               </div>
-             </div>
+            {/* Filter Pills */}
+            <div className="flex gap-[12px] mb-[32px] flex-wrap">
+              <FilterPill text="All" active={true} />
+              <FilterPill text="Skincare" count="(141)" />
+              <FilterPill text="Cosmetics" count="(21)" />
+              <FilterPill text="Serums" count="(13)" />
+              <FilterPill text="Jewelry" count="(14)" />
+              <FilterPill text="Rings" count="(17)" />
+              <FilterPill text="Necklaces" count="(12)" />
+              <FilterPill text="Tools" count="(10)" />
+            </div>
 
-             {/* Filter Pills */}
-             <div style={{ display: 'flex', gap: 12, marginBottom: 32, flexWrap: 'wrap' }}>
-               <FilterPill text="All" active={true} />
-               <FilterPill text="Skincare" count="(141)" />
-               <FilterPill text="Cosmetics" count="(21)" />
-               <FilterPill text="Serums" count="(13)" />
-               <FilterPill text="Jewelry" count="(14)" />
-               <FilterPill text="Rings" count="(17)" />
-               <FilterPill text="Necklaces" count="(12)" />
-               <FilterPill text="Tools" count="(10)" />
-             </div>
+            {/* Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse text-left min-w-[900px]">
+                <thead>
+                  <tr className="bg-[#fcfaf8] text-[#8a7360] text-[12px] font-bold">
+                    <th className="py-[16px] px-[24px] rounded-l-[12px] w-[40px]"><input type="checkbox" /></th>
+                    <th className="p-[16px]">Product Name <span className="text-[10px] ml-[4px]">⇅</span></th>
+                    <th className="p-[16px]">Category <span className="text-[10px] ml-[4px]">⇅</span></th>
+                    <th className="p-[16px]">Type <span className="text-[10px] ml-[4px]">⇅</span></th>
+                    <th className="p-[16px]">Brand <span className="text-[10px] ml-[4px]">⇅</span></th>
+                    <th className="p-[16px]">Price <span className="text-[10px] ml-[4px]">⇅</span></th>
+                    <th className="p-[16px]">In Stock <span className="text-[10px] ml-[4px]">⇅</span></th>
+                    <th className="p-[16px]">Visibility <span className="text-[10px] ml-[4px]">⇅</span></th>
+                    <th className="p-[16px] rounded-r-[12px] w-[40px]"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allProducts && allProducts.length > 0 ? allProducts.map((p, i) => {
+                    // Add varying mock data to match the image UI variety
+                    const types = ['PREMIUM', 'STANDARD', 'LIMITED', 'EXCLUSIVE'];
+                    const mockType = types[i % 4];
+                    const typeColor = getTypeColor(mockType);
+                    const inStock = i % 3 !== 0;
 
-             {/* Table */}
-             <div style={{ overflowX: 'auto' }}>
-               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: 900 }}>
-                 <thead>
-                   <tr style={{ background: C.bg, color: C.textMid, fontSize: 12, fontWeight: 700 }}>
-                     <th style={{ padding: '16px 24px', borderRadius: '12px 0 0 12px', width: 40 }}><input type="checkbox" /></th>
-                     <th style={{ padding: '16px' }}>Product Name <span style={{fontSize:10, marginLeft: 4}}>⇅</span></th>
-                     <th style={{ padding: '16px' }}>Category <span style={{fontSize:10, marginLeft: 4}}>⇅</span></th>
-                     <th style={{ padding: '16px' }}>Type <span style={{fontSize:10, marginLeft: 4}}>⇅</span></th>
-                     <th style={{ padding: '16px' }}>Brand <span style={{fontSize:10, marginLeft: 4}}>⇅</span></th>
-                     <th style={{ padding: '16px' }}>Price <span style={{fontSize:10, marginLeft: 4}}>⇅</span></th>
-                     <th style={{ padding: '16px' }}>In Stock <span style={{fontSize:10, marginLeft: 4}}>⇅</span></th>
-                     <th style={{ padding: '16px' }}>Visibility <span style={{fontSize:10, marginLeft: 4}}>⇅</span></th>
-                     <th style={{ padding: '16px', borderRadius: '0 12px 12px 0', width: 40 }}></th>
-                   </tr>
-                 </thead>
-                 <tbody>
-                   {allProducts && allProducts.length > 0 ? allProducts.map((p, i) => {
-                     // Add varying mock data to match the image UI variety
-                     const types = ['PREMIUM', 'STANDARD', 'LIMITED', 'EXCLUSIVE'];
-                     const mockType = types[i % 4];
-                     const typeColor = getTypeColor(mockType);
-                     const inStock = i % 3 !== 0;
+                    return (
+                      <tr key={p._id || i} className="border-b border-[#fcfaf8] transition-colors duration-200 hover:bg-[#f9fafb]">
+                        <td className="py-[20px] px-[24px]"><input type="checkbox" /></td>
+                        <td className="py-[20px] px-[16px]">
+                          <div className="flex items-center gap-[16px]">
+                            <img src={p.images?.[0]?.url || '/assets/img/favicon.png'} className="w-[44px] h-[44px] rounded-[8px] object-cover bg-[#e2e8f0]" alt="" />
+                            <span className="text-[14px] font-bold text-[#1e160f]">{p.title || p.name || `Product ${i + 1}`}</span>
+                          </div>
+                        </td>
+                        <td className="py-[20px] px-[16px] text-[13px] text-[#8a7360] font-semibold">{p.category || 'Skincare'}</td>
+                        <td className="py-[20px] px-[16px]">
+                          <span className="text-[10px] font-extrabold tracking-[0.5px] border py-[4px] px-[8px] rounded-[4px]" style={{ color: typeColor, borderColor: typeColor }}>{mockType}</span>
+                        </td>
+                        <td className="py-[20px] px-[16px]">
+                          <div className="flex items-center gap-[8px]">
+                            <div className="w-[24px] h-[24px] rounded-[6px] bg-[#1e1b4b] flex items-center justify-center text-white text-[11px] font-bold">Z</div>
+                            <span className="text-[13px] font-bold text-[#1e160f]">Zewar</span>
+                          </div>
+                        </td>
+                        <td className="py-[20px] px-[16px] text-[14px] font-bold text-[#1e160f]">${parseFloat(p.price?.amount || p.price || 50).toFixed(2)}</td>
+                        <td className="py-[20px] px-[16px]">
+                          {inStock ? (
+                            <div className="flex items-center gap-[6px] text-[12px] text-[#10b981] font-bold">
+                              <div className="w-[6px] h-[6px] rounded-full bg-[#10b981]"></div> {Math.floor(Math.random() * 50) + 1} oz
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-[6px] text-[12px] text-[#8a7360] font-semibold">
+                              <div className="w-[6px] h-[6px] rounded-full bg-[#ef4444]"></div> No Info
+                            </div>
+                          )}
+                        </td>
+                        <td className="py-[20px] px-[16px]">
+                          <Toggle active={inStock} />
+                        </td>
+                        <td className="py-[20px] px-[16px] text-[#8a7360] cursor-pointer text-center text-[20px]">⋮</td>
+                      </tr>
+                    )
+                  }) : (
+                    <tr>
+                      <td colSpan="9" className="p-[60px] text-center text-[#8a7360] font-semibold">No products found. Add some from your menu.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
 
-                     return (
-                       <tr key={p._id || i} style={{ borderBottom: `1px solid ${C.bg}`, transition: 'background 0.2s' }} onMouseEnter={e => e.currentTarget.style.background = '#f9fafb'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
-                         <td style={{ padding: '20px 24px' }}><input type="checkbox" /></td>
-                         <td style={{ padding: '20px 16px' }}>
-                           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                             <img src={p.images?.[0]?.url || '/assets/img/favicon.png'} style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover', background: '#e2e8f0' }} alt="" />
-                             <span style={{ fontSize: 14, fontWeight: 700, color: C.textDark }}>{p.title || p.name || `Product ${i+1}`}</span>
-                           </div>
-                         </td>
-                         <td style={{ padding: '20px 16px', fontSize: 13, color: C.textMid, fontWeight: 600 }}>{p.category || 'Skincare'}</td>
-                         <td style={{ padding: '20px 16px' }}>
-                           <span style={{ color: typeColor, fontSize: 10, fontWeight: 800, letterSpacing: 0.5, border: `1px solid ${typeColor}`, padding: '4px 8px', borderRadius: 4 }}>{mockType}</span>
-                         </td>
-                         <td style={{ padding: '20px 16px' }}>
-                           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                             <div style={{ width: 24, height: 24, borderRadius: 6, background: '#1e1b4b', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 11, fontWeight: 'bold' }}>Z</div>
-                             <span style={{ fontSize: 13, fontWeight: 700, color: C.textDark }}>Zewar</span>
-                           </div>
-                         </td>
-                         <td style={{ padding: '20px 16px', fontSize: 14, fontWeight: 700, color: C.textDark }}>${parseFloat(p.price?.amount || p.price || 50).toFixed(2)}</td>
-                         <td style={{ padding: '20px 16px' }}>
-                           {inStock ? (
-                             <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: C.success, fontWeight: 700 }}>
-                               <div style={{ width: 6, height: 6, borderRadius: '50%', background: C.success }}></div> {Math.floor(Math.random() * 50) + 1} oz
-                             </div>
-                           ) : (
-                             <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: C.textMid, fontWeight: 600 }}>
-                               <div style={{ width: 6, height: 6, borderRadius: '50%', background: C.danger }}></div> No Info
-                             </div>
-                           )}
-                         </td>
-                         <td style={{ padding: '20px 16px' }}>
-                           <Toggle active={inStock} />
-                         </td>
-                         <td style={{ padding: '20px 16px', color: C.textMid, cursor: 'pointer', textAlign: 'center', fontSize: 20 }}>⋮</td>
-                       </tr>
-                     )
-                   }) : (
-                     <tr>
-                       <td colSpan="9" style={{ padding: '60px', textAlign: 'center', color: C.textMid, fontWeight: 600 }}>No products found. Add some from your menu.</td>
-                     </tr>
-                   )}
-                 </tbody>
-               </table>
-             </div>
+            {/* Pagination */}
+            <div className="flex justify-end mt-[32px]">
+              <div className="flex gap-[8px]">
+                <div className="w-[36px] h-[36px] rounded-[8px] border border-[rgba(232,213,192,0.6)] flex items-center justify-center text-[#8a7360] cursor-pointer">‹</div>
+                <div className="w-[36px] h-[36px] rounded-[8px] border border-[#7c3aed] bg-[rgba(124,58,237,0.1)] flex items-center justify-center text-[#7c3aed] font-bold cursor-pointer">1</div>
+                <div className="w-[36px] h-[36px] rounded-[8px] border border-transparent flex items-center justify-center text-[#8a7360] font-semibold cursor-pointer">2</div>
+                <div className="w-[36px] h-[36px] rounded-[8px] border border-transparent flex items-center justify-center text-[#8a7360] font-semibold cursor-pointer">3</div>
+                <div className="w-[36px] h-[36px] rounded-[8px] border border-transparent flex items-center justify-center text-[#8a7360] font-semibold">...</div>
+                <div className="w-[36px] h-[36px] rounded-[8px] border border-transparent flex items-center justify-center text-[#8a7360] font-semibold cursor-pointer">8</div>
+                <div className="w-[36px] h-[36px] rounded-[8px] border border-[rgba(232,213,192,0.6)] flex items-center justify-center text-[#8a7360] cursor-pointer">›</div>
+              </div>
+            </div>
 
-             {/* Pagination */}
-             <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 32 }}>
-                <div style={{ display: 'flex', gap: 8 }}>
-                  <div style={{ width: 36, height: 36, borderRadius: 8, border: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.textMid, cursor: 'pointer' }}>‹</div>
-                  <div style={{ width: 36, height: 36, borderRadius: 8, border: `1px solid ${C.accent}`, background: 'rgba(124,58,237,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.accent, fontWeight: 700, cursor: 'pointer' }}>1</div>
-                  <div style={{ width: 36, height: 36, borderRadius: 8, border: `1px solid transparent`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.textMid, fontWeight: 600, cursor: 'pointer' }}>2</div>
-                  <div style={{ width: 36, height: 36, borderRadius: 8, border: `1px solid transparent`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.textMid, fontWeight: 600, cursor: 'pointer' }}>3</div>
-                  <div style={{ width: 36, height: 36, borderRadius: 8, border: `1px solid transparent`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.textMid, fontWeight: 600 }}>...</div>
-                  <div style={{ width: 36, height: 36, borderRadius: 8, border: `1px solid transparent`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.textMid, fontWeight: 600, cursor: 'pointer' }}>8</div>
-                  <div style={{ width: 36, height: 36, borderRadius: 8, border: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.textMid, cursor: 'pointer' }}>›</div>
-                </div>
-             </div>
-
-           </div>
+          </div>
 
         </main>
       </div>

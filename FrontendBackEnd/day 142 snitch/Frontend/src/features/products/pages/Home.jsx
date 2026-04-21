@@ -3,92 +3,78 @@ import { useSelector } from 'react-redux'
 import { useProduct } from '../hooks/useProduct.js'
 import { Link } from 'react-router-dom'
 
-/* ─── colour tokens ─── */
-const C = {
-  bg: '#fdf8f3',
-  surface: 'rgba(255, 255, 255, 0.45)', // glass surface
-  surfaceLight: 'rgba(255, 255, 255, 0.7)',
-  border: 'rgba(232, 213, 192, 0.4)',
-  primary: '#b8915a',
-  primaryLt: '#d4b896',
-  textDark: '#1e160f',
-  textMid: '#8a7360',
-  textLight: '#c4a882',
-  white: '#ffffff',
-  saleTag: '#e34c4c'
-}
 
 const TopBar = () => (
-  <div style={{ background: C.textDark, color: C.white, fontSize: 12, display: 'flex', justifyContent: 'space-between', padding: '10px 48px', alignItems: 'center' }}>
-    <div style={{ flex: 1, letterSpacing: '0.3px', color: '#e0e0e0' }}>Join our newsletter to get best Discount!</div>
-    <div style={{ display: 'flex', gap: 32, fontWeight: 500, color: '#e0e0e0' }}>
-      <span style={{ cursor: 'pointer' }}>United States (USD $) ∨</span>
-      <span style={{ cursor: 'pointer' }}>English ∨</span>
+  <div className="bg-[#1e160f] text-white text-[12px] flex justify-between py-[10px] px-[48px] items-center">
+    <div className="flex-1 tracking-[0.3px] text-[#e0e0e0]">Join our newsletter to get best Discount!</div>
+    <div className="flex gap-[32px] font-medium text-[#e0e0e0]">
+      <span className="cursor-pointer">United States (USD $) ∨</span>
+      <span className="cursor-pointer">English ∨</span>
     </div>
   </div>
 )
 
 const Header = () => (
-  <header style={{ padding: '24px 48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: C.bg, position: 'sticky', top: 0, zIndex: 50, borderBottom: `1px solid ${C.border}` }}>
+  <header className="py-[24px] px-[48px] flex justify-between items-center bg-[#fdf8f3] sticky top-0 z-[50] border-b border-[rgba(232,213,192,0.4)]">
     {/* Logo */}
-    <Link to="/" style={{ textDecoration: 'none' }}>
-      <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 28, fontWeight: 800, color: C.textDark, margin: 0, letterSpacing: '-0.02em' }}>
+    <Link to="/" className="no-underline">
+      <h1 className="font-playfair text-[28px] font-extrabold text-[#1e160f] m-0 tracking-[-0.02em]">
         Zewar.
       </h1>
     </Link>
 
     {/* Center Nav */}
-    <nav style={{ display: 'flex', gap: 32, fontSize: 14, fontWeight: 600, color: C.textDark, alignItems: 'center', fontFamily: "'Outfit', sans-serif" }}>
-      <Link to="/" style={{ color: C.textDark, textDecoration: 'none' }}>Home</Link>
-      <Link to="/products" style={{ color: C.textMid, textDecoration: 'none', display: 'flex', gap: 6, alignItems: 'center' }}>
-        Our Store <span style={{ fontSize: 10 }}>∨</span>
+    <nav className="flex gap-[32px] text-[14px] font-semibold text-[#1e160f] items-center font-outfit">
+      <Link to="/" className="text-[#1e160f] no-underline">Home</Link>
+      <Link to="/products" className="text-[#8a7360] no-underline flex gap-[6px] items-center">
+        Our Store <span className="text-[10px]">∨</span>
       </Link>
-      <Link to="#" style={{ color: C.textMid, textDecoration: 'none', display: 'flex', gap: 6, alignItems: 'center' }}>
-        Special <span style={{ background: '#e8f5e9', color: '#2e7d32', padding: '2px 6px', fontSize: 10, borderRadius: 12, fontWeight: 700 }}>Hot</span>
+      <Link to="#" className="text-[#8a7360] no-underline flex gap-[6px] items-center">
+        Special <span className="bg-[#e8f5e9] text-[#2e7d32] py-[2px] px-[6px] text-[10px] rounded-[12px] font-bold">Hot</span>
       </Link>
-      <Link to="#" style={{ color: C.textMid, textDecoration: 'none', display: 'flex', gap: 6, alignItems: 'center' }}>
-        Categories <span style={{ background: '#ffebee', color: '#c62828', padding: '2px 6px', fontSize: 10, borderRadius: 12, fontWeight: 700 }}>New</span>
+      <Link to="#" className="text-[#8a7360] no-underline flex gap-[6px] items-center">
+        Categories <span className="bg-[#ffebee] text-[#c62828] py-[2px] px-[6px] text-[10px] rounded-[12px] font-bold">New</span>
       </Link>
-      <Link to="#" style={{ color: C.textMid, textDecoration: 'none', display: 'flex', gap: 6, alignItems: 'center' }}>
-        Top Deals <span style={{ fontSize: 10 }}>∨</span>
+      <Link to="#" className="text-[#8a7360] no-underline flex gap-[6px] items-center">
+        Top Deals <span className="text-[10px]">∨</span>
       </Link>
-      <Link to="#" style={{ color: C.textMid, textDecoration: 'none' }}>Reviews</Link>
+      <Link to="#" className="text-[#8a7360] no-underline">Reviews</Link>
     </nav>
 
     {/* Right Icons */}
-    <div style={{ display: 'flex', gap: 24, fontSize: 20, color: C.textDark, alignItems: 'center' }}>
-      <span style={{ cursor: 'pointer' }}>⌕</span>
-      <span style={{ cursor: 'pointer', position: 'relative' }}>
-        ♡<span style={{ position: 'absolute', top: -4, right: -8, background: C.primary, color: C.white, fontSize: 10, fontWeight: 700, width: 14, height: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%' }}>0</span>
+    <div className="flex gap-[24px] text-[20px] text-[#1e160f] items-center">
+      <span className="cursor-pointer">⌕</span>
+      <span className="cursor-pointer relative">
+        ♡<span className="absolute -top-[4px] -right-[8px] bg-[#b8915a] text-white text-[10px] font-bold w-[14px] h-[14px] flex items-center justify-center rounded-full">0</span>
       </span>
-      <Link to="/login" style={{ color: C.textDark, textDecoration: 'none' }}>👤</Link>
-      <Link to="/cart" style={{ color: C.textDark, textDecoration: 'none', position: 'relative' }}>
-        🛒<span style={{ position: 'absolute', top: -4, right: -8, background: C.textDark, color: C.white, fontSize: 10, fontWeight: 700, width: 14, height: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%' }}>0</span>
+      <Link to="/login" className="text-[#1e160f] no-underline">👤</Link>
+      <Link to="/cart" className="text-[#1e160f] no-underline relative">
+        🛒<span className="absolute -top-[4px] -right-[8px] bg-[#1e160f] text-white text-[10px] font-bold w-[14px] h-[14px] flex items-center justify-center rounded-full">0</span>
       </Link>
     </div>
   </header>
 )
 
 const Hero = () => (
-  <section style={{ background: C.bg, padding: '40px 48px 60px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-    <div style={{ maxWidth: 1400, width: '100%', display: 'flex', alignItems: 'center', gap: '5%', background: '#f6f1ec', borderRadius: 24, padding: '0 80px', minHeight: 450 }}>
-      <div style={{ flex: 1, padding: '60px 0' }}>
-        <p style={{ color: C.textMid, fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '1px' }}>Flat 15% Discount!</p>
-        <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 52, fontWeight: 800, color: C.textDark, lineHeight: 1.1, margin: '0 0 20px' }}>
+  <section className="bg-[#fdf8f3] pt-[40px] px-[48px] pb-[60px] flex items-center justify-center">
+    <div className="max-w-[1400px] w-full flex items-center gap-[5%] bg-[#f6f1ec] rounded-[24px] py-0 px-[80px] min-h-[450px]">
+      <div className="flex-1 py-[60px] px-0">
+        <p className="text-[#8a7360] text-[13px] font-bold mb-[16px] uppercase tracking-[1px]">Flat 15% Discount!</p>
+        <h2 className="font-playfair text-[52px] font-extrabold text-[#1e160f] leading-[1.1] m-0 mb-[20px]">
           Proven To Tackle<br />Wrinkles & Acne
         </h2>
-        <p style={{ color: '#6d5a49', fontSize: 16, lineHeight: 1.6, marginBottom: 32, maxWidth: 360 }}>
+        <p className="text-[#6d5a49] text-[16px] leading-[1.6] mb-[32px] max-w-[360px]">
           What makes us different? We treat you personally - and honestly.
         </p>
-        <div style={{ fontSize: 20, fontWeight: 700, color: C.textDark, marginBottom: 32, fontFamily: "'Playfair Display', serif" }}>
+        <div className="text-[20px] font-bold text-[#1e160f] mb-[32px] font-playfair">
           From $49
         </div>
-        <button style={{ background: C.primary, color: C.white, border: 'none', padding: '14px 32px', borderRadius: 4, fontSize: 14, fontWeight: 600, cursor: 'pointer', letterSpacing: '0.5px', transition: 'background 0.3s' }} onMouseEnter={e => e.currentTarget.style.background = C.textDark} onMouseLeave={e => e.currentTarget.style.background = C.primary}>
+        <button className="bg-[#b8915a] text-white border-none py-[14px] px-[32px] rounded-[4px] text-[14px] font-semibold cursor-pointer tracking-[0.5px] transition-colors duration-300 hover:bg-[#1e160f]">
           Learn More
         </button>
       </div>
-      <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <img src="https://images.unsplash.com/photo-1598440947619-2c3f125f8eba?auto=format&fit=crop&w=800&q=80" alt="Cosmetics Products" style={{ width: '100%', maxWidth: 500, height: 'auto', objectFit: 'contain', mixBlendMode: 'multiply' }} />
+      <div className="flex-1 flex justify-center items-center">
+        <img src="https://images.unsplash.com/photo-1598440947619-2c3f125f8eba?auto=format&fit=crop&w=800&q=80" alt="Cosmetics Products" className="w-full max-w-[500px] h-auto object-contain mix-blend-multiply" />
       </div>
     </div>
   </section>
@@ -106,15 +92,15 @@ const Categories = () => {
   ]
 
   return (
-    <section style={{ padding: '60px 48px', maxWidth: 1400, margin: '0 auto', textAlign: 'center' }}>
-      <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 700, color: C.textDark, marginBottom: 40 }}>Shop By Categories</h3>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 24, flexWrap: 'wrap' }}>
+    <section className="py-[60px] px-[48px] max-w-[1400px] mx-auto text-center">
+      <h3 className="font-playfair text-[24px] font-bold text-[#1e160f] mb-[40px]">Shop By Categories</h3>
+      <div className="flex justify-center gap-[24px] flex-wrap">
         {cats.map(c => (
-          <div key={c.name} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, cursor: 'pointer', transition: 'transform 0.2s' }} onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-6px)'} onMouseLeave={e => e.currentTarget.style.transform = 'none'}>
-            <div style={{ width: 110, height: 110, borderRadius: 20, background: C.white, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', border: `1px solid ${C.border}`, boxShadow: '0 4px 16px rgba(0,0,0,0.03)' }}>
-              <img src={c.img} alt={c.name} style={{ width: '60%', height: '60%', objectFit: 'contain' }} />
+          <div key={c.name} className="flex flex-col items-center gap-[16px] cursor-pointer transition-transform duration-200 hover:-translate-y-[6px]">
+            <div className="w-[110px] h-[110px] rounded-[20px] bg-white flex items-center justify-center overflow-hidden border border-[rgba(232,213,192,0.4)] shadow-[0_4px_16px_rgba(0,0,0,0.03)]">
+              <img src={c.img} alt={c.name} className="w-[60%] h-[60%] object-contain" />
             </div>
-            <span style={{ fontSize: 13, fontWeight: 600, color: C.textDark }}>{c.name}</span>
+            <span className="text-[13px] font-semibold text-[#1e160f]">{c.name}</span>
           </div>
         ))}
       </div>
@@ -123,17 +109,17 @@ const Categories = () => {
 }
 
 const Sustainability = () => (
-  <section style={{ padding: '40px 48px', maxWidth: 1100, margin: '0 auto 60px' }}>
-    <div style={{ background: '#fcfaf8', borderRadius: 24, display: 'flex', overflow: 'hidden', border: `1px solid ${C.border}` }}>
-      <div style={{ flex: 1, position: 'relative', minHeight: 400 }}>
-        <img src="https://images.unsplash.com/photo-1608248593842-83b3e2bf6cd4?auto=format&fit=crop&w=800&q=80" alt="Sustainability" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+  <section className="py-[40px] px-[48px] max-w-[1100px] mx-auto mb-[60px]">
+    <div className="bg-[#fcfaf8] rounded-[24px] flex overflow-hidden border border-[rgba(232,213,192,0.4)]">
+      <div className="flex-1 relative min-h-[400px]">
+        <img src="https://images.unsplash.com/photo-1608248593842-83b3e2bf6cd4?auto=format&fit=crop&w=800&q=80" alt="Sustainability" className="w-full h-full object-cover" />
       </div>
-      <div style={{ flex: 0.8, padding: '60px 50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: C.white }}>
-        <p style={{ color: C.textMid, fontSize: 12, fontWeight: 700, marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Welcome To Zewar Store!</p>
-        <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 32, fontWeight: 700, color: C.textDark, marginBottom: 20, lineHeight: 1.2 }}>Our Commitment<br/>To Sustainability</h3>
-        <p style={{ color: C.textMid, fontSize: 14, lineHeight: 1.6, marginBottom: 32 }}>We exist to meet the needs of the present without compromising future generations' ability to meet their own.</p>
+      <div className="flex-[0.8] py-[60px] px-[50px] flex flex-col justify-center bg-white">
+        <p className="text-[#8a7360] text-[12px] font-bold mb-[12px] uppercase tracking-[0.5px]">Welcome To Zewar Store!</p>
+        <h3 className="font-playfair text-[32px] font-bold text-[#1e160f] mb-[20px] leading-[1.2]">Our Commitment<br />To Sustainability</h3>
+        <p className="text-[#8a7360] text-[14px] leading-[1.6] mb-[32px]">We exist to meet the needs of the present without compromising future generations' ability to meet their own.</p>
         <div>
-          <button style={{ background: C.primary, color: C.white, border: 'none', padding: '12px 24px', borderRadius: 4, fontSize: 13, fontWeight: 600, cursor: 'pointer', transition: 'background 0.3s' }} onMouseEnter={e => e.currentTarget.style.background = C.textDark} onMouseLeave={e => e.currentTarget.style.background = C.primary}>
+          <button className="bg-[#b8915a] text-white border-none py-[12px] px-[24px] rounded-[4px] text-[13px] font-semibold cursor-pointer transition-colors duration-300 hover:bg-[#1e160f]">
             Shop About Us
           </button>
         </div>
@@ -148,111 +134,109 @@ const ProductCard = ({ product }) => {
   const rating = product.rating || 5;
 
   return (
-    <Link to={`/product/${product._id}`} style={{ textDecoration: 'none' }}>
-      <div style={{ background: C.white, borderRadius: 16, padding: '24px', display: 'flex', flexDirection: 'column', position: 'relative', border: `1px solid ${C.border}`, transition: 'box-shadow 0.3s, transform 0.3s', cursor: 'pointer', height: '100%' }}
-           onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 12px 32px rgba(184,145,90,0.08)'; e.currentTarget.style.transform = 'translateY(-4px)' }}
-           onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'none' }}>
-        
+    <Link to={`/product/${product._id}`} className="no-underline">
+      <div className="bg-white rounded-[16px] p-[24px] flex flex-col relative border border-[rgba(232,213,192,0.4)] transition-all duration-300 cursor-pointer h-full hover:shadow-[0_12px_32px_rgba(184,145,90,0.08)] hover:-translate-y-1">
+
         {/* Sale tag */}
-      <div style={{ position: 'absolute', top: 16, left: 16, background: C.saleTag, color: C.white, fontSize: 10, fontWeight: 700, padding: '4px 8px', borderRadius: 4, zIndex: 1, textTransform: 'uppercase' }}>
-        Sale
-      </div>
+        <div className="absolute top-[16px] left-[16px] bg-[#e34c4c] text-white text-[10px] font-bold py-[4px] px-[8px] rounded-[4px] z-10 uppercase">
+          Sale
+        </div>
 
-      <div style={{ width: '100%', aspectRatio: '1', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20, background: '#fdfbfa', borderRadius: 12, overflow: 'hidden' }}>
-         <img src={product.images && product.images[0] ? product.images[0].url : 'https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&w=300&q=80'} alt={product.title} style={{ width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'multiply', padding: 20 }} />
-      </div>
+        <div className="w-full aspect-square flex items-center justify-center mb-[20px] bg-[#fdfbfa] rounded-[12px] overflow-hidden">
+          <img src={product.images && product.images[0] ? product.images[0].url : 'https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&w=300&q=80'} alt={product.title} className="w-full h-full object-contain mix-blend-multiply p-[20px]" />
+        </div>
 
-      <h4 style={{ fontSize: 14, fontWeight: 700, color: C.textDark, margin: '0 0 8px', minHeight: 40, fontFamily: "'Outfit', sans-serif", display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-        {product.title || product.name}
-      </h4>
+        <h4 className="text-[14px] font-bold text-[#1e160f] m-0 mb-[8px] min-h-[40px] font-outfit line-clamp-2 overflow-hidden">
+          {product.title || product.name}
+        </h4>
 
-      <div style={{ display: 'flex', gap: 2, color: '#f3c623', fontSize: 12, marginBottom: 12 }}>
-        ★★★★★ <span style={{ color: C.textMid, marginLeft: 4 }}>({rating})</span>
-      </div>
+        <div className="flex gap-[2px] text-[#f3c623] text-[12px] mb-[12px]">
+          ★★★★★ <span className="text-[#8a7360] ml-[4px]">({rating})</span>
+        </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-        <span style={{ fontSize: 13, color: '#a89a8c', textDecoration: 'line-through' }}>${oldPrice}</span>
-        <span style={{ fontSize: 16, fontWeight: 800, color: C.textDark }}>${price}</span>
-      </div>
+        <div className="flex items-center gap-[8px] mb-[16px]">
+          <span className="text-[13px] text-[#a89a8c] line-through">${oldPrice}</span>
+          <span className="text-[16px] font-extrabold text-[#1e160f]">${price}</span>
+        </div>
 
-      <div style={{ fontSize: 13, fontWeight: 600, color: C.textDark, cursor: 'pointer', borderBottom: `1px solid ${C.textDark}`, display: 'inline-block', alignSelf: 'flex-start', paddingBottom: 2, marginTop: 'auto' }}>
-        Choose options
+        <div className="text-[13px] font-semibold text-[#1e160f] cursor-pointer border-b border-[#1e160f] inline-block self-start pb-[2px] mt-auto">
+          Choose options
+        </div>
       </div>
-    </div>
     </Link>
   )
 }
 
 const ProductGridSection = ({ title, products }) => (
-  <section style={{ padding: '40px 48px', maxWidth: 1400, margin: '0 auto 60px' }}>
-    <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 26, fontWeight: 700, color: C.textDark, marginBottom: 40, textAlign: 'center' }}>
+  <section className="py-[40px] px-[48px] max-w-[1400px] mx-auto mb-[60px]">
+    <h3 className="font-playfair text-[26px] font-bold text-[#1e160f] mb-[40px] text-center">
       {title}
     </h3>
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 24 }}>
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-[24px]">
       {products && products.length > 0 ? (
         products.map((p, i) => <ProductCard key={p._id || i} product={p} />)
       ) : (
-        <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: 40, color: C.textMid }}>No products available.</div>
+        <div className="col-span-full text-center p-[40px] text-[#8a7360]">No products available.</div>
       )}
     </div>
   </section>
 )
 
 const PromoBanners = () => (
-  <section style={{ padding: '20px 48px', maxWidth: 1400, margin: '0 auto 80px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20 }}>
+  <section className="py-[20px] px-[48px] max-w-[1400px] mx-auto mb-[80px] grid grid-cols-4 gap-[20px]">
     {/* Banner 1 */}
-    <div style={{ borderRadius: 20, overflow: 'hidden', position: 'relative', aspectRatio: '4/5', background: '#333' }}>
-      <img src="https://images.unsplash.com/photo-1512496015851-a1c8cf71d80c?auto=format&fit=crop&w=400&q=80" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }} alt="Influencers" />
-      <div style={{ position: 'absolute', bottom: 30, left: 24, right: 24 }}>
-        <p style={{ color: C.white, fontSize: 12, margin: '0 0 6px', opacity: 0.9, letterSpacing: '0.5px' }}>Zewar</p>
-        <h4 style={{ color: C.white, fontSize: 22, fontWeight: 700, margin: 0, fontFamily: "'Playfair Display', serif", lineHeight: 1.2 }}>Chosen By<br/>Influencers</h4>
+    <div className="rounded-[20px] overflow-hidden relative aspect-[4/5] bg-[#333]">
+      <img src="https://images.unsplash.com/photo-1512496015851-a1c8cf71d80c?auto=format&fit=crop&w=400&q=80" className="w-full h-full object-cover opacity-80" alt="Influencers" />
+      <div className="absolute bottom-[30px] left-[24px] right-[24px]">
+        <p className="text-white text-[12px] m-0 mb-[6px] opacity-90 tracking-[0.5px]">Zewar</p>
+        <h4 className="text-white text-[22px] font-bold m-0 font-playfair leading-[1.2]">Chosen By<br />Influencers</h4>
       </div>
     </div>
     {/* Banner 2 */}
-    <div style={{ borderRadius: 20, overflow: 'hidden', position: 'relative', aspectRatio: '4/5', background: '#ebdccb', padding: 30, display: 'flex', flexDirection: 'column' }}>
-      <h4 style={{ color: C.textDark, fontSize: 22, fontWeight: 700, margin: '0 0 10px', fontFamily: "'Playfair Display', serif", lineHeight: 1.2 }}>Carefully<br/>Crafted</h4>
-      <p style={{ color: C.textMid, fontSize: 13, margin: 0, lineHeight: 1.5 }}>Created After Years<br/>Of Research</p>
-      <div style={{ marginTop: 'auto', alignSelf: 'center', width: '80%', height: '50%' }}>
-         <img src="https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&w=200&q=80" style={{ width: '100%', height: '100%', objectFit: 'contain', mixBlendMode: 'multiply' }} alt="Crafted" />
+    <div className="rounded-[20px] overflow-hidden relative aspect-[4/5] bg-[#ebdccb] p-[30px] flex flex-col">
+      <h4 className="text-[#1e160f] text-[22px] font-bold m-0 mb-[10px] font-playfair leading-[1.2]">Carefully<br />Crafted</h4>
+      <p className="text-[#8a7360] text-[13px] m-0 leading-[1.5]">Created After Years<br />Of Research</p>
+      <div className="mt-auto self-center w-[80%] h-[50%]">
+        <img src="https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&w=200&q=80" className="w-full h-full object-contain mix-blend-multiply" alt="Crafted" />
       </div>
     </div>
     {/* Banner 3 */}
-    <div style={{ borderRadius: 20, overflow: 'hidden', position: 'relative', aspectRatio: '4/5', background: '#1c1c1c', padding: 30, display: 'flex', flexDirection: 'column' }}>
-      <h4 style={{ color: C.white, fontSize: 22, fontWeight: 700, margin: '0 0 10px', fontFamily: "'Playfair Display', serif", lineHeight: 1.2 }}>15% Off Only<br/>This Week</h4>
-      <p style={{ color: '#a0a0a0', fontSize: 13, margin: 0, lineHeight: 1.5 }}>15% Off Our<br/>Anti-Aging Cream</p>
-      <div style={{ marginTop: 'auto', alignSelf: 'flex-end', width: '90%', height: '50%' }}>
-         <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=200&q=80" style={{ width: '100%', height: '100%', objectFit: 'contain', transform: 'rotate(-10deg) scale(1.1) translate(10%, 10%)' }} alt="Discount" />
+    <div className="rounded-[20px] overflow-hidden relative aspect-[4/5] bg-[#1c1c1c] p-[30px] flex flex-col">
+      <h4 className="text-white text-[22px] font-bold m-0 mb-[10px] font-playfair leading-[1.2]">15% Off Only<br />This Week</h4>
+      <p className="text-[#a0a0a0] text-[13px] m-0 leading-[1.5]">15% Off Our<br />Anti-Aging Cream</p>
+      <div className="mt-auto self-end w-[90%] h-[50%]">
+        <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=200&q=80" className="w-full h-full object-contain -rotate-[10deg] scale-110 translate-x-[10%] translate-y-[10%]" alt="Discount" />
       </div>
     </div>
     {/* Banner 4 */}
-    <div style={{ borderRadius: 20, overflow: 'hidden', position: 'relative', aspectRatio: '4/5', background: '#c1a58c' }}>
-      <img src="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6ece?auto=format&fit=crop&w=400&q=80" style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Flaky Skin" />
-      <div style={{ position: 'absolute', bottom: 30, left: 24, right: 24 }}>
-        <p style={{ color: C.textDark, fontSize: 12, margin: '0 0 6px', fontWeight: 700, letterSpacing: '0.5px' }}>Flat 15% Off</p>
-        <h4 style={{ color: C.textDark, fontSize: 22, fontWeight: 700, margin: 0, fontFamily: "'Playfair Display', serif", lineHeight: 1.2 }}>Prevent Dry,<br/>Flaky Skin</h4>
+    <div className="rounded-[20px] overflow-hidden relative aspect-[4/5] bg-[#c1a58c]">
+      <img src="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6ece?auto=format&fit=crop&w=400&q=80" className="w-full h-full object-cover" alt="Flaky Skin" />
+      <div className="absolute bottom-[30px] left-[24px] right-[24px]">
+        <p className="text-[#1e160f] text-[12px] m-0 mb-[6px] font-bold tracking-[0.5px]">Flat 15% Off</p>
+        <h4 className="text-[#1e160f] text-[22px] font-bold m-0 font-playfair leading-[1.2]">Prevent Dry,<br />Flaky Skin</h4>
       </div>
     </div>
   </section>
 )
 
 const PreFooter = () => (
-  <section style={{ padding: '40px 48px', maxWidth: 1100, margin: '0 auto 80px', textAlign: 'center' }}>
-    <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 28, fontWeight: 700, color: C.textDark, margin: '0 0 16px' }}>Get Your Customised Skincare Treatment</h3>
-    <p style={{ color: C.textMid, fontSize: 15, margin: '0 auto 32px', maxWidth: 640, lineHeight: 1.6 }}>
+  <section className="py-[40px] px-[48px] max-w-[1100px] mx-auto mb-[80px] text-center">
+    <h3 className="font-playfair text-[28px] font-bold text-[#1e160f] m-0 mb-[16px]">Get Your Customised Skincare Treatment</h3>
+    <p className="text-[#8a7360] text-[15px] m-0 mx-auto mb-[32px] max-w-[640px] leading-[1.6]">
       We have a specialized remedy to help you with any issues and advise you routines. Formica tristique. Donec rhoncus dignissim volutpat. Aliquam pellentesque scelerisque.
     </p>
-    <div style={{ fontSize: 14, fontWeight: 700, color: C.textDark, cursor: 'pointer', borderBottom: `2px solid ${C.textDark}`, display: 'inline-block', paddingBottom: 4, marginBottom: 48 }}>
+    <div className="text-[14px] font-bold text-[#1e160f] cursor-pointer border-b-2 border-[#1e160f] inline-block pb-[4px] mb-[48px]">
       Shop Skincare
     </div>
-    <div style={{ width: '100%', height: 350, borderRadius: 24, overflow: 'hidden', background: C.surfaceLight, border: `1px solid ${C.border}` }}>
-      <img src="https://images.unsplash.com/photo-1556228720-1c2f689e4c5b?auto=format&fit=crop&w=1200&q=80" alt="Special Skincare" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+    <div className="w-full h-[350px] rounded-[24px] overflow-hidden bg-[rgba(255,255,255,0.7)] border border-[rgba(232,213,192,0.4)]">
+      <img src="https://images.unsplash.com/photo-1556228720-1c2f689e4c5b?auto=format&fit=crop&w=1200&q=80" alt="Special Skincare" className="w-full h-full object-cover" />
     </div>
   </section>
 )
 
 function Home() {
   const Product = useProduct()
-  const handleGetAllProducts = Product?.handleGetAllProducts || (() => {});
+  const handleGetAllProducts = Product?.handleGetAllProducts || (() => { });
   const allProducts = useSelector((state) => state.product.allProducts) || []
 
   useEffect(() => {
@@ -264,7 +248,7 @@ function Home() {
   const bestDeals = allProducts.length > 4 ? allProducts.slice(4, 8) : allProducts.slice(0, 4);
 
   return (
-    <div style={{ minHeight: '100vh', fontFamily: "'Outfit', sans-serif", background: C.bg }}>
+    <div className="min-h-screen font-outfit bg-[#fdf8f3]">
       <TopBar />
       <Header />
       <Hero />

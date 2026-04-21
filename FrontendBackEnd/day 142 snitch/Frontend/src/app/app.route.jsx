@@ -30,10 +30,14 @@ export const router = createBrowserRouter([
   },
   {
     path: "/seller",
-    element: <Dashboard />
+    element: <Protected role="seller">
+      <Dashboard />
+    </Protected>
   },
   {
     path: "/create-product",
-    element: <CreateProducts />,
+    element: <Protected role="seller">
+      <CreateProducts />
+    </Protected>
   },
 ]);

@@ -1,54 +1,61 @@
 import mongoose from "mongoose";
+import priceSchema from "./price.schema";
 
-const productSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: [true, "Product title is require"],
-  },
-  description: {
-    type: String,
-    require: [true, "Product description is require"],
-  },
-  seller: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
-    require: [true, "Seller is require"],
-  },
-  price: {
-    amount: {
-      type: Number,
-      require: [true, "Product price is require"],
-    },
-    currency: {
+const productSchema = new mongoose.Schema(
+  {
+    title: {
       type: String,
-      enum: [
-        "USD",
-        "EUR",
-        "GBP",
-        "JPY",
-        "CAD",
-        "AUD",
-        "CHF",
-        "CNY",
-        "INR",
-        "BDT",
-      ],
-      default: "BDT",
+      required: [true, "Product title is require"],
     },
+    description: {
+      type: String,
+      require: [true, "Product description is require"],
+    },
+    seller: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      require: [true, "Seller is require"],
+    },
+    price: {
+      type: priceSchema,
+      require: [true, "Price is require"],
+    },
+    images: [
+      {
+        url: {
+          type: String,
+          require: [true, "Image url is require"],
+        },
+        alt: {
+          type: String,
+          require: [true, "Image alt is require"],
+        },
+      },
+    ],
+    variants: [
+      {
+        image: {
+          url: {
+            type: String,
+            require: [true, "Image url is require"],
+          },
+          alt: {
+            type: String,
+            require: [true, "Image alt is require"],
+          },
+        },
+        stock: {
+          type: Number,
+          require: [true, "Stock is require"],
+        },
+        price: {
+          type: priceSchema,
+        },
+      },
+    ],
   },
-  images: [
-    {
-      url: {
-        type: String,
-        require: [true, "Image url is require"],
-      },
-      alt: {
-        type: String,
-        require: [true, "Image alt is require"],
-      },
-    },
-  ],
-});
+  { timestamps: true },
+);
 
 const productModel = mongoose.model("product", productSchema);
 

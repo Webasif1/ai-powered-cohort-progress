@@ -5,9 +5,12 @@ import { useProduct } from '../hooks/useProduct.js'
 
 
 const TopBar = () => (
-  <div className="bg-[#1e160f] text-white text-[12px] flex justify-between py-[10px] px-[48px] items-center">
-    <div className="flex-1 tracking-[0.3px] text-[#e0e0e0]">Sign up and GET 20% OFF for your first order. <span className="text-[#d4b896] cursor-pointer underline">Sign up now</span></div>
-    <div className="flex gap-[32px] font-medium text-[#e0e0e0]">
+  <div className="bg-[#1e160f] text-white text-[12px] flex justify-between py-[10px] px-[16px] sm:px-[48px] items-center">
+    <div className="flex-1 tracking-[0.3px] text-[#e0e0e0] truncate">
+      Sign up and GET 20% OFF for your first order.{' '}
+      <span className="text-[#d4b896] cursor-pointer underline hidden sm:inline">Sign up now</span>
+    </div>
+    <div className="hidden sm:flex gap-[32px] font-medium text-[#e0e0e0]">
       <span className="cursor-pointer">Call Us : +123-456-789</span>
       <div className="flex gap-[12px]">
         <span className="cursor-pointer">f</span>
@@ -18,35 +21,69 @@ const TopBar = () => (
   </div>
 )
 
-const Header = () => (
-  <header className="py-[24px] px-[48px] flex justify-between items-center bg-[#fdf8f3] sticky top-0 z-50 border-b border-[rgba(232,213,192,0.4)]">
-    <Link to="/" className="no-underline">
-      <h1 className="font-playfair text-[28px] font-extrabold text-[#1e160f] m-0 tracking-[-0.02em] flex items-center gap-[8px]">
-        <span className="bg-[#b8915a] text-white w-[32px] h-[32px] flex items-center justify-center rounded-full text-[16px]">Z</span>
-        Zewar.
-      </h1>
-    </Link>
-    <nav className="flex gap-[32px] text-[14px] font-semibold text-[#1e160f] items-center font-outfit">
-      <Link to="/" className="text-[#8a7360] no-underline">Home</Link>
-      <Link to="/products" className="text-[#1e160f] no-underline border-b-2 border-[#1e160f] pb-[2px]">Shop</Link>
-      <Link to="#" className="text-[#8a7360] no-underline">Skin Care</Link>
-      <Link to="#" className="text-[#8a7360] no-underline">Makeup</Link>
-      <Link to="#" className="text-[#8a7360] no-underline">Hair Care</Link>
-      <Link to="#" className="text-[#8a7360] no-underline">About Us</Link>
-      <Link to="#" className="text-[#8a7360] no-underline">Blogs</Link>
-    </nav>
-    <div className="flex gap-[24px] text-[20px] text-[#1e160f] items-center">
-      <span className="cursor-pointer">⌕</span>
-      <span className="cursor-pointer relative">
-        ♡<span className="absolute -top-[4px] -right-[8px] bg-[#b8915a] text-white text-[10px] font-bold w-[14px] h-[14px] flex items-center justify-center rounded-full">0</span>
-      </span>
-      <Link to="/login" className="text-[#1e160f] no-underline">👤</Link>
-      <Link to="/cart" className="text-[#1e160f] no-underline relative">
-        🛒<span className="absolute -top-[4px] -right-[8px] bg-[#1e160f] text-white text-[10px] font-bold w-[14px] h-[14px] flex items-center justify-center rounded-full">0</span>
+const Header = () => {
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  return (
+    <header className="py-[14px] sm:py-[24px] px-[16px] sm:px-[48px] flex justify-between items-center bg-[#fdf8f3] sticky top-0 z-50 border-b border-[rgba(232,213,192,0.4)]">
+      <Link to="/" className="no-underline">
+        <h1 className="font-playfair text-[22px] sm:text-[28px] font-extrabold text-[#1e160f] m-0 tracking-[-0.02em] flex items-center gap-[8px]">
+          <span className="bg-[#b8915a] text-white w-[28px] h-[28px] sm:w-[32px] sm:h-[32px] flex items-center justify-center rounded-full text-[14px] sm:text-[16px]">Z</span>
+          Zewar.
+        </h1>
       </Link>
-    </div>
-  </header>
-)
+
+      {/* Desktop Nav */}
+      <nav className="hidden lg:flex gap-[32px] text-[14px] font-semibold text-[#1e160f] items-center font-outfit">
+        <Link to="/" className="text-[#8a7360] no-underline">Home</Link>
+        <Link to="/products" className="text-[#1e160f] no-underline border-b-2 border-[#1e160f] pb-[2px]">Shop</Link>
+        <Link to="#" className="text-[#8a7360] no-underline">Skin Care</Link>
+        <Link to="#" className="text-[#8a7360] no-underline">Makeup</Link>
+        <Link to="#" className="text-[#8a7360] no-underline">Hair Care</Link>
+        <Link to="#" className="text-[#8a7360] no-underline">About Us</Link>
+        <Link to="#" className="text-[#8a7360] no-underline">Blogs</Link>
+      </nav>
+
+      {/* Right Icons */}
+      <div className="flex gap-[16px] sm:gap-[24px] text-[20px] text-[#1e160f] items-center">
+        <span className="cursor-pointer hidden sm:block">⌕</span>
+        <span className="cursor-pointer relative">
+          ♡<span className="absolute -top-[4px] -right-[8px] bg-[#b8915a] text-white text-[10px] font-bold w-[14px] h-[14px] flex items-center justify-center rounded-full">0</span>
+        </span>
+        <Link to="/login" className="text-[#1e160f] no-underline hidden sm:block">👤</Link>
+        <Link to="/cart" className="text-[#1e160f] no-underline relative">
+          🛒<span className="absolute -top-[4px] -right-[8px] bg-[#1e160f] text-white text-[10px] font-bold w-[14px] h-[14px] flex items-center justify-center rounded-full">0</span>
+        </Link>
+        {/* Hamburger */}
+        <button
+          onClick={() => setMenuOpen(o => !o)}
+          className="lg:hidden flex flex-col gap-[5px] cursor-pointer bg-transparent border-none p-[4px]"
+          aria-label="Open menu"
+        >
+          <span className="block w-[22px] h-[2px] bg-[#1e160f] rounded" />
+          <span className="block w-[22px] h-[2px] bg-[#1e160f] rounded" />
+          <span className="block w-[22px] h-[2px] bg-[#1e160f] rounded" />
+        </button>
+      </div>
+
+      {/* Mobile Dropdown */}
+      {menuOpen && (
+        <div className="absolute top-full left-0 right-0 bg-[#fdf8f3] border-t border-[rgba(232,213,192,0.4)] flex flex-col shadow-lg z-[100] lg:hidden">
+          {['Home', 'Shop', 'Skin Care', 'Makeup', 'Hair Care', 'About Us', 'Blogs'].map(item => (
+            <Link
+              key={item}
+              to={item === 'Home' ? '/' : item === 'Shop' ? '/products' : '#'}
+              onClick={() => setMenuOpen(false)}
+              className="text-[#1e160f] no-underline text-[14px] font-semibold py-[14px] px-[20px] border-b border-[rgba(232,213,192,0.3)] hover:bg-[#f5ede4] transition-colors"
+            >
+              {item}
+            </Link>
+          ))}
+        </div>
+      )}
+    </header>
+  )
+}
 
 const ProductCard = ({ product }) => {
   const price = parseFloat(product.price?.amount || 99).toFixed(2);
@@ -55,18 +92,16 @@ const ProductCard = ({ product }) => {
 
   return (
     <Link to={`/product/${product._id}`} className="no-underline">
-      <div
-        className="bg-white rounded-[16px] p-[24px] flex flex-col relative border border-[rgba(232,213,192,0.4)] transition-all duration-300 cursor-pointer h-full hover:shadow-[0_12px_32px_rgba(184,145,90,0.08)] hover:-translate-y-1"
-      >
+      <div className="bg-white rounded-[16px] p-[16px] sm:p-[24px] flex flex-col relative border border-[rgba(232,213,192,0.4)] transition-all duration-300 cursor-pointer h-full hover:shadow-[0_12px_32px_rgba(184,145,90,0.08)] hover:-translate-y-1">
         <div className="absolute top-[16px] left-[16px] bg-[#b8915a] text-white text-[10px] font-bold py-[4px] px-[8px] rounded-[4px] z-10 uppercase">
           50% Off
         </div>
-        <div className="w-full aspect-square flex items-center justify-center mb-[20px] bg-[#fdfbfa] rounded-[12px] overflow-hidden">
+        <div className="w-full aspect-square flex items-center justify-center mb-[16px] sm:mb-[20px] bg-[#fdfbfa] rounded-[12px] overflow-hidden">
           <img src={product.images && product.images[0] ? product.images[0].url : 'https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&w=300&q=80'} alt={product.title} className="w-full h-full object-contain mix-blend-multiply p-[20px]" />
         </div>
         <p className="text-[12px] text-[#8a7360] m-0 mb-[4px] uppercase tracking-[0.5px]">Skin Care</p>
         <div className="flex justify-between items-start mb-[8px]">
-          <h4 className="text-[14px] font-bold text-[#1e160f] m-0 font-outfit line-clamp-2 overflow-hidden pr-[8px]">
+          <h4 className="text-[13px] sm:text-[14px] font-bold text-[#1e160f] m-0 font-outfit line-clamp-2 overflow-hidden pr-[8px]">
             {product.title || product.name}
           </h4>
           <div className="flex gap-[2px] text-[#f3c623] text-[12px] font-semibold whitespace-nowrap">
@@ -74,7 +109,7 @@ const ProductCard = ({ product }) => {
           </div>
         </div>
         <div className="flex items-center gap-[8px] mt-auto">
-          <span className="text-[16px] font-extrabold text-[#b8915a]">${price}</span>
+          <span className="text-[15px] sm:text-[16px] font-extrabold text-[#b8915a]">${price}</span>
           <span className="text-[13px] text-[#a89a8c] line-through">${oldPrice}</span>
         </div>
       </div>
@@ -83,14 +118,14 @@ const ProductCard = ({ product }) => {
 }
 
 const ProductGridSection = ({ title, products }) => (
-  <section className="py-[60px] px-[48px] max-w-[1400px] mx-auto border-t border-[rgba(232,213,192,0.4)]">
-    <div className="text-center mb-[40px]">
+  <section className="py-[40px] sm:py-[60px] px-[16px] sm:px-[48px] max-w-[1400px] mx-auto border-t border-[rgba(232,213,192,0.4)]">
+    <div className="text-center mb-[28px] sm:mb-[40px]">
       <p className="text-[#8a7360] text-[14px] m-0 mb-[8px] font-semibold">Related Products</p>
-      <h3 className="font-playfair text-[32px] font-bold text-[#1e160f] m-0">
+      <h3 className="font-playfair text-[24px] sm:text-[32px] font-bold text-[#1e160f] m-0">
         Explore <span className="text-[#b8915a]">Related Products</span>
       </h3>
     </div>
-    <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-[24px]">
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-[16px] sm:gap-[24px]">
       {products && products.length > 0 ? (
         products.map((p, i) => <ProductCard key={p._id || i} product={p} />)
       ) : (
@@ -101,7 +136,7 @@ const ProductGridSection = ({ title, products }) => (
 )
 
 const FeaturesFooter = () => (
-  <div className="py-[40px] px-[48px] max-w-[1400px] mx-auto mb-[60px] flex justify-around border-t border-[rgba(232,213,192,0.4)] pt-[60px]">
+  <div className="py-[40px] px-[16px] sm:px-[48px] max-w-[1400px] mx-auto mb-[40px] sm:mb-[60px] flex flex-col sm:flex-row justify-around gap-[24px] sm:gap-0 border-t border-[rgba(232,213,192,0.4)] pt-[40px] sm:pt-[60px]">
     <div className="flex items-center gap-[16px]">
       <div className="text-[32px]">📦</div>
       <div>
@@ -188,9 +223,9 @@ const ProductDetails = () => {
       <TopBar />
       <Header />
 
-      {/* Page Title & Breadcrumb */}
-      <div className="py-[40px] px-[48px] text-center bg-[rgba(232,213,192,0.1)]">
-        <h2 className="font-playfair text-[36px] font-bold text-[#1e160f] m-0 mb-[12px]">Product Details</h2>
+      {/* Breadcrumb */}
+      <div className="py-[24px] sm:py-[40px] px-[16px] sm:px-[48px] text-center bg-[rgba(232,213,192,0.1)]">
+        <h2 className="font-playfair text-[24px] sm:text-[36px] font-bold text-[#1e160f] m-0 mb-[12px]">Product Details</h2>
         <p className="text-[#8a7360] text-[14px] m-0 font-medium">
           <Link to="/" className="text-[#8a7360] no-underline">Home</Link> /
           <span className="mx-[8px]">Shop</span> /
@@ -198,34 +233,15 @@ const ProductDetails = () => {
         </p>
       </div>
 
-      <div className="max-w-[1200px] my-[60px] mx-auto px-[48px] flex gap-[5%]">
-        {/* Gallery */}
-        <div className="flex-1 min-w-0">
-          <div className="bg-[#f6f1ec] rounded-[24px] p-[5px] mb-[15px] flex items-center justify-center aspect-[4/5] relative overflow-hidden">
-            <img src={mainImage} alt={product.title} className="w-full h-full object-contain mix-blend-multiply" />
-            <div onClick={() => setIsModalOpen(true)} className="h-[35px] w-[35px] text-[20px] flex items-center justify-center absolute top-[20px] right-[20px] bg-[#fdf8f3] p-[8px] rounded-full cursor-pointer shadow-[0_4px_12px_rgba(0,0,0,0.05)]">⤢</div>
-            {thumbnails.length > 1 && (
-              <>
-                <button onClick={handlePrevImage} className="absolute left-[20px] top-1/2 -translate-y-1/2 w-[40px] h-[40px] rounded-full bg-white border border-[rgba(232,213,192,0.4)] flex items-center justify-center cursor-pointer shadow-[0_4px_12px_rgba(0,0,0,0.05)] text-[#1e160f]">←</button>
-                <button onClick={handleNextImage} className="absolute right-[20px] top-1/2 -translate-y-1/2 w-[40px] h-[40px] rounded-full bg-white text-[#1e160f] border-none flex items-center justify-center cursor-pointer shadow-[0_4px_12px_rgba(0,0,0,0.1)]">→</button>
-              </>
-            )}
-          </div>
-          <div className="grid grid-cols-4 gap-[16px]">
-            {thumbnails.slice(0, 4).map((thumb, i) => (
-              <div onClick={() => setCurrentImageIndex(i)} key={i} className={`aspect-square rounded-[16px] bg-[#f6f1ec] border-2 flex items-center justify-center p-[8px] cursor-pointer ${i === currentImageIndex ? 'border-[#b8915a]' : 'border-transparent'}`}>
-                <img src={thumb.url} className="w-full h-full object-contain mix-blend-multiply" />
-              </div>
-            ))}
-          </div>
-        </div>
+      {/* Product section — stacks on mobile */}
+      <div className="max-w-[1400px] my-[32px] sm:my-[60px] mx-auto px-[16px] sm:px-[48px] flex flex-col-reverse lg:flex-row gap-[40px] lg:gap-[10%]">
 
         {/* Info */}
         <div className="flex-[1.1] flex flex-col">
           <p className="text-[#8a7360] text-[13px] font-semibold m-0 mb-[12px] tracking-[0.5px]">SKIN CARE</p>
 
-          <div className="flex items-center gap-[16px] mb-[12px]">
-            <h1 className="font-playfair text-[40px] font-bold text-[#1e160f] m-0 leading-[1.2]">
+          <div className="flex flex-wrap items-center gap-[16px] mb-[12px]">
+            <h1 className="font-playfair text-[28px] sm:text-[40px] font-bold text-[#1e160f] m-0 leading-[1.2]">
               {product.title || product.name}
             </h1>
           </div>
@@ -238,22 +254,23 @@ const ProductDetails = () => {
           </div>
 
           <div className="flex items-center gap-[12px] mb-[24px]">
-            <span className="text-[24px] font-extrabold text-[#b8915a]">${price}</span>
-            <span className="text-[18px] text-[#a89a8c] line-through font-semibold">${oldPrice}</span>
+            <span className="text-[20px] sm:text-[24px] font-extrabold text-[#b8915a]">${price}</span>
+            <span className="text-[16px] sm:text-[18px] text-[#a89a8c] line-through font-semibold">${oldPrice}</span>
           </div>
 
-          <p className="text-[#8a7360] text-[15px] leading-[1.6] mb-[32px] max-w-[500px]">
+          <p className="text-[#8a7360] text-[14px] sm:text-[15px] leading-[1.6] mb-[32px]">
             {product.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore. Elevate your skincare routine with this premium formula."}
           </p>
 
-          <div className="mb-[32px]">
+          {/* Size / Volume */}
+          <div className="mb-[28px] sm:mb-[32px]">
             <p className="text-[#1e160f] text-[14px] font-bold m-0 mb-[12px]">Size / Volume</p>
-            <div className="flex gap-[12px]">
+            <div className="flex gap-[8px] sm:gap-[12px] flex-wrap">
               {['30 ml', '60 ml', '80 ml', '100 ml'].map(vol => (
                 <button
                   key={vol}
                   onClick={() => setSelectedVol(vol)}
-                  className={`py-[8px] px-[20px] rounded-full text-[13px] font-semibold cursor-pointer transition-all duration-200 border ${selectedVol === vol ? 'bg-[#1e160f] text-white border-[#1e160f]' : 'bg-transparent text-[#1e160f] border-[rgba(232,213,192,0.4)]'}`}
+                  className={`py-[8px] px-[16px] sm:px-[20px] rounded-full text-[13px] font-semibold cursor-pointer transition-all duration-200 border ${selectedVol === vol ? 'bg-[#1e160f] text-white border-[#1e160f]' : 'bg-transparent text-[#1e160f] border-[rgba(232,213,192,0.4)]'}`}
                 >
                   {vol}
                 </button>
@@ -261,26 +278,28 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-[16px] mb-[40px]">
+          {/* Quantity + Buttons */}
+          <div className="flex flex-wrap items-center gap-[12px] mb-[32px] sm:mb-[40px]">
             <div className="flex items-center bg-white border border-[rgba(232,213,192,0.4)] rounded-full p-[4px]">
               <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-[36px] h-[36px] flex items-center justify-center bg-transparent border-none cursor-pointer text-[18px] text-[#1e160f]">-</button>
               <span className="w-[40px] text-center text-[15px] font-bold text-[#1e160f]">{quantity}</span>
               <button onClick={() => setQuantity(quantity + 1)} className="w-[36px] h-[36px] flex items-center justify-center bg-transparent border-none cursor-pointer text-[18px] text-[#1e160f]">+</button>
             </div>
 
-            <button onClick={handleAddToCart} className="flex-1 bg-[#1e160f] text-white border-none h-[48px] rounded-full text-[15px] font-bold cursor-pointer transition-opacity duration-200 hover:opacity-90">
+            <button onClick={handleAddToCart} className="flex-1 min-w-[140px] bg-[#1e160f] text-white border-none h-[48px] rounded-full text-[14px] sm:text-[15px] font-bold cursor-pointer transition-opacity duration-200 hover:opacity-90">
               Add To Cart
             </button>
 
-            <button onClick={handleBuyNow} className="flex-1 bg-[#b8915a] text-white border-none h-[48px] rounded-full text-[15px] font-bold cursor-pointer transition-opacity duration-200 hover:opacity-90">
+            <button onClick={handleBuyNow} className="flex-1 min-w-[140px] bg-[#b8915a] text-white border-none h-[48px] rounded-full text-[14px] sm:text-[15px] font-bold cursor-pointer transition-opacity duration-200 hover:opacity-90">
               Buy Now
             </button>
 
-            <button className="w-[48px] h-[48px] rounded-full bg-white border border-[rgba(232,213,192,0.4)] flex items-center justify-center cursor-pointer text-[20px] text-[#1e160f]">
+            <button className="w-[48px] h-[48px] rounded-full bg-white border border-[rgba(232,213,192,0.4)] flex items-center justify-center cursor-pointer text-[20px] text-[#1e160f] shrink-0">
               ♡
             </button>
           </div>
 
+          {/* Meta */}
           <div className="border-t border-[rgba(232,213,192,0.4)] pt-[24px] text-[14px] flex flex-col gap-[12px]">
             <div className="flex">
               <span className="text-[#1e160f] font-bold w-[80px]">SKU :</span>
@@ -293,36 +312,55 @@ const ProductDetails = () => {
             <div className="flex items-center">
               <span className="text-[#1e160f] font-bold w-[80px]">Share :</span>
               <div className="flex gap-[8px]">
-                <span className="w-[28px] h-[28px] rounded-full bg-[#1e160f] text-white flex items-center justify-center text-[12px] cursor-pointer">f</span>
-                <span className="w-[28px] h-[28px] rounded-full bg-[#1e160f] text-white flex items-center justify-center text-[12px] cursor-pointer">t</span>
-                <span className="w-[28px] h-[28px] rounded-full bg-[#1e160f] text-white flex items-center justify-center text-[12px] cursor-pointer">P</span>
-                <span className="w-[28px] h-[28px] rounded-full bg-[#1e160f] text-white flex items-center justify-center text-[12px] cursor-pointer">in</span>
+                {['f', 't', 'P', 'in'].map(s => (
+                  <span key={s} className="w-[28px] h-[28px] rounded-full bg-[#1e160f] text-white flex items-center justify-center text-[12px] cursor-pointer">{s}</span>
+                ))}
               </div>
             </div>
           </div>
+        </div>
 
+        {/* Gallery */}
+        <div className="flex-1 min-w-0">
+          <div className="bg-[#f6f1ec] rounded-[24px] p-[5px] mb-[15px] flex items-center justify-center aspect-[4/5] sm:aspect-[4/4] lg:aspect-[4/5] relative overflow-hidden">
+            <img src={mainImage} alt={product.title} className="w-full h-full object-contain mix-blend-multiply" />
+            <div onClick={() => setIsModalOpen(true)} className="h-[35px] w-[35px] text-[20px] flex items-center justify-center absolute top-[20px] right-[20px] bg-[#fdf8f3] p-[8px] rounded-full cursor-pointer shadow-[0_4px_12px_rgba(0,0,0,0.05)]">⤢</div>
+            {thumbnails.length > 1 && (
+              <>
+                <button onClick={handlePrevImage} className="absolute left-[12px] sm:left-[20px] top-1/2 -translate-y-1/2 w-[36px] sm:w-[40px] h-[36px] sm:h-[40px] rounded-full bg-white border border-[rgba(232,213,192,0.4)] flex items-center justify-center cursor-pointer shadow-[0_4px_12px_rgba(0,0,0,0.05)] text-[#1e160f]">←</button>
+                <button onClick={handleNextImage} className="absolute right-[12px] sm:right-[20px] top-1/2 -translate-y-1/2 w-[36px] sm:w-[40px] h-[36px] sm:h-[40px] rounded-full bg-white text-[#1e160f] border-none flex items-center justify-center cursor-pointer shadow-[0_4px_12px_rgba(0,0,0,0.1)]">→</button>
+              </>
+            )}
+          </div>
+          <div className="grid grid-cols-4 gap-[8px] sm:gap-[16px]">
+            {thumbnails.slice(0, 4).map((thumb, i) => (
+              <div onClick={() => setCurrentImageIndex(i)} key={i} className={`aspect-square rounded-[12px] sm:rounded-[16px] bg-[#f6f1ec] border-2 flex items-center justify-center p-[4px] sm:p-[8px] cursor-pointer ${i === currentImageIndex ? 'border-[#b8915a]' : 'border-transparent'}`}>
+                <img src={thumb.url} className="w-full h-full object-contain mix-blend-multiply" alt={`thumb-${i}`} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="max-w-[1200px] mx-auto my-[80px] px-[48px]">
-        <div className="flex justify-center gap-[40px] border-b border-[rgba(232,213,192,0.4)] mb-[40px]">
+      <div className="max-w-[1200px] mx-auto my-[40px] sm:my-[80px] px-[16px] sm:px-[48px]">
+        <div className="flex justify-start sm:justify-center gap-[20px] sm:gap-[40px] border-b border-[rgba(232,213,192,0.4)] mb-[32px] sm:mb-[40px] overflow-x-auto">
           {['Description', 'Additional Information', 'Review'].map(tab => (
             <div
               key={tab}
               onClick={() => setActiveTab(tab.toLowerCase())}
-              className={`pb-[16px] cursor-pointer text-[16px] font-bold border-b-[3px] transition-all duration-200 ${activeTab === tab.toLowerCase() ? 'text-[#b8915a] border-[#b8915a]' : 'text-[#8a7360] border-transparent'}`}
+              className={`pb-[16px] cursor-pointer text-[14px] sm:text-[16px] font-bold border-b-[3px] transition-all duration-200 whitespace-nowrap ${activeTab === tab.toLowerCase() ? 'text-[#b8915a] border-[#b8915a]' : 'text-[#8a7360] border-transparent'}`}
             >
               {tab}
             </div>
           ))}
         </div>
 
-        <div className="text-[#8a7360] text-[15px] leading-[1.8] max-w-[1000px] mx-auto">
+        <div className="text-[#8a7360] text-[14px] sm:text-[15px] leading-[1.8] max-w-[1000px] mx-auto">
           {activeTab === 'description' && (
             <>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
               <ul className="list-none p-0 mt-[24px]">
                 <li className="mb-[12px] flex gap-[12px]"><span className="text-[#b8915a]">◉</span> 100% Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
                 <li className="mb-[12px] flex gap-[12px]"><span className="text-[#b8915a]">◉</span> Ut at nunc vel nisi gravida dictum.</li>
@@ -337,20 +375,19 @@ const ProductDetails = () => {
       </div>
 
       <ProductGridSection title="Related Products" products={allProducts.slice(0, 4)} />
-
       <FeaturesFooter />
 
-      {/* Fullscreen Image Modal */}
+      {/* Fullscreen Modal */}
       {isModalOpen && (
         <div className="fixed top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.85)] z-[1000] flex items-center justify-center">
-          <button onClick={() => setIsModalOpen(false)} className="absolute top-[32px] right-[32px] bg-transparent text-white border-none text-[32px] cursor-pointer">✕</button>
+          <button onClick={() => setIsModalOpen(false)} className="absolute top-[20px] sm:top-[32px] right-[20px] sm:right-[32px] bg-transparent text-white border-none text-[28px] sm:text-[32px] cursor-pointer">✕</button>
 
           <img src={mainImage} className="max-w-[90%] max-h-[90%] object-contain" alt="Fullscreen" />
 
           {thumbnails.length > 1 && (
             <>
-              <button onClick={(e) => { e.stopPropagation(); handlePrevImage(); }} className="absolute left-[40px] top-1/2 -translate-y-1/2 w-[56px] h-[56px] rounded-full bg-white border-none flex items-center justify-center cursor-pointer text-[24px] text-[#1e160f]">←</button>
-              <button onClick={(e) => { e.stopPropagation(); handleNextImage(); }} className="absolute right-[40px] top-1/2 -translate-y-1/2 w-[56px] h-[56px] rounded-full bg-[#1e160f] text-white border-none flex items-center justify-center cursor-pointer text-[24px]">→</button>
+              <button onClick={(e) => { e.stopPropagation(); handlePrevImage(); }} className="absolute left-[12px] sm:left-[40px] top-1/2 -translate-y-1/2 w-[44px] sm:w-[56px] h-[44px] sm:h-[56px] rounded-full bg-white border-none flex items-center justify-center cursor-pointer text-[20px] sm:text-[24px] text-[#1e160f]">←</button>
+              <button onClick={(e) => { e.stopPropagation(); handleNextImage(); }} className="absolute right-[12px] sm:right-[40px] top-1/2 -translate-y-1/2 w-[44px] sm:w-[56px] h-[44px] sm:h-[56px] rounded-full bg-[#1e160f] text-white border-none flex items-center justify-center cursor-pointer text-[20px] sm:text-[24px]">→</button>
             </>
           )}
         </div>

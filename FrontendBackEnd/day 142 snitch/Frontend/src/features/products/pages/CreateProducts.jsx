@@ -3,7 +3,7 @@ import { useProduct } from '../hooks/useProduct.js'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-/* ─── colour tokens (same as Login / Register) ─── */
+/* ─── colour tokens ─── */
 const Label = ({ children, htmlFor }) => (
   <label
     htmlFor={htmlFor}
@@ -40,9 +40,9 @@ const Select = ({ id, children, className, style, ...props }) => {
 }
 
 const SectionCard = ({ title, children, className, style }) => (
-  <div className={`bg-white border border-[#e8d5c0] rounded-[14px] py-[22px] px-[24px] mb-[20px] ${className || ''}`} style={style}>
+  <div className={`bg-white border border-[#e8d5c0] rounded-[14px] py-[18px] px-[18px] sm:py-[22px] sm:px-[24px] mb-[16px] sm:mb-[20px] ${className || ''}`} style={style}>
     {title && (
-      <h2 className="text-[15px] font-extrabold text-[#1e160f] m-0 mb-[18px] tracking-[-0.01em]">
+      <h2 className="text-[14px] sm:text-[15px] font-extrabold text-[#1e160f] m-0 mb-[16px] sm:mb-[18px] tracking-[-0.01em]">
         {title}
       </h2>
     )}
@@ -65,7 +65,7 @@ const CreateProducts = () => {
   const [sku, setSku] = useState('')
   const [sellingType, setSellingType] = useState('instore')
   const [variants, setVariants] = useState([])
-  const [images, setImages] = useState([])          // array of File
+  const [images, setImages] = useState([])
   const [imagePreviews, setImagePreviews] = useState([])
   const [weight, setWeight] = useState('')
   const [weightUnit, setWeightUnit] = useState('kg')
@@ -136,13 +136,13 @@ const CreateProducts = () => {
   }
 
   /* ── button helpers ── */
-  const btnBase = "py-[10px] px-[22px] rounded-[10px] text-[13px] font-bold cursor-pointer border-none transition-all duration-[180ms]"
+  const btnBase = "py-[10px] px-[18px] sm:px-[22px] rounded-[10px] text-[13px] font-bold cursor-pointer border-none transition-all duration-[180ms]"
 
   return (
     <div className="min-h-screen bg-[#fdf8f3] font-inter">
 
       {/* ── top bar ── */}
-      <div className="bg-white border-b border-[#e8d5c0] py-[14px] px-[32px] flex items-center gap-[14px] sticky top-0 z-10">
+      <div className="bg-white border-b border-[#e8d5c0] py-[12px] sm:py-[14px] px-[16px] sm:px-[32px] flex items-center gap-[10px] sm:gap-[14px] sticky top-0 z-10">
         <button
           onClick={() => navigate(-1)}
           className="bg-transparent border-none cursor-pointer flex items-center gap-[6px] text-[#8a7360] text-[13px] font-semibold p-0 hover:text-[#b8915a] transition-colors"
@@ -150,17 +150,22 @@ const CreateProducts = () => {
           <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
-          Back to product list
+          <span className="hidden sm:inline">Back to product list</span>
+          <span className="sm:hidden">Back</span>
         </button>
         <div className="w-[1px] h-[20px] bg-[#e8d5c0]" />
-        <h1 className="m-0 text-[20px] font-black text-[#1e160f] tracking-[-0.02em]">
+        <h1 className="m-0 text-[16px] sm:text-[20px] font-black text-[#1e160f] tracking-[-0.02em]">
           Add New Product
         </h1>
       </div>
 
       {/* ── body ── */}
       <form onSubmit={handleSubmit}>
-        <div className="max-w-[1120px] mx-auto py-[28px] px-[24px] grid grid-cols-[1fr_380px] gap-[20px]">
+        {/* 
+          Desktop: 2-column grid [1fr 380px]
+          Mobile: single column 
+        */}
+        <div className="max-w-[1120px] mx-auto py-[20px] sm:py-[28px] px-[16px] sm:px-[24px] grid grid-cols-1 lg:grid-cols-[1fr_360px] xl:grid-cols-[1fr_380px] gap-[16px] sm:gap-[20px]">
 
           {/* ══════════ LEFT COLUMN ══════════ */}
           <div>
@@ -183,7 +188,7 @@ const CreateProducts = () => {
                 <Label htmlFor="business-desc">Business Description</Label>
                 <textarea
                   id="business-desc"
-                  rows={6}
+                  rows={5}
                   placeholder="Describe your product in detail…"
                   value={description}
                   onChange={e => setDescription(e.target.value)}
@@ -195,7 +200,7 @@ const CreateProducts = () => {
 
             {/* Category */}
             <SectionCard title="Category">
-              <div className="grid grid-cols-2 gap-[14px]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-[14px]">
                 <div>
                   <Label htmlFor="category">Product Category</Label>
                   <Select id="category" value={category} onChange={e => setCategory(e.target.value)}>
@@ -282,23 +287,25 @@ const CreateProducts = () => {
                 <p className="text-[#8a7360] text-[13px] m-0 mb-[14px]">Product variants</p>
 
                 {variants.map((v, idx) => (
-                  <div key={idx} className="grid grid-cols-[1fr_1fr_auto] gap-[10px] mb-[10px]">
+                  <div key={idx} className="flex gap-[8px] sm:gap-[10px] mb-[10px]">
                     <Input
                       type="text"
                       placeholder="Name (e.g. Color)"
                       value={v.name}
                       onChange={e => updateVariant(idx, 'name', e.target.value)}
+                      className="flex-1 min-w-0"
                     />
                     <Input
                       type="text"
                       placeholder="Value (e.g. Red)"
                       value={v.value}
                       onChange={e => updateVariant(idx, 'value', e.target.value)}
+                      className="flex-1 min-w-0"
                     />
                     <button
                       type="button"
                       onClick={() => removeVariant(idx)}
-                      className="bg-[#fef2f2] border border-[#fecaca] rounded-[8px] text-[#c0392b] w-[38px] cursor-pointer text-[16px]"
+                      className="bg-[#fef2f2] border border-[#fecaca] rounded-[8px] text-[#c0392b] w-[38px] shrink-0 cursor-pointer text-[16px]"
                     >
                       ×
                     </button>
@@ -325,7 +332,7 @@ const CreateProducts = () => {
             {/* Product Images */}
             <SectionCard>
               <div className="flex items-center justify-between mb-[16px]">
-                <h2 className="m-0 text-[15px] font-extrabold text-[#1e160f]">
+                <h2 className="m-0 text-[14px] sm:text-[15px] font-extrabold text-[#1e160f]">
                   Product Images
                 </h2>
                 <span className="text-[11px] text-[#8a7360] bg-[#f5ede4] border border-[#e8d5c0] rounded-[20px] py-[3px] px-[10px] font-semibold">
@@ -339,7 +346,7 @@ const CreateProducts = () => {
                 onDragLeave={() => setIsDragging(false)}
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
-                className={`border-[2px] border-dashed rounded-[12px] py-[28px] px-[16px] text-center cursor-pointer transition-all duration-[180ms] mb-[14px] ${isDragging ? 'border-[#b8915a] bg-[#fdf0e4]' : 'border-[#e8d5c0] bg-[#f5ede4]'}`}
+                className={`border-[2px] border-dashed rounded-[12px] py-[24px] sm:py-[28px] px-[16px] text-center cursor-pointer transition-all duration-[180ms] mb-[14px] ${isDragging ? 'border-[#b8915a] bg-[#fdf0e4]' : 'border-[#e8d5c0] bg-[#f5ede4]'}`}
               >
                 <svg width="32" height="32" fill="none" stroke="#c4a882" strokeWidth="1.5" viewBox="0 0 24 24" className="mx-auto mb-[8px]">
                   <path strokeLinecap="round" strokeLinejoin="round"
@@ -392,7 +399,7 @@ const CreateProducts = () => {
                   <Select
                     value={weightUnit}
                     onChange={e => setWeightUnit(e.target.value)}
-                    className="w-[70px]"
+                    className="w-[70px] shrink-0"
                   >
                     <option value="kg">kg</option>
                     <option value="lb">lb</option>
@@ -471,7 +478,7 @@ const CreateProducts = () => {
             </SectionCard>
 
             {/* Action Buttons */}
-            <div className="flex gap-[10px] justify-end mt-[4px]">
+            <div className="flex gap-[8px] sm:gap-[10px] justify-end mt-[4px] flex-wrap">
               <button
                 type="button"
                 onClick={() => navigate(-1)}
@@ -508,10 +515,9 @@ const CreateProducts = () => {
         </div>
       </form>
 
-
       {/* spin keyframe */}
-      < style > {`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }`}</style>
-    </div >
+      <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }`}</style>
+    </div>
   )
 }
 

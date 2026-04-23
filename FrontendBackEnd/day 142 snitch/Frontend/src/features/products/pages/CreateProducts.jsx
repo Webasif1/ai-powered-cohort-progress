@@ -3,7 +3,6 @@ import { useProduct } from '../hooks/useProduct.js'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-/* ─── colour tokens ─── */
 const Label = ({ children, htmlFor }) => (
   <label
     htmlFor={htmlFor}
@@ -74,7 +73,7 @@ const CreateProducts = () => {
   const [width, setWidth] = useState('')
   const [priceAmount, setPriceAmount] = useState('')
   const [comparePrice, setComparePrice] = useState('')
-  const [priceCurrency, setPriceCurrency] = useState('USD')
+  const [priceCurrency, setPriceCurrency] = useState('BDT')
   const [isDragging, setIsDragging] = useState(false)
   const fileInputRef = useRef(null)
 
@@ -161,9 +160,9 @@ const CreateProducts = () => {
 
       {/* ── body ── */}
       <form onSubmit={handleSubmit}>
-        {/* 
+        {/*
           Desktop: 2-column grid [1fr 380px]
-          Mobile: single column 
+          Mobile: single column
         */}
         <div className="max-w-[1120px] mx-auto py-[20px] sm:py-[28px] px-[16px] sm:px-[24px] grid grid-cols-1 lg:grid-cols-[1fr_360px] xl:grid-cols-[1fr_380px] gap-[16px] sm:gap-[20px]">
 

@@ -5,30 +5,30 @@ const productSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: [true, "Product title is require"],
+      required: [true, "Product title is required"],
     },
     description: {
       type: String,
-      require: [true, "Product description is require"],
+      required: [true, "Product description is require"],
     },
     seller: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
-      require: [true, "Seller is require"],
+      required: [true, "Seller is required"],
     },
     price: {
       type: priceSchema,
-      require: [true, "Price is require"],
+      required: [true, "Price is required"],
     },
     images: [
       {
         url: {
           type: String,
-          require: [true, "Image url is require"],
+          required: [true, "Image url is required"],
         },
         alt: {
           type: String,
-          require: [true, "Image alt is require"],
+          required: [true, "Image alt is required"],
         },
       },
     ],
@@ -37,16 +37,20 @@ const productSchema = new mongoose.Schema(
         image: {
           url: {
             type: String,
-            require: [true, "Image url is require"],
+            required: [true, "Image url is required"],
           },
           alt: {
             type: String,
-            require: [true, "Image alt is require"],
+            required: [true, "Image alt is required"],
           },
         },
         stock: {
           type: Number,
-          require: [true, "Stock is require"],
+          required: [true, "Stock is required"],
+        },
+        attributes:{
+          type:Map,
+          of:String,
         },
         price: {
           type: priceSchema,

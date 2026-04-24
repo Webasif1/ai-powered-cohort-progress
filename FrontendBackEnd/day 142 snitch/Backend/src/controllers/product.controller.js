@@ -86,5 +86,17 @@ export async function getSingleProduct(req, res) {
 }
 
 export async function addProductVariant(req,res){
+  const files = req.files;
+  const images = [];
 
+  if(files || files.length !== 0){
+    await Promise.all(
+      files.map(async(file)=>{
+        const image = await uploadFile({
+          buffer: file.buffer,
+          fileName: file.originalname
+        })
+      })
+    ).map(image => images.push(image))
+  }
 }

@@ -6,6 +6,7 @@ import CreateProducts from "../features/products/pages/CreateProducts";
 import Home from "../features/products/pages/Home";
 import Dashboard from "../features/products/pages/Dashboard";
 import ProductDetails from "../features/products/pages/ProductDetails";
+import AddProductVariant from "../features/products/pages/AddProductVariant";
 
 
 export const router = createBrowserRouter([
@@ -38,6 +39,12 @@ export const router = createBrowserRouter([
         path: "/seller/create-product",
         element: <Protected role="seller">
           <CreateProducts />
+        </Protected>
+      },
+      {
+        path: "/seller/product/:productId/add-variant",
+        element: <Protected role="seller">
+          <AddProductVariant />
         </Protected>
       }
     ]

@@ -99,5 +99,6 @@ export function useProduct() {
     handleGetSellerProoducts,
     handleGetAllProducts,
     handleGetSingleProduct,
+    handleGetProductVariants,
   };
 }

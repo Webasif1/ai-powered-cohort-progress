@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useProduct } from '../hooks/useProduct.js'
 
@@ -163,10 +163,12 @@ const FeaturesFooter = () => (
 
 const ProductDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { handleGetSingleProduct, handleGetAllProducts } = useProduct();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const allProducts = useSelector((state) => state.product.allProducts) || [];
+  const user = useSelector((state) => state.auth.user);
 
   const [quantity, setQuantity] = useState(1);
   const [selectedVol, setSelectedVol] = useState('30 ml');
@@ -198,6 +200,14 @@ const ProductDetails = () => {
   const price = parseFloat(product.price?.amount || 99).toFixed(2);
   const oldPrice = (parseFloat(price) + 25).toFixed(2);
   const rating = product.rating || 5;
+
+  // Show "Add Variant" button only if the logged-in seller owns this product
+  const isOwnerSeller =
+    user?.role === 'seller' &&
+    (user?._id === product?.seller ||
+      user?._id === product?.seller?._id ||
+      user?.id === product?.seller ||
+      user?.id === product?.seller?._id);
 
   const defaultImage = 'https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&w=800&q=80';
   const thumbnails = product.images && product.images.length > 0 ? product.images : [{ url: defaultImage }, { url: defaultImage }, { url: defaultImage }, { url: defaultImage }];
@@ -298,6 +308,19 @@ const ProductDetails = () => {
               ♡
             </button>
           </div>
+
+          {/* Seller-only: Add Variant Button */}
+          {isOwnerSeller && (
+            <button
+              id="add-variant-btn"
+              onClick={() => navigate(`/seller/product/${id}/add-variant`)}
+              className="mt-[4px] w-full flex items-center justify-center gap-[10px] bg-gradient-to-r from-[#b8915a] to-[#d4a96a] text-white border-none h-[52px] rounded-full text-[14px] sm:text-[15px] font-bold cursor-pointer transition-all duration-300 hover:opacity-90 hover:shadow-[0_8px_24px_rgba(184,145,90,0.35)] hover:-translate-y-[1px] active:translate-y-0"
+            >
+              <span className="text-[18px]">✦</span>
+              Add Product Variant
+              <span className="text-[18px]">✦</span>
+            </button>
+          )}
 
           {/* Meta */}
           <div className="border-t border-[rgba(232,213,192,0.4)] pt-[24px] text-[14px] flex flex-col gap-[12px]">

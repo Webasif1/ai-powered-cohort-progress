@@ -105,6 +105,8 @@ export async function addProductVariant(req,res){
       })
     ).map(image => images.push(image))
   }
+  console.log(images)
+  console.log(stock, attributes)
 
   const price = req.body.priceAmount;
   const stock = req.body.stock;
@@ -119,6 +121,7 @@ export async function addProductVariant(req,res){
     stock,
     attributes
   })
+  console.log(product)
 
   await product.save()
 

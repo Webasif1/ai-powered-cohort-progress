@@ -26,10 +26,6 @@ const productSchema = new mongoose.Schema(
           type: String,
           required: [true, "Image url is required"],
         },
-        alt: {
-          type: String,
-          required: [true, "Image alt is required"],
-        },
       },
     ],
     variants: [
@@ -38,10 +34,6 @@ const productSchema = new mongoose.Schema(
           url: {
             type: String,
             required: [true, "Image url is required"],
-          },
-          alt: {
-            type: String,
-            required: [true, "Image alt is required"],
           },
         },
         stock: {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useProduct } from '../hooks/useProduct.js'
 
@@ -163,13 +163,16 @@ const FeaturesFooter = () => (
 
 const ProductDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { handleGetSingleProduct, handleGetAllProducts } = useProduct();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const allProducts = useSelector((state) => state.product.allProducts) || [];
+  const user = useSelector((state) => state.auth.user);
 
   const [quantity, setQuantity] = useState(1);
   const [selectedVol, setSelectedVol] = useState('30 ml');
+  const [selectedVariant, setSelectedVariant] = useState(null);
   const [activeTab, setActiveTab] = useState('description');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -195,13 +198,40 @@ const ProductDetails = () => {
     return <div className="min-h-screen bg-[#fdf8f3] flex justify-center items-center text-[20px] text-[#1e160f]">Product not found.</div>;
   }
 
-  const price = parseFloat(product.price?.amount || 99).toFixed(2);
+  // Show "Add Variant" button only if the logged-in seller owns this product
+  const isOwnerSeller =
+    user?.role === 'seller' &&
+    (user?._id === product?.seller ||
+      user?._id === product?.seller?._id ||
+      user?.id === product?.seller ||
+      user?.id === product?.seller?._id);
+
+  const activePriceObj = selectedVariant?.price || product.price;
+  const price = parseFloat(activePriceObj?.amount || 99).toFixed(2);
   const oldPrice = (parseFloat(price) + 25).toFixed(2);
   const rating = product.rating || 5;
 
   const defaultImage = 'https://images.unsplash.com/photo-1629198688000-71f23e745b6e?auto=format&fit=crop&w=800&q=80';
-  const thumbnails = product.images && product.images.length > 0 ? product.images : [{ url: defaultImage }, { url: defaultImage }, { url: defaultImage }, { url: defaultImage }];
-  const mainImage = thumbnails[currentImageIndex]?.url || defaultImage;
+  
+  // Ensure variants exist
+  const variants = product.variants || [];
+
+  // Combine base product images with variant images
+  const baseImages = product.images && product.images.length > 0 ? product.images : [];
+  const variantImages = variants
+    .filter(v => v.image && v.image.url)
+    .map(v => v.image);
+  
+  let allImages = [...baseImages, ...variantImages];
+  // Deduplicate images by url to prevent showing the exact same image multiple times if variants share them
+  allImages = allImages.filter((img, index, self) => index === self.findIndex((t) => t.url === img.url));
+
+  if (allImages.length === 0) {
+    allImages = [{ url: defaultImage }, { url: defaultImage }, { url: defaultImage }, { url: defaultImage }];
+  }
+
+  const thumbnails = allImages;
+  const mainImage = selectedVariant?.image?.url ? selectedVariant.image.url : (thumbnails[currentImageIndex]?.url || defaultImage);
 
   const handlePrevImage = () => {
     setCurrentImageIndex((prev) => (prev === 0 ? thumbnails.length - 1 : prev - 1));
@@ -262,21 +292,52 @@ const ProductDetails = () => {
             {product.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore. Elevate your skincare routine with this premium formula."}
           </p>
 
-          {/* Size / Volume */}
-          <div className="mb-[28px] sm:mb-[32px]">
-            <p className="text-[#1e160f] text-[14px] font-bold m-0 mb-[12px]">Size / Volume</p>
-            <div className="flex gap-[8px] sm:gap-[12px] flex-wrap">
-              {['30 ml', '60 ml', '80 ml', '100 ml'].map(vol => (
-                <button
-                  key={vol}
-                  onClick={() => setSelectedVol(vol)}
-                  className={`py-[8px] px-[16px] sm:px-[20px] rounded-full text-[13px] font-semibold cursor-pointer transition-all duration-200 border ${selectedVol === vol ? 'bg-[#1e160f] text-white border-[#1e160f]' : 'bg-transparent text-[#1e160f] border-[rgba(232,213,192,0.4)]'}`}
-                >
-                  {vol}
-                </button>
-              ))}
+          {/* Size / Volume or Variants */}
+          {variants.length > 0 ? (
+            <div className="mb-[28px] sm:mb-[32px]">
+              <p className="text-[#1e160f] text-[14px] font-bold m-0 mb-[12px]">Available Variants</p>
+              <div className="flex gap-[8px] sm:gap-[12px] flex-wrap">
+                {variants.map((variant, idx) => {
+                  let attrLabel = "";
+                  if (variant.attributes) {
+                    if (Array.isArray(variant.attributes)) {
+                       attrLabel = variant.attributes.map(a => `${a.name}: ${a.value}`).join(', ');
+                    } else if (typeof variant.attributes === 'object') {
+                       attrLabel = Object.entries(variant.attributes).map(([k, v]) => `${v}`).join(' - ');
+                    }
+                  }
+                  if (!attrLabel) attrLabel = `Variant ${idx + 1}`;
+
+                  const isSelected = selectedVariant?._id === variant._id;
+                  
+                  return (
+                    <button
+                      key={variant._id || idx}
+                      onClick={() => setSelectedVariant(variant)}
+                      className={`py-[8px] px-[16px] sm:px-[20px] rounded-[8px] text-[13px] font-semibold cursor-pointer transition-all duration-200 border ${isSelected ? 'bg-[#1e160f] text-white border-[#1e160f] shadow-md' : 'bg-transparent text-[#1e160f] border-[rgba(232,213,192,0.4)] hover:border-[#b8915a] hover:text-[#b8915a]'}`}
+                    >
+                      {attrLabel}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="mb-[28px] sm:mb-[32px]">
+              <p className="text-[#1e160f] text-[14px] font-bold m-0 mb-[12px]">Size / Volume</p>
+              <div className="flex gap-[8px] sm:gap-[12px] flex-wrap">
+                {['30 ml', '60 ml', '80 ml', '100 ml'].map(vol => (
+                  <button
+                    key={vol}
+                    onClick={() => setSelectedVol(vol)}
+                    className={`py-[8px] px-[16px] sm:px-[20px] rounded-full text-[13px] font-semibold cursor-pointer transition-all duration-200 border ${selectedVol === vol ? 'bg-[#1e160f] text-white border-[#1e160f]' : 'bg-transparent text-[#1e160f] border-[rgba(232,213,192,0.4)]'}`}
+                  >
+                    {vol}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Quantity + Buttons */}
           <div className="flex flex-wrap items-center gap-[12px] mb-[32px] sm:mb-[40px]">
@@ -298,6 +359,19 @@ const ProductDetails = () => {
               ♡
             </button>
           </div>
+
+          {/* Seller-only: Add Variant Button */}
+          {isOwnerSeller && (
+            <button
+              id="add-variant-btn"
+              onClick={() => navigate(`/seller/product/${id}/add-variant`)}
+              className="mt-[4px] w-full flex items-center justify-center gap-[10px] bg-gradient-to-r from-[#b8915a] to-[#d4a96a] text-white border-none h-[52px] rounded-full text-[14px] sm:text-[15px] font-bold cursor-pointer transition-all duration-300 hover:opacity-90 hover:shadow-[0_8px_24px_rgba(184,145,90,0.35)] hover:-translate-y-[1px] active:translate-y-0"
+            >
+              <span className="text-[18px]">✦</span>
+              Add Product Variant
+              <span className="text-[18px]">✦</span>
+            </button>
+          )}
 
           {/* Meta */}
           <div className="border-t border-[rgba(232,213,192,0.4)] pt-[24px] text-[14px] flex flex-col gap-[12px]">
@@ -334,7 +408,7 @@ const ProductDetails = () => {
           </div>
           <div className="grid grid-cols-4 gap-[8px] sm:gap-[16px]">
             {thumbnails.slice(0, 4).map((thumb, i) => (
-              <div onClick={() => setCurrentImageIndex(i)} key={i} className={`aspect-square rounded-[12px] sm:rounded-[16px] bg-[#f6f1ec] border-2 flex items-center justify-center p-[4px] sm:p-[8px] cursor-pointer ${i === currentImageIndex ? 'border-[#b8915a]' : 'border-transparent'}`}>
+              <div onClick={() => setCurrentImageIndex(i)} key={i} className={`aspect-square rounded-[12px] sm:rounded-[16px] bg-[#f6f1ec] border-2 flex items-center justify-center p-[4px] sm:p-[8px] cursor-pointer ${i === currentImageIndex && (!selectedVariant?.image?.url || selectedVariant.image.url === thumb.url) ? 'border-[#b8915a]' : 'border-transparent'}`}>
                 <img src={thumb.url} className="w-full h-full object-contain mix-blend-multiply" alt={`thumb-${i}`} />
               </div>
             ))}

@@ -4,6 +4,7 @@ import {
   getSellerProducts,
   getAllProducts,
   getSingleProduct,
+  addProductVariant
 } from "../services/productAPI.js";
 import {
   setIsLoading,
@@ -76,10 +77,28 @@ export function useProduct() {
       dispatch(setIsLoading(false));
     }
   }
+
+  async function handleGetProductVariants(productId, newProductVariant) {
+    try {
+      dispatch(setIsLoading(true));
+      const data = await addProductVariant(productId, newProductVariant);
+      return data
+    } catch (error) {
+      dispatch(
+        setError(
+          error.response?.data?.message || "Failed to get product variants",
+        ),
+      );
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  }
+
   return {
     handleCreateProduct,
     handleGetSellerProoducts,
     handleGetAllProducts,
     handleGetSingleProduct,
+    handleGetProductVariants,
   };
 }

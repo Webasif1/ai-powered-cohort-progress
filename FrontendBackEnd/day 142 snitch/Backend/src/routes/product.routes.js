@@ -57,6 +57,6 @@ router.get("/:id", getSingleProduct);
  * @route post /api/products/:variantId
  * @access Private
  */
-router.post("/:variantId",authenticateSeller, upload.array("image",5), addProductVariant)
+router.post("/productId/variants",authenticateSeller, upload.array("image",5), addProductVariant)
 
 export default router;

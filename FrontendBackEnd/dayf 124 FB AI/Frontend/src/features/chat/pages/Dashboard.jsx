@@ -15,7 +15,6 @@ const Dashboard = () => {
     <div className="flex h-screen bg-[#24130a] text-gray-200 overflow-hidden">
       <Sidebar />
       <ChatArea />
-      <ChatArea />
     </div>
   )
 }

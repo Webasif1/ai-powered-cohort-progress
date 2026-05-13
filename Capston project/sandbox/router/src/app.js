@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
  * - Used for monitoring and tests
  * Endpoint: GET /api/health
  */
-app.get('/sandbox/health', (req, res) => {
+app.get('/router/health', (req, res) => {
   res.status(200).json({
     success: true,
     message: '✅ Server is running',

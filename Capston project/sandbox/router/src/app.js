@@ -1,6 +1,5 @@
 import express from 'express'
 import morgan from 'morgan'
-import cookieParser from 'cookie-parser'
 
 // ============================================
 // Initialize Express App
@@ -22,7 +21,6 @@ if (process.env.NODE_ENV === 'development') {
  */
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
-app.use(cookieParser());
 
 app.get('/', (req, res) => {
   res.status(200).json({

@@ -1,19 +1,89 @@
 import app from "./src/app.js";
 import { config } from "./src/config/config.js";
+import { connectToDB, disconnectDB } from "./src/config/db.js";
 
-app.listen(config.PORT, () => {
+// ============================================
+// Configuration
+// ============================================
+
+const PORT = config.PORT;
+const NODE_ENV = config.NODE_ENV;
+
+// ============================================
+// Server Initialization
+// ============================================
+let server;
+
+const startServer = async () => {
   try {
-    console.log(`
-  ╔════════════════════════════════════════════╗
-  ║  🚀 Server Started Successfully!           ║
-  ╠════════════════════════════════════════════╣
-  ║  Port:        ${config.PORT}                   ║
-  ║  Environment: ${config.NODE_ENV}              ║
-  ║  URL:         http://localhost:${config.PORT}    ║
-  ╚════════════════════════════════════════════╝
+    // Connect to MongoDB
+    console.log("🔗 Connecting to MongoDB...");
+    await connectToDB();
+
+    // Start HTTP server
+    server = app.listen(PORT, () => {
+      console.log(`
+╔════════════════════════════════════════════╗
+║  🚀 Server Started Successfully!           ║
+╠════════════════════════════════════════════╣
+║  Port:     ${PORT}                            ╣
+║  Environment: ${NODE_ENV}                  ╣
+║  URL:      http://localhost:${PORT}           ╣
+╚════════════════════════════════════════════╝
       `);
+    });
   } catch (error) {
     console.error("❌ Failed to start server:", error.message);
     process.exit(1);
   }
+};
+
+// ============================================
+// Graceful Shutdown Handler
+// ============================================
+const gracefulShutdown = async (signal) => {
+  console.log(`\n📴 Received ${signal}, shutting down gracefully...`);
+
+  try {
+    // Close HTTP server
+    if (server) {
+      await new Promise((resolve) => {
+        server.close(() => {
+          console.log("✅ HTTP server closed");
+          resolve();
+        });
+      });
+    }
+
+    // Disconnect from MongoDB
+    await disconnectDB();
+    console.log("✅ Shutdown complete");
+    process.exit(0);
+  } catch (error) {
+    console.error("❌ Error during shutdown:", error.message);
+    process.exit(1);
+  }
+};
+
+// ============================================
+// Process Event Listeners
+// ============================================
+process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
+process.on("SIGINT", () => gracefulShutdown("SIGINT"));
+
+// Handle unhandled promise rejections
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("❌ Unhandled Rejection at:", promise, "reason:", reason);
+  gracefulShutdown("unhandledRejection");
 });
+
+// Handle uncaught exceptions
+process.on("uncaughtException", (error) => {
+  console.error("❌ Uncaught Exception:", error);
+  gracefulShutdown("uncaughtException");
+});
+
+// ============================================
+// Start the server
+// ============================================
+startServer();

@@ -7,7 +7,8 @@ import morgan from "morgan";
 // ============================================
 // Import Routes
 // ============================================
-// import exmp from "exmp";
+
+import productRoute from "./routers/product.route.js";
 
 // ============================================
 // Initialize Express App
@@ -82,7 +83,7 @@ app.get("/api/healthz", (req, res) => {
 // API Routes
 // ============================================
 
-// app.use('/', exmp);
+app.use("/api/products", productRoute);
 
 // ============================================
 // Frontend Catch-All (SPA Router)

@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const Product = require("./models/Product");
-require("dotenv").config();
+import mongoose from "mongoose";
+import Product from "../models/Product.js";
+import { config } from "../config/config.js";
 
 const products = [
   {
@@ -59,11 +59,16 @@ const products = [
   },
 ];
 
+console.log("URI:", config.MONGOOSE_URI); // add this before mongoose.connect
 mongoose
-  .connect(process.env.MONGO_URI || "mongodb://localhost:27017/uxcrimes")
+  .connect(config.MONGOOSE_URI)
   .then(async () => {
     await Product.deleteMany({});
     await Product.insertMany(products);
     console.log("Seeded!");
     process.exit();
+  })
+  .catch((err) => {
+    console.error("❌ Error:", err.message); // <- this will tell you exactly what's wrong
+    process.exit(1);
   });

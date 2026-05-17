@@ -3,6 +3,7 @@ import { useCart } from '../../features/Cart/state/CartContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import FakeProgressBar from '../components/FakeProgressBar';
 import MovingButton from '../components/MovingButton';
+import { playWindowsError } from '../../utils/Sounds.js';
 
 const passwordRules = [
   "Must be at least 8 characters",
@@ -28,6 +29,14 @@ export default function CheckoutPage() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
+    
+    if (name === 'password') {
+      playWindowsError();
+      setErrors(prev => ({ 
+        ...prev, 
+        password: "❌ Invalid keystroke detected. Please review the 10 impossible rules below." 
+      }));
+    }
   };
 
   const validate = () => {
@@ -67,7 +76,7 @@ export default function CheckoutPage() {
 
   const inputClass = (field) =>
     `w-full px-4 py-2.5 border rounded text-sm outline-none transition-colors ${
-      errors[field] ? 'border-red-400 focus:border-red-500' : 'border-gray-200 focus:border-black'
+      errors[field] ? 'border-red-500 focus:border-red-600 bg-red-50 text-red-900 shadow-[0_0_10px_rgba(239,68,68,0.5)]' : 'border-gray-200 focus:border-black'
     }`;
 
   return (

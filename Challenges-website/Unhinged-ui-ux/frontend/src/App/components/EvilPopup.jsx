@@ -1,12 +1,52 @@
 import { useEffect, useState } from 'react';
+import { playSussy, playBruh } from '../../utils/Sounds.js';
 
 const messages = [
-  { title: "🎉 YOU'RE OUR 1,000,000th VISITOR!", body: "Click OK to claim your prize (limited time!)", btn: "CLAIM NOW" },
-  { title: "⚠️ Your cart is about to expire!", body: "Items in your cart are selling fast. Act now!", btn: "I UNDERSTAND" },
-  { title: "🍪 Cookie Preferences", body: "We use 847 types of cookies. By breathing near this website you accept all of them.", btn: "I Accept (No Choice)" },
-  { title: "📧 Newsletter Signup", body: "Get exclusive deals! (You're already subscribed. This is just to confirm you're subscribed.)", btn: "OK FINE" },
-  { title: "🔔 Enable Notifications", body: "We promise to only notify you 47 times per day about things you don't care about.", btn: "Sure Why Not" },
-  { title: "⭐ Rate Your Experience", body: "You've been on our site for 4 seconds. How would you rate your experience?", btn: "5 Stars Obviously" },
+  {
+    title: "🟡 SUSSY ALERT",
+    body: "We detected suspicious behaviour. You were trying to BUY things. That's kinda sus ngl. 📮",
+    btn: "NOT IMPOSTER ✅", tiny: "ok i'm the imposter"
+  },
+  {
+    title: "🎉 YOU'RE OUR 1,000,000th VISITOR!",
+    body: "Claim your prize! (Prize: the honour of giving us your credit card number.)",
+    btn: "CLAIM NOW 🤑", tiny: "no thanks (still charges you)"
+  },
+  {
+    title: "📱 Download Our App!",
+    body: "Get the same bad experience on mobile! Now with 3x the popups and half the screen space. 📲",
+    btn: "INSTALL (4.8GB)", tiny: "i value my storage"
+  },
+  {
+    title: "🍪 Cookie Preferences",
+    body: "We use 847 types of cookies. Chocolate chip, oatmeal raisin, and 845 tracking ones. Yum! 😋",
+    btn: "Accept All (Only Option)", tiny: "reject (also accepts)"
+  },
+  {
+    title: "💌 Your Ex Viewed This Item",
+    body: "Just thought you should know. Anyway would you like to buy it before they do? 😤",
+    btn: "BUY IT FIRST 😤", tiny: "i'm mature actually"
+  },
+  {
+    title: "🔒 Identity Verification",
+    body: "To continue shopping, please confirm: Are you a human? (Robots also click yes, so this does nothing.)",
+    btn: "I AM HUMAN 🤖", tiny: "beep boop"
+  },
+  {
+    title: "⭐ Quick 1-Question Survey!",
+    body: "You've been here 3 seconds. How would you rate your experience so far? (47 follow-up questions incoming)",
+    btn: "Sure Why Not 🙂", tiny: "absolutely not"
+  },
+  {
+    title: "🚨 PRICE DROP ALERT",
+    body: "The price of everything in your cart just went UP. We meant to say that. Price Drop Alert means Price UP Alert here.",
+    btn: "Thanks for the heads up 😭", tiny: "this is illegal"
+  },
+  {
+    title: "🎁 CONGRATULATIONS!",
+    body: "You've been selected for our exclusive loyalty program! Benefits include: more emails, more popups, and a fake gold card.",
+    btn: "SIGN ME UP 🥳", tiny: "i want my life back"
+  },
 ];
 
 export default function EvilPopup() {
@@ -14,47 +54,45 @@ export default function EvilPopup() {
 
   useEffect(() => {
     const show = () => {
-      const msg = messages[Math.floor(Math.random() * messages.length)];
-      setPopup(msg);
+      setPopup(messages[Math.floor(Math.random() * messages.length)]);
+      playSussy();
     };
-
-    // Show first popup after 5 seconds, then every 20 seconds
     const first = setTimeout(show, 5000);
-    const interval = setInterval(show, 20000);
+    const interval = setInterval(show, 22000);
     return () => { clearTimeout(first); clearInterval(interval); };
   }, []);
 
   if (!popup) return null;
 
   return (
-    <div style={{
-      position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-      background: 'rgba(0,0,0,0.6)', zIndex: 9999,
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-    }}>
-      <div style={{
-        background: '#fff', padding: '2rem', borderRadius: '8px',
-        maxWidth: '400px', width: '90%', textAlign: 'center',
-        boxShadow: '0 20px 60px rgba(0,0,0,0.4)',
-      }}>
-        <h2 style={{ marginBottom: '1rem' }}>{popup.title}</h2>
-        <p style={{ marginBottom: '1.5rem', color: '#555' }}>{popup.body}</p>
-        <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+    <div className="fixed inset-0 bg-black/65 z-[9999] flex items-center justify-center font-[Inter,system-ui,sans-serif]">
+      <div 
+        className="bg-white p-8 rounded-xl max-w-[420px] w-[90%] text-center shadow-2xl border-4 border-black"
+        style={{ animation: 'popIn 0.3s cubic-bezier(0.68,-0.55,0.27,1.55)' }}
+      >
+        <h2 className="mb-4 text-xl font-bold">{popup.title}</h2>
+        <p className="mb-6 text-gray-600 text-sm leading-relaxed">{popup.body}</p>
+        <div className="flex flex-col items-center gap-2">
           <button
-            onClick={() => setPopup(null)}
-            style={{ padding: '0.5rem 1.5rem', background: '#e74c3c', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem' }}
+            onClick={() => { setPopup(null); playBruh(); }}
+            className="px-6 py-3 bg-black text-white rounded-md cursor-pointer text-base font-bold w-full hover:bg-gray-800 transition-colors"
           >
             {popup.btn}
           </button>
-          {/* Tiny close button, barely visible */}
           <button
             onClick={() => setPopup(null)}
-            style={{ padding: '0.2rem 0.4rem', background: '#ddd', color: '#aaa', border: 'none', borderRadius: '2px', cursor: 'pointer', fontSize: '8px', alignSelf: 'flex-end' }}
+            className="bg-transparent border-none text-gray-400 cursor-pointer text-[10px] hover:text-black transition-colors"
           >
-            ×
+            {popup.tiny}
           </button>
         </div>
       </div>
+      <style>{`
+        @keyframes popIn {
+          from { transform: scale(0.4) rotate(-5deg); opacity: 0; }
+          to   { transform: scale(1) rotate(0deg);    opacity: 1; }
+        }
+      `}</style>
     </div>
   );
 }

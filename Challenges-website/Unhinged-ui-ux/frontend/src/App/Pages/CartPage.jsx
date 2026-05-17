@@ -1,6 +1,7 @@
 import { useCart } from '../../features/Cart/state/CartContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { playWompWomp, playWindowsError, playOhNo, playEmotionalDamage } from '../../utils/Sounds.js';
 
 export default function CartPage() {
   const { cart, removeFromCart, updateQty } = useCart();
@@ -12,21 +13,21 @@ export default function CartPage() {
 
   const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
 
-  // Random fees that change
   useEffect(() => {
     setFakeTax(parseFloat((subtotal * (0.15 + Math.random() * 0.1)).toFixed(2)));
     setRandomFee(parseFloat((Math.random() * 15 + 5).toFixed(2)));
     const t = setInterval(() => {
       setFakeTax(parseFloat((subtotal * (0.15 + Math.random() * 0.1)).toFixed(2)));
       setRandomFee(parseFloat((Math.random() * 15 + 5).toFixed(2)));
+      playOhNo();
     }, 8000);
     return () => clearInterval(t);
   }, [subtotal]);
 
   const handleRemove = (id) => {
-    if (confirmStep === 0) { setConfirmRemove(id); setConfirmStep(1); return; }
-    if (confirmStep === 1) { setConfirmStep(2); return; }
-    if (confirmStep === 2) { setConfirmStep(3); return; }
+    if (confirmStep === 0) { setConfirmRemove(id); setConfirmStep(1); playWompWomp(); return; }
+    if (confirmStep === 1) { setConfirmStep(2); playWompWomp(); return; }
+    if (confirmStep === 2) { setConfirmStep(3); playWompWomp(); return; }
     removeFromCart(id);
     setConfirmRemove(null);
     setConfirmStep(0);
@@ -39,119 +40,143 @@ export default function CartPage() {
   ];
 
   return (
-    <div style={{ fontFamily: 'Comic Sans MS, cursive', background: '#fffbe6', minHeight: '100vh', padding: '2rem' }}>
-      <h1>🛒 Your Cart <small style={{ fontSize: '0.7rem', color: '#aaa' }}>(subject to change without notice)</small></h1>
+    <div className="min-h-screen bg-white text-gray-900" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
 
-      {cart.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '4rem' }}>
-          <h2>Your cart is empty.</h2>
-          <p style={{ color: '#777' }}>Funny, you added things. They must have left.</p>
-          <button onClick={() => navigate('/')} style={{ marginTop: '1rem', padding: '0.8rem 2rem', background: '#2c3e50', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontFamily: 'inherit' }}>
-            Go Back and Try Again
-          </button>
-        </div>
-      ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '2rem' }}>
+      {/* Header */}
+      <header className="bg-black text-white px-8 py-4 flex justify-between items-center sticky top-0 z-40 border-b border-gray-800">
+        <span className="text-xl font-black tracking-tight">🛒 Regretail™</span>
+        <button onClick={() => navigate('/')} className="text-sm text-gray-400 hover:text-white transition-colors">
+          ← Back to Shop
+        </button>
+      </header>
 
-          {/* Cart Items */}
-          <div>
-            {cart.map(item => (
-              <div key={item._id} style={{ background: '#fff', padding: '1rem', marginBottom: '1rem', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                <img src={item.image} alt={item.name} style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '4px' }} />
-                <div style={{ flex: 1 }}>
-                  <h3 style={{ fontSize: '0.9rem', margin: '0 0 0.5rem' }}>{item.name}</h3>
-                  <p style={{ color: '#e74c3c', fontWeight: 'bold', margin: '0 0 0.5rem' }}>${item.price}</p>
+      <div className="px-8 py-8 max-w-6xl mx-auto">
+        <h1 className="text-3xl font-black tracking-tight mb-1">
+          Your Cart <small className="text-xs font-normal text-gray-400">(subject to change without notice)</small>
+        </h1>
 
-                  {/* Quantity with swapped +/- */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <span style={{ fontSize: '0.8rem', color: '#777' }}>Qty:</span>
+        {cart.length === 0 ? (
+          <div className="text-center py-24">
+            <p className="text-2xl font-bold mb-2">Your cart is empty.</p>
+            <p className="text-gray-400 text-sm mb-6">Funny, you added things. They must have left.</p>
+            <button
+              onClick={() => navigate('/')}
+              className="bg-black text-white px-6 py-3 rounded text-sm font-semibold hover:bg-gray-800 transition-colors"
+            >
+              Go Back and Try Again
+            </button>
+          </div>
+        ) : (
+          <div className="grid gap-8 mt-6" style={{ gridTemplateColumns: '1fr 300px' }}>
+
+            {/* Cart Items */}
+            <div className="space-y-3">
+              {cart.map(item => (
+                <div key={item._id} className="bg-white border border-gray-200 rounded-xl p-4 flex gap-4 items-center hover:shadow-sm transition-shadow">
+                  <img src={item.image} alt={item.name} className="w-20 h-20 object-cover rounded-lg" />
+                  <div className="flex-1">
+                    <h3 className="text-sm font-semibold mb-1">{item.name}</h3>
+                    <p className="text-black font-bold mb-2">${item.price}</p>
+
+                    {/* Quantity — swapped +/- */}
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-gray-400">Qty:</span>
+                      <button
+                        onClick={() => { updateQty(item._id, item.qty + 1); playWindowsError(); }}
+                        className="w-7 h-7 border border-gray-200 rounded text-sm hover:bg-gray-50 transition-colors"
+                      >−</button>
+                      <span className="min-w-6 text-center text-sm font-semibold">{item.qty}</span>
+                      <button
+                        onClick={() => { updateQty(item._id, item.qty - 1); playWindowsError(); }}
+                        className="w-7 h-7 border border-gray-200 rounded text-sm hover:bg-gray-50 transition-colors"
+                      >+</button>
+                      <span className="text-xs text-gray-300">(buttons may be swapped for your security)</span>
+                    </div>
+                  </div>
+
+                  {/* Tiny remove button */}
+                  <button
+                    onClick={() => handleRemove(item._id)}
+                    className="text-gray-200 text-xs border border-gray-100 rounded px-2 py-0.5 hover:text-gray-500 hover:border-gray-300 transition-colors"
+                    title="Remove"
+                  >
+                    remove
+                  </button>
+                </div>
+              ))}
+
+              {/* Confirm removal */}
+              {confirmRemove && confirmStep <= 3 && confirmStep > 0 && (
+                <div className="border border-amber-200 bg-amber-50 rounded-xl p-4">
+                  <p className="font-semibold text-sm mb-3">⚠️ {confirmMessages[confirmStep - 1]}</p>
+                  <div className="flex gap-2">
                     <button
-                      onClick={() => updateQty(item._id, item.qty + 1)} // + is labeled −
-                      style={{ width: '28px', height: '28px', border: '1px solid #ddd', background: '#f5f5f5', cursor: 'pointer', borderRadius: '4px' }}
-                    >−</button>
-                    <span style={{ minWidth: '24px', textAlign: 'center' }}>{item.qty}</span>
+                      onClick={() => handleRemove(confirmRemove)}
+                      className="bg-black text-white px-4 py-1.5 rounded text-sm font-semibold hover:bg-gray-800 transition-colors"
+                    >
+                      {confirmStep < 3 ? 'Yes, Remove' : 'OK Fine, Remove It'}
+                    </button>
                     <button
-                      onClick={() => updateQty(item._id, item.qty - 1)} // − is labeled +
-                      style={{ width: '28px', height: '28px', border: '1px solid #ddd', background: '#f5f5f5', cursor: 'pointer', borderRadius: '4px' }}
-                    >+</button>
-                    <small style={{ color: '#aaa', fontSize: '0.7rem' }}>(buttons may be swapped for your security)</small>
+                      onClick={() => { setConfirmRemove(null); setConfirmStep(0); }}
+                      className="bg-gray-100 text-gray-600 px-4 py-1.5 rounded text-sm hover:bg-gray-200 transition-colors"
+                    >
+                      Cancel
+                    </button>
                   </div>
                 </div>
+              )}
+            </div>
 
-                {/* Tiny remove button */}
-                <button
-                  onClick={() => handleRemove(item._id)}
-                  style={{ fontSize: '8px', color: '#ccc', border: '1px solid #eee', background: '#fff', cursor: 'pointer', padding: '2px 4px', borderRadius: '2px' }}
-                  title="Remove"
-                >
-                  remove
-                </button>
-              </div>
-            ))}
+            {/* Order Summary */}
+            <div className="bg-white border border-gray-200 rounded-xl p-6 h-fit sticky top-20">
+              <h2 className="text-lg font-bold mb-4">Order Summary</h2>
 
-            {/* Confirm removal dialogs */}
-            {confirmRemove && confirmStep <= 3 && confirmStep > 0 && (
-              <div style={{ background: '#fff3cd', border: '2px solid #f39c12', borderRadius: '8px', padding: '1rem', marginBottom: '1rem' }}>
-                <p><strong>⚠️ {confirmMessages[confirmStep - 1]}</strong></p>
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
-                  <button onClick={() => handleRemove(confirmRemove)} style={{ padding: '0.4rem 1rem', background: '#e74c3c', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontFamily: 'inherit' }}>
-                    {confirmStep < 3 ? 'Yes, Remove' : 'OK Fine, Remove It'}
-                  </button>
-                  <button onClick={() => { setConfirmRemove(null); setConfirmStep(0); }} style={{ padding: '0.4rem 1rem', background: '#eee', border: 'none', borderRadius: '4px', cursor: 'pointer', fontFamily: 'inherit' }}>
-                    Cancel
-                  </button>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Subtotal</span>
+                  <span className="font-semibold">${subtotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-gray-400">
+                  <span>Tax (dynamic 🔄)</span><span>${fakeTax}</span>
+                </div>
+                <div className="flex justify-between text-gray-400">
+                  <span>Convenience Fee</span><span>${randomFee}</span>
+                </div>
+                <div className="flex justify-between text-gray-400">
+                  <span>Inconvenience Fee</span><span>$4.99</span>
+                </div>
+                <div className="flex justify-between text-gray-300 text-xs">
+                  <span>Breathing Air Fee</span><span>$2.99</span>
                 </div>
               </div>
-            )}
-          </div>
 
-          {/* Order Summary */}
-          <div>
-            <div style={{ background: '#fff', padding: '1.5rem', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', position: 'sticky', top: '1rem' }}>
-              <h2 style={{ margin: '0 0 1rem', fontSize: '1.1rem' }}>Order Summary</h2>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
-                <span>Subtotal</span><span>${subtotal.toFixed(2)}</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#777' }}>
-                <span>Tax (dynamic 🔄)</span><span>${fakeTax}</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#777' }}>
-                <span>Convenience Fee</span><span>${randomFee}</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#777' }}>
-                <span>Inconvenience Fee</span><span>$4.99</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', fontSize: '0.8rem', color: '#aaa' }}>
-                <span>Breathing Air Fee</span><span>$2.99</span>
-              </div>
-              <hr />
-              <div style={{ display: 'flex', justifyContent: 'space-between', margin: '1rem 0', fontWeight: 'bold' }}>
+              <hr className="my-4 border-gray-100" />
+
+              <div className="flex justify-between font-black text-base mb-1">
                 <span>Total</span>
                 <span>${(subtotal + fakeTax + randomFee + 4.99 + 2.99).toFixed(2)}</span>
               </div>
-              <small style={{ color: '#aaa', fontSize: '0.7rem', display: 'block', marginBottom: '1rem' }}>
-                * Total may change. We reserve the right to add more fees at checkout.
-              </small>
+              <p className="text-xs text-gray-300 mb-4">* Total may change. We reserve the right to add more fees at checkout.</p>
 
-              {/* Big useless "Continue Shopping" button */}
+              {/* Big fake checkout */}
               <button
-                onClick={() => navigate('/')}
-                style={{ width: '100%', padding: '0.8rem', background: '#27ae60', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', marginBottom: '0.5rem', fontFamily: 'inherit', fontSize: '1rem', fontWeight: 'bold' }}
+                onClick={() => { playEmotionalDamage(); setTimeout(() => navigate('/'), 600); }}
+                className="w-full py-3 bg-black text-white rounded font-bold text-sm hover:bg-gray-800 transition-colors mb-2"
               >
                 ✅ CHECKOUT NOW
               </button>
 
-              {/* Tiny actual checkout button */}
+              {/* Real tiny checkout */}
               <button
-                onClick={() => navigate('/checkout')}
-                style={{ width: '100%', padding: '0.3rem', background: '#eee', color: '#999', border: 'none', borderRadius: '4px', cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.7rem' }}
+                onClick={() => { playOhNo(); navigate('/checkout'); }}
+                className="w-full py-1.5 bg-gray-50 text-gray-400 rounded text-xs hover:bg-gray-100 transition-colors border border-gray-100"
               >
                 proceed to payment (here)
               </button>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

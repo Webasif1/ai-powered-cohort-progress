@@ -11,10 +11,11 @@ const connectToDB = async () => {
   try {
     const conn = await mongoose.connect(config.MONGOOSE_URI);
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
-    await Product.deleteMany({});
-    await Product.insertMany(products);
-    console.log("Seeded!");
-    process.exit();
+    // Uncomment these lines if you need to seed the database again
+    // await Product.deleteMany({});
+    // await Product.insertMany(products);
+    // console.log("Seeded!");
+    // process.exit();
   } catch (error) {
     console.error("❌ MongoDB connection error:", error.message);
     throw error;

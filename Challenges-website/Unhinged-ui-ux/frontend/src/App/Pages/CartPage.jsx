@@ -1,4 +1,4 @@
-import { useCart } from '../CartContext';
+import { useCart } from '../../features/Cart/state/CartContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 

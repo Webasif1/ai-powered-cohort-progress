@@ -1,19 +1,27 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useCart } from '../CartContext';
+import { useCart } from '../../features/Cart/state/CartContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import MovingButton from '../components/MovingButton';
 import EvilPopup from '../components/EvilPopup';
+import { useProduct } from '../../features/Products/hooks/useProduct.js';
+import { toast } from 'sonner';
 
 export default function HomePage() {
-  const [products, setProducts] = useState([]);
   const [timer, setTimer] = useState(600); // fake 10-minute countdown
   const [toast, setToast] = useState(null);
   const { addToCart, cart } = useCart();
   const navigate = useNavigate();
+  const { loading, error, products, getallProducts } = useProduct();
 
   useEffect(() => {
-    axios.get('/api/products').then(res => setProducts(res.data));
+    console.log("products", products)
+    getallProducts();
+    if (loading) {
+      toast.loading("Loading...");
+    }
+    if (error) {
+      toast.error(error.message);
+    }
   }, []);
 
   // Fake countdown — resets at 0

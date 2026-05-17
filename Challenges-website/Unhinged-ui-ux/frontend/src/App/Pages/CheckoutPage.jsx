@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useCart } from '../CartContext';
+import { useCart } from '../../features/Cart/state/CartContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import FakeProgressBar from '../components/FakeProgressBar';
 import MovingButton from '../components/MovingButton';
@@ -10,7 +10,7 @@ const passwordRules = [
   "Must contain at least one number",
   "Must contain at least one special character",
   "Must NOT contain the letter 'e'",
-  "Must contain your mother's maiden name",
+  "Must contain your father's maiden name",
   "Must be a prime number of characters long",
   "Must not contain any letters that appear in your email",
   "Must have been created on a Tuesday",

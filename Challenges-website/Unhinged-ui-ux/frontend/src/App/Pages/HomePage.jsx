@@ -11,7 +11,7 @@ export default function HomePage() {
   const [toast, setToast] = useState(null);
   const { addToCart, cart } = useCart();
   const navigate = useNavigate();
-  const { loading, error, products, getallProducts } = useProduct();
+  const { loading, error, products, setProducts, getallProducts } = useProduct();
 
   useEffect(() => {
     console.log("products", products)

@@ -37,5 +37,12 @@ export function useProduct() {
     }
   };
 
-  return { loading, products, error, getallProducts, getProductsById };
+  return {
+    loading,
+    products,
+    setProducts,
+    error,
+    getallProducts,
+    getProductsById,
+  };
 }

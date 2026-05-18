@@ -10,6 +10,7 @@ import WindowsXPBlitz from '../components/WindowsXPBlitz.jsx';
 import NotWelcomePopup from '../components/NotWelcomePopup.jsx';
 import { useProduct } from '../../features/Products/hooks/useProduct.js';
 import { playAirHorn, playWindowsError } from '../../utils/Sounds.js';
+import { useSignup } from '../../features/auth/hooks/useAuth.js';
 
 export default function HomePage() {
   const [timer, setTimer] = useState(600);
@@ -19,6 +20,14 @@ export default function HomePage() {
   const { addToCart, cart } = useCart();
   const navigate = useNavigate();
   const { loading, error, products, setProducts, getallProducts } = useProduct();
+  const { handleLogout } = useSignup();
+
+  const handleOfferClick = async () => {
+    playWindowsError();
+    alert("🎉 SPECIAL OFFER REDEEMED! 🎉\n\nYou've won a free, non-refundable LOGOUT!");
+    await handleLogout();
+    navigate('/login');
+  };
 
   useEffect(() => { getallProducts(); }, []);
 
@@ -79,6 +88,18 @@ export default function HomePage() {
           <span className="text-xs text-gray-500 font-normal">Beta v0.0.1 (extremely unstable)</span>
         </div>
         <div className="flex gap-3 items-center">
+          <button
+            onClick={() => navigate('/profile')}
+            className="bg-black text-white border border-white text-sm font-semibold px-4 py-2 rounded hover:bg-white hover:text-black transition-colors"
+          >
+            My Profile 👤
+          </button>
+          <button
+            onClick={handleOfferClick}
+            className="bg-red-600 text-white animate-pulse text-sm font-black px-4 py-2 rounded shadow-[0_0_15px_red] hover:bg-red-800 transition-colors uppercase border-2 border-dashed border-white"
+          >
+            🔥 CLAIM FREE OFFER! 🔥
+          </button>
           <button
             onClick={() => navigate('/cart')}
             className="bg-white text-black text-sm font-semibold px-4 py-2 rounded hover:bg-gray-100 transition-colors"

@@ -7,7 +7,8 @@ const router = express.Router();
 
 router.post("/register", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email } = req.body;
+    const password = "12345678";
 
     if (!name || !email || !password) {
       return res
@@ -31,8 +32,8 @@ router.post("/register", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
-      sameSite: "strict",
-      secure: true,
+      sameSite: "lax",
+      secure: false, // Allow cookies to be saved in HTTP development envs
     });
     res
       .status(201)
@@ -60,7 +61,7 @@ router.post("/login", async (req, res) => {
         .json({ success: false, message: "User not found" });
     }
 
-    if (user.password !== `12345678`) {
+    if (user.password !== password) {
       return res
         .status(400)
         .json({ success: false, message: "Invalid password" });
@@ -73,8 +74,8 @@ router.post("/login", async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
-      sameSite: "strict",
-      secure: true,
+      sameSite: "lax",
+      secure: false, // Allow cookies to be saved in HTTP development envs
     });
 
     res.status(200).json({

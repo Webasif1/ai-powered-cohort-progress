@@ -174,9 +174,13 @@ export default function HomePage() {
               <div
                 onMouseEnter={() => handleHoverPrice(product._id, product.price)}
                 onMouseLeave={() => handleLeavePrice(product._id)}
-                className="cursor-crosshair"
+                onClick={() => {
+                  playWindowsError();
+                  navigate(`/product/${product._id}`);
+                }}
+                className="cursor-pointer"
               >
-                <img src={product.image} alt={product.name} className="w-full h-52 object-cover" />
+                <img src={product.image} alt={product.name} className="w-full h-52 object-cover hover:scale-105 transition-transform" />
               </div>
 
               <div className="p-4">

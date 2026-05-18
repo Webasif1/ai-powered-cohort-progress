@@ -3,6 +3,7 @@ import HomePage from './Pages/HomePage';
 import CartPage from './Pages/CartPage';
 import CheckoutPage from './Pages/CheckoutPage';
 import ConfirmationPage from './Pages/ConfirmationPage';
+import ProductPage from './Pages/ProductPage';
 import { CartProvider } from '../features/Cart/state/CartContext.jsx';
 import { ProductProvider } from '../features/Products/state/ProductContext.jsx';
 
@@ -16,6 +17,7 @@ export default function App() {
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/confirmation" element={<ConfirmationPage />} />
+            <Route path="/product/:id" element={<ProductPage />} />
           </Routes>
         </BrowserRouter>
       </CartProvider>

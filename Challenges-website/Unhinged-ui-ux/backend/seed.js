@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { config } from "./src/config/config.js";
-import Product from "./src/model/product.js";
+import Product from "./src/model/product.model.js";
 import products from "./src/utils/send.js";
 
 const seedDB = async () => {
@@ -8,7 +8,7 @@ const seedDB = async () => {
     // 1. Connect to the database
     const conn = await mongoose.connect(config.MONGOOSE_URI);
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
-    
+
     // 2. Clear existing products
     await Product.deleteMany({});
     console.log("🧹 Cleared existing products");
@@ -16,7 +16,7 @@ const seedDB = async () => {
     // 3. Insert new products
     await Product.insertMany(products);
     console.log("🌱 Database successfully seeded!");
-    
+
     // 4. Exit the process successfully
     process.exit(0);
   } catch (error) {

@@ -17,9 +17,14 @@ if (!process.env.MONGOOSE_URI) {
   throw new Error("MONGOOSE_URI is not defined in environment variable");
 }
 
+if (!process.env.JWT_SECRET) {
+  throw new Error("JWT_SECRET is not defined in environment variable");
+}
+
 export const config = {
   PORT: process.env.PORT,
   NODE_ENV: process.env.NODE_ENV,
   FRONTEND_PORT: process.env.FRONTEND_PORT,
   MONGOOSE_URI: process.env.MONGOOSE_URI,
+  JWT_SECRET: process.env.JWT_SECRET,
 };

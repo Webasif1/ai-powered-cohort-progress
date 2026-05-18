@@ -1,8 +1,6 @@
 //Import mongoose to connect to the database
 import mongoose from "mongoose";
 import { config } from "./config.js";
-import Product from "../model/product.js";
-import products from "../utils/send.js";
 
 // ============================================
 // Database Connection & diconnection functions

@@ -9,6 +9,7 @@ import morgan from "morgan";
 // ============================================
 
 import productRoute from "./routers/product.route.js";
+import authRoute from "./routers/auth.route.js";
 
 // ============================================
 // Initialize Express App
@@ -84,6 +85,7 @@ app.get("/api/healthz", (req, res) => {
 // ============================================
 
 app.use("/api/products", productRoute);
+app.use("/api/auth", authRoute);
 
 // ============================================
 // Frontend Catch-All (SPA Router)

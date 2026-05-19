@@ -17,21 +17,6 @@ const play = (file, volume = 0.7) => {
   } catch (_) {}
 };
 
-// 💥 Vine Boom — button runs away from cursor
-export const playVineBoom = () => play("vine-boom.mp3", 0.6);
-
-// 😐 Bruh — wrong answer, backspace blocked, form error
-export const playBruh = () => play("bruh.mp3", 0.8);
-
-// 😭 Womp Womp — challenge betrayal, item removed
-export const playWompWomp = () => play("womp-womp.mp3", 0.7);
-
-// 🎮 GTA Mission Passed → then Womp Womp — fake success before betrayal
-export const playFakeSuccess = () => {
-  play("gta-mission.mp3", 0.6);
-  setTimeout(() => playWompWomp(), 1800);
-};
-
 // 😱 Oh No (Kreepa) — price increases on hover
 export const playOhNo = () => play("oh-no.mp3", 0.7);
 
@@ -65,5 +50,9 @@ export const playWindowsXPSong = () => {
   } catch (_) {}
 };
 export const stopWindowsXPSong = () => {
-  if (xpAudio) { xpAudio.pause(); xpAudio.currentTime = 0; xpAudio = null; }
+  if (xpAudio) {
+    xpAudio.pause();
+    xpAudio.currentTime = 0;
+    xpAudio = null;
+  }
 };

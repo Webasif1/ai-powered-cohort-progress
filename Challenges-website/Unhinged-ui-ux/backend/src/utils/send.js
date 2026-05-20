@@ -52,6 +52,30 @@ const products = [
     stock: 1,
     rating: 5.0,
     fakeReviews: 42069,
+  },{
+    name: "Organic WiFi Signal Booster Crystal",
+    price: 39.99,
+    fakeOriginalPrice: 399.99,
+    image: "https://picsum.photos/seed/6/300/300",
+    stock: 1,
+    rating: 5.0,
+    fakeReviews: 42069,
+  },{
+    name: "Organic WiFi Signal Booster Crystal",
+    price: 39.99,
+    fakeOriginalPrice: 399.99,
+    image: "https://picsum.photos/seed/6/300/300",
+    stock: 1,
+    rating: 5.0,
+    fakeReviews: 42069,
+  },{
+    name: "Organic WiFi Signal Booster Crystal",
+    price: 39.99,
+    fakeOriginalPrice: 399.99,
+    image: "https://picsum.photos/seed/6/300/300",
+    stock: 1,
+    rating: 5.0,
+    fakeReviews: 42069,
   },
 ];
 

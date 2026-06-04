@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const ProductCard = ({ product }) => {
@@ -8,6 +9,7 @@ const ProductCard = ({ product }) => {
     category,
     description,
     rating,
+    id,
   } = product;
 
   return (
@@ -15,11 +17,13 @@ const ProductCard = ({ product }) => {
 
       {/* Product Image */}
       <div className="h-64 bg-gray-100 p-5 flex items-center justify-center">
-        <img
-          src={image}
-          alt={title}
-          className="h-full object-contain"
-        />
+        <Link href={`/products/${id}`}>
+          <img
+            src={image}
+            alt={title}
+            className="h-full w-full object-contain"
+          />
+        </Link>
       </div>
 
       {/* Product Content */}

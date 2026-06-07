@@ -16,15 +16,15 @@ const ProductCard = ({ product }) => {
     <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer">
 
       {/* Product Image */}
-      <div className="h-64 bg-gray-100 p-5 flex items-center justify-center">
-        <Link href={`/products/${id}`}>
-          <img
-            src={image}
-            alt={title}
-            className="h-full w-full object-contain"
-          />
-        </Link>
-      </div>
+      <div className="h-64 bg-gray-100 p-5 flex items-center justify-center overflow-hidden">
+  <Link href={`/products/${id}`} className="w-full h-full flex items-center justify-center">
+    <img
+      src={image}
+      alt={title}
+      className="max-h-full max-w-full object-contain"
+    />
+  </Link>
+</div>
 
       {/* Product Content */}
       <div className="p-5">

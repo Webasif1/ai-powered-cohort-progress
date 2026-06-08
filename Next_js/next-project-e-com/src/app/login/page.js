@@ -1,29 +1,37 @@
 "use client";
 
+import { useAuth } from "@/context/authContext";
 import { api } from "@/lib/api";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginPage() {
+  const { hydrateUser } = useAuth();
+  const router = useRouter();
 
-  let router = useRouter()
-  const [formData, setFormData] = useState({})
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-  let handleChange = (e) => {
-    let {name , value} = e.target
-    setFormData({ ...formData, [name]: value })
-  }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  let handleSubmit= async (e)=>{
-    e.preventDefault()
-  try{
-    let res = await api.post('/api/auth/login', formData)
-    router.push('/home')
-  }catch(error){
-    console.log("error in login", error);
-  }
-}
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await api.post("/api/auth/login", formData);
+
+      await hydrateUser();
+      router.replace("/home");
+    } catch (error) {
+      console.log("error in login", error);
+    }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-[80vh]">
@@ -37,27 +45,26 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="text-sm font-medium mb-2 block">
-              Email
-            </label>
+            <label className="text-sm font-medium mb-2 block">Email</label>
             <input
               type="email"
-              placeholder="Enter your email"
-              className="w-full h-11 px-3 border rounded-md bg-background"
-              onChange={handleChange}
               name="email"
+              onChange={handleChange}
+              value={formData.email}
+              className="w-full h-11 px-3 border rounded-md bg-background"
+              placeholder="Enter your email"
             />
           </div>
+
           <div>
-            <label className="text-sm font-medium mb-2 block">
-              Password
-            </label>
+            <label className="text-sm font-medium mb-2 block">Password</label>
             <input
               type="password"
-              placeholder="Enter your password"
-              className="w-full h-11 px-3 border rounded-md bg-background"
-              onChange={handleChange}
               name="password"
+              onChange={handleChange}
+              value={formData.password}
+              className="w-full h-11 px-3 border rounded-md bg-background"
+              placeholder="Enter your password"
             />
           </div>
 
@@ -71,10 +78,7 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-muted-foreground mt-6">
           Don not have an account?{" "}
-          <Link
-            href="/register"
-            className="text-primary font-medium hover:underline"
-          >
+          <Link href="/register" className="text-primary font-medium hover:underline">
             Register
           </Link>
         </p>

@@ -1,19 +1,20 @@
-import ProductCard from '@/Components/ProductCart';
-import React from 'react'
+import ProductCard from "@/Components/ProductCart";
+import ProtectedRoute from "@/Components/ProtectedRoute";
+import React from "react";
 
 const page = async () => {
   // const [products, setProducts] = useState([])
   let res = await fetch("https://fakestoreapi.com/products");
-  let products = await res.json()
+  let products = await res.json();
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
-      {
-        products.map((product) => (
+    <ProtectedRoute>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {products.map((product) => (
           <ProductCard key={product.id} product={product} />
-        ))
-      }
-    </div>
-  )
-}
+        ))}
+      </div>
+    </ProtectedRoute>
+  );
+};
 
-export default page
+export default page;

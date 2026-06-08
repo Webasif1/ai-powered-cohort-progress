@@ -2,9 +2,12 @@
 
 import { api } from "@/lib/api";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginPage() {
+
+  let router = useRouter()
   const [formData, setFormData] = useState({})
   // console.log(formData);
 
@@ -17,7 +20,8 @@ export default function LoginPage() {
     e.preventDefault()
   try{
     let res = await api.post('/api/auth/login', formData)
-    console.log(res);
+    // console.log(res);
+    router.push('/home')
   }catch(error){
     console.log("error in login", error);
   }

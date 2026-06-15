@@ -1,44 +1,45 @@
 import { IUser } from "@/types/user.types";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 
-
-const userSchema = new mongoose.Schema<IUser>({
-  name:{
-    type:String,
-    trim:true,
-    require:[true, "Name is required"]
+const userSchema = new mongoose.Schema<IUser>(
+  {
+    name: {
+      type: String,
+      trim: true,
+      require: [true, "Name is required"],
+    },
+    email: {
+      type: String,
+      trim: true,
+      unique: [true, "Email should be unique"],
+      require: [true, "Email is required"],
+    },
+    mobile: {
+      type: String,
+      minlength: [11, "min 11 characters is require"],
+      maxlength: [11, "max 11 characters is require"],
+    },
+    password: {
+      type: String,
+      require: [true, "Password is required"],
+      minlength: [6, "Min 6 characters require"],
+    },
   },
-  email:{
-    type:String,
-    trim:true,
-    unique:[true, "Email should be unique"],
-    require:[true, "Email is required"]
+  {
+    timestamps: true,
   },
-  mobile:{
-    type:String,
-    require:[true, "Mobile number is require"],
-    minlength:[11,"min 11 characters is require"],
-    maxlength:[11,"max 11 characters is require"]
-  },
-  password:{
-    type:String,
-    require:[true, "Password is required"],
-    minlength:[6, "Min 6 characters require"]
-  }
-},{
-  timestamps:true
-})
+);
 
-userSchema.pre("save", function(){
-  if(!this.isModified("password")) return;
-  this.password = bcrypt.hashSync(this.password,10)
-})
+userSchema.pre("save", function (): void {
+  if (!this.isModified("password")) return;
+  this.password = bcrypt.hashSync(this.password, 10);
+});
 
-userSchema.methods.comparePass = function (candidatePass: string){
-  return bcrypt.compareSync(candidatePass, this.password)
-}
+userSchema.methods.comparePass = function (candidatePass: string): boolean {
+  return bcrypt.compareSync(candidatePass, this.password);
+};
 
-const userModel = mongoose.model("User", userSchema)
+const userModel = mongoose.model("User", userSchema);
 
-export default userModel
+export default userModel;

@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
       password,
     });
 
-    const token = generateToken({ userID: newUser._id });
+    const token = generateToken({ userID: newUser._id.toString() });
 
     const response = NextResponse.json<ApiResponse>(
       {
@@ -55,6 +55,7 @@ export async function POST(req: NextRequest) {
           user: {
             _id: newUser._id,
             name: newUser.name,
+            mobile:newUser.mobile,
             email: newUser.email,
           },
         },
@@ -69,6 +70,8 @@ export async function POST(req: NextRequest) {
       sameSite: "lax",
       maxAge: 60 * 60 * 1000,
     });
+
+    return response
   } catch (error) {
     console.log("error in register api", error);
     return NextResponse.json<ApiResponse>(

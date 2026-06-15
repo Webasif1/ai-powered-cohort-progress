@@ -1,8 +1,12 @@
 import { IUser } from "@/types/user.types";
 import bcrypt from "bcrypt";
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 
-const userSchema = new mongoose.Schema<IUser>(
+interface UserDocument extends Omit<IUser, "_id">, Document{
+  comparePass(candidatePass:string) : boolean
+}
+
+const userSchema = new mongoose.Schema<UserDocument>(
   {
     name: {
       type: String,
@@ -18,7 +22,7 @@ const userSchema = new mongoose.Schema<IUser>(
     mobile: {
       type: String,
       minlength: [11, "min 11 characters is require"],
-      maxlength: [11, "max 11 characters is require"],
+      maxlength: [13, "max 13 characters is require"],
     },
     password: {
       type: String,

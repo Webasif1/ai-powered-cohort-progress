@@ -21,7 +21,7 @@ export interface IProjects {
   title: string;
   description: string;
   githubUrl: string;
-  linkedinUrl: string;
+  liveUrl: string;
   techStack: string[];
 }
 
@@ -40,6 +40,9 @@ export interface IResume {
   personalInfo: IPersonalInfo;
   workExperience?: IWorkExperience[];
   projects: IProjects[];
+  skills: string[];
   education: IEducation[];
   certifications?: string[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }

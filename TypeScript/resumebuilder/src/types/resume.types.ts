@@ -13,7 +13,7 @@ export interface IPersonalInfo {
 export interface IWorkExperience {
   company: string;
   position: string;
-  statDate: string;
+  startDate: string;
   description: string;
 }
 

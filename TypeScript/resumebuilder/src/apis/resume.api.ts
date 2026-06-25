@@ -1,5 +1,10 @@
 import { api } from "@/lib/axios";
 
+export const getAllResumes = async () => {
+  const res = await api.get("/resumes");
+  return res.data;
+};
+
 export const createResume = async () => {
   const res = await api.post("/resumes/create");
   return res.data;

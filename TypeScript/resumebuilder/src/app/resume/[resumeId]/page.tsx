@@ -1,10 +1,52 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { getResumeById, updateResume } from "@/apis/resume.api";
-import { useParams } from "next/navigation";
+import { useState } from "react";
 
-const sections = [
+import PersonalInfo from "@/components/resume/PersonalInformation";
+import Summary from "@/components/resume/Summary";
+import Skills from "@/components/resume/Skills";
+import ResumePreview from "@/components/resume/ResumePreview";
+import Experience from "@/components/resume/Experience";
+import Projects from "@/components/resume/Projects";
+import Education from "@/components/resume/Education";
+import Certifications from "@/components/resume/Certifications";
+
+type ResumeType = {
+  title: string;
+  summery: string;
+  personalInfo: {
+    fullName: string;
+    email: string;
+    profile: string;
+    location: string;
+    github: string;
+    linkedin: string;
+    portfolio: string;
+  };
+  workExperience: {
+    company: string;
+    position: string;
+    statDate: string;
+    description: string;
+  }[];
+  projects: {
+    title: string;
+    description: string;
+    githubUrl: string;
+    liveUrl: string;
+    techStack: string[];
+  }[];
+  skills: string[];
+  education: {
+    institute: string;
+    degree: string;
+    startDate: string;
+    endDate: string;
+  }[];
+  certifications: string[];
+};
+
+const steps = [
   "Personal Info",
   "Summary",
   "Skills",
@@ -14,12 +56,7 @@ const sections = [
   "Certifications",
 ];
 
-export default function ResumePage() {
-  const params = useParams();
-  const resumeId = params.resumeId as string;
-
-  const [activeSection, setActiveSection] = useState("Personal Info");
-  const [resume, setResume] = useState<any>({
+const initialResume: ResumeType = {
   title: "",
   summery: "",
   personalInfo: {
@@ -36,153 +73,126 @@ export default function ResumePage() {
   skills: [],
   education: [],
   certifications: [],
-});
-  const [loading, setLoading] = useState(true);
+};
 
-  useEffect(() => {
-    loadResume();
-  }, []);
+export default function ResumePage() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [resume, setResume] = useState<ResumeType>(initialResume);
 
-  async function loadResume() {
-    try {
-      const res = await getResumeById(resumeId);
-      setResume(res.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
+  const stepComponents = [
+    PersonalInfo,
+    Summary,
+    Skills,
+    Experience, // Experience
+    Projects, // Projects
+    Education, // Education
+    Certifications, // Certifications
+    null, // Preview
+  ];
+
+  const ActiveComponent = stepComponents[currentStep];
+
+  const handleNext = () => {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep((prev) => prev + 1);
     }
-  }
+  };
 
-  async function handleSave() {
-    try {
-      await updateResume(resumeId, resume);
-      alert("Saved");
-    } catch (error) {
-      console.log(error);
+  const handleBack = () => {
+    if (currentStep > 0) {
+      setCurrentStep((prev) => prev - 1);
     }
-  }
-
-  if (loading) {
-    return (
-      <div className="h-screen flex items-center justify-center">
-        Loading...
-      </div>
-    );
-  }
+  };
 
   return (
-    <div className="h-screen bg-black grid grid-cols-12 gap-4 p-4">
-
-      {/* Sidebar */}
-      <div className="col-span-2 bg-black rounded-xl shadow p-4">
-        <h2 className="font-bold text-xl mb-4">Sections</h2>
-
-        <div className="space-y-2">
-          {sections.map((section) => (
-            <button
-              key={section}
-              onClick={() => setActiveSection(section)}
-              className={`w-full text-left px-3 py-2 rounded-lg ${
-                activeSection === section
-                  ? "bg-orange-500 text-black"
-                  : "hover:bg-gray-100"
-              }`}
-            >
-              {section}
-            </button>
-          ))}
+    <div className="h-screen bg-white flex flex-col">
+      {/* Top Navbar */}
+      <div className="h-16 bg-white border-b flex items-center justify-between px-6 shrink-0">
+        <div>
+          <h1 className="text-xl font-bold text-orange-500">
+            Resume Builder
+          </h1>
+          <p className="text-sm text-gray-500">
+            Build your ATS-friendly resume
+          </p>
         </div>
-      </div>
 
-      {/* Editor */}
-      <div className="col-span-5 bg-black rounded-xl shadow p-6 overflow-auto">
-        <h2 className="text-2xl font-bold mb-6">
-          {activeSection}
-        </h2>
-
-        {activeSection === "Personal Info" && (
-          <div className="space-y-4">
-            <input
-              className="w-full border p-3 rounded-lg"
-              placeholder="Full Name"
-              value={resume.personalInfo?.fullName || ""}
-              onChange={(e) =>
-                setResume({
-                  ...resume,
-                  personalInfo: {
-                    ...resume.personalInfo,
-                    fullName: e.target.value,
-                  },
-                })
-              }
-            />
-
-            <input
-              className="w-full border p-3 rounded-lg"
-              placeholder="Email"
-              value={resume.personalInfo?.email || ""}
-              onChange={(e) =>
-                setResume({
-                  ...resume,
-                  personalInfo: {
-                    ...resume.personalInfo,
-                    email: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-        )}
-
-        {activeSection === "Summary" && (
-          <textarea
-            className="w-full border p-4 rounded-lg h-48"
-            value={resume.summery || ""}
-            onChange={(e) =>
-              setResume({
-                ...resume,
-                summery: e.target.value,
-              })
-            }
-          />
-        )}
-
-        <button
-          onClick={handleSave}
-          className="mt-6 bg-orange-500 text-black px-5 py-3 rounded-lg"
-        >
-          Save Changes
+        <button className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg transition">
+          Save
         </button>
       </div>
 
-      {/* Preview */}
-      <div className="col-span-5 bg-black rounded-xl shadow p-6 overflow-auto">
-        <h2 className="text-2xl font-bold">
-          {resume.personalInfo?.fullName || "Your Name"}
-        </h2>
-
-        <p className="text-gray-500">
-          {resume.personalInfo?.profile || "Job Title"}
-        </p>
-
-        <hr className="my-4" />
-
-        <h3 className="font-bold mb-2">Summary</h3>
-        <p>{resume.summery || "Your summary..."}</p>
-
-        <hr className="my-4" />
-
-        <h3 className="font-bold mb-2">Skills</h3>
-        <div className="flex flex-wrap gap-2">
-          {resume.skills?.map((skill: string, i: number) => (
-            <span
-              key={i}
-              className="px-3 py-1 bg-gray-100 rounded-full"
+      {/* Main Layout */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Left Step Panel */}
+        <div className="w-[280px] bg-white border-r p-5 overflow-y-auto">
+          {steps.map((step, index) => (
+            <div
+              key={index}
+              onClick={() => setCurrentStep(index)}
+              className={`p-3 rounded-lg mb-3 cursor-pointer transition ${
+                currentStep === index
+                  ? "bg-orange-100 border border-orange-400"
+                  : "bg-gray-50 hover:bg-gray-100"
+              }`}
             >
-              {skill}
-            </span>
+              <p className="text-sm text-orange-500">
+                Step {index + 1}
+              </p>
+
+              <p
+                className={`font-semibold ${
+                  currentStep === index
+                    ? "text-orange-500"
+                    : "text-gray-800"
+                }`}
+              >
+                {step}
+              </p>
+            </div>
           ))}
+        </div>
+
+        {/* Center Resume Preview */}
+        <div className="flex-1 bg-gray-50 p-6 flex justify-center items-start overflow-y-auto">
+          <div className="w-full max-w-[700px] min-h-[900px] bg-white shadow-lg rounded-xl p-8">
+            <ResumePreview resume={resume} />
+          </div>
+        </div>
+
+        {/* Right Form Panel */}
+        <div className="w-[650px] bg-white border-l p-6 flex flex-col">
+          <div className="flex-1 overflow-y-auto">
+            {ActiveComponent ? (
+              <ActiveComponent
+                resume={resume}
+                setResume={setResume}
+              />
+            ) : (
+              <div className="flex items-center justify-center h-full text-gray-400 text-lg">
+                This section is not built yet
+              </div>
+            )}
+          </div>
+
+          {/* Navigation */}
+          <div className="pt-4 border-t mt-4 flex justify-between">
+            <button
+              onClick={handleBack}
+              disabled={currentStep === 0}
+              className="px-5 py-2 rounded-lg bg-gray-200 disabled:opacity-50"
+            >
+              Back
+            </button>
+
+            <button
+              onClick={handleNext}
+              disabled={currentStep === steps.length - 1}
+              className="px-5 py-2 rounded-lg bg-orange-500 text-white disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </div>

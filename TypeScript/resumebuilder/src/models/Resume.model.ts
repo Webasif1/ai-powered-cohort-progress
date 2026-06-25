@@ -39,7 +39,7 @@ const resumeSchema = new mongoose.Schema<IResume>({
     default: [],
   },
   projects: {
-    types: [
+    type: [
       {
         title: String,
         description: String,
@@ -66,7 +66,7 @@ const resumeSchema = new mongoose.Schema<IResume>({
     default: [],
   },
   certifications: {
-    types: [String],
+    type: [String],
     default: [],
   },
 },

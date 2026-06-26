@@ -17,10 +17,15 @@ export const getResumeById = async (resumeId: string) => {
 
 export const updateResume = async (
   resumeId: string,
-  payload: any
+  data: any
 ) => {
-  const res = await api.patch(`/resumes/${resumeId}`, payload);
-  return res.data;
+  try {
+    const res = await api.patch(`/resume/${resumeId}`, data);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 
 export const deleteResume = async (resumeId: string) => {

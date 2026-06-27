@@ -1,50 +1,63 @@
+// import { AtsScoreBody, GenerateExperienceDescriptionBody, GenerateProjectDescription, GenerateSkillsBody, GenerateSummeryBody, ImproveContentBody } from "@/types/ai.types";
+
+// import { AtsScoreBody, GenerateExperienceDescriptionBody, GenerateProjectDescription, GenerateSkillsBody, GenerateSummeryBody, ImproveContentBody } from "@/types/ai.types";
+
+
+
 import { api } from "@/lib/axios";
-import { AtsScoreBody, GenerateExperienceDescriptionBody, GenerateProjectDescription, GenerateSkillsBody, GenerateSummeryBody, ImproveContentBody } from "@/types/ai.types";
 
-export const generateSummary = async (payload:GenerateSummeryBody) => {
-  const res = await api.post(
-    "/ai/genenrate-summery",
-    payload
-  );
+// Generate Summary
+export const generateSummary = async (body: {
+  experienceLevel: string;
+  jobTitle: string;
+  skills: string[];
+}) => {
+  const res = await api.post("/ai/generate-summery", body);
   return res.data;
 };
 
-export const generateSkills = async (payload:GenerateSkillsBody) => {
-  const res = await api.post(
-    "/ai/generate-skills",
-    payload
-  );
+// Generate Skills
+export const generateSkills = async (body: {
+  experienceLevel: string;
+  jobTitle: string;
+}) => {
+  const res = await api.post("/ai/generate-skill", body);
   return res.data;
 };
 
-export const generateExperienceDescription = async (payload:GenerateExperienceDescriptionBody) => {
-  const res = await api.post(
-    "/ai/generate-experience-description",
-    payload
-  );
+// Experience Description
+export const generateExperience = async (body: {
+  experienceLevel: string;
+  yearsOfExperience: string;
+  jobRole: string;
+  techStack: string[];
+}) => {
+  const res = await api.post("/ai/generate-experience-description", body);
   return res.data;
 };
 
-export const generateProjectDescription = async (payload:GenerateProjectDescription) => {
-  const res = await api.post(
-    "/ai/generate-project-description",
-    payload
-  );
+// Project Description
+export const generateProjectDescription = async (body: {
+  experienceLevel: string;
+  jobTitle: string;
+  techStack: string[];
+}) => {
+  const res = await api.post("/ai/generate-project-description", body);
   return res.data;
 };
 
-export const improveContent = async (payload:ImproveContentBody) => {
-  const res = await api.post(
-    "/ai/improve-content",
-    payload
-  );
+// Improve Content
+export const improveContent = async (body: {
+  content: string;
+}) => {
+  const res = await api.post("/ai/generate-content", body);
   return res.data;
 };
 
-export const getATSScore = async (payload:AtsScoreBody) => {
-  const res = await api.post(
-    "/ai/ats-score",
-    payload
-  );
+// ATS Score
+export const getATSScore = async (body: {
+  resumeText: string;
+}) => {
+  const res = await api.post("/ai/ats-score", body);
   return res.data;
 };

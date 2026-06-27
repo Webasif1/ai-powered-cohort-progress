@@ -20,7 +20,7 @@ export const updateResume = async (
   data: any
 ) => {
   try {
-    const res = await api.patch(`/resume/${resumeId}`, data);
+    const res = await api.patch(`/resumes/${resumeId}`, data);
     return res.data;
   } catch (error) {
     console.error(error);

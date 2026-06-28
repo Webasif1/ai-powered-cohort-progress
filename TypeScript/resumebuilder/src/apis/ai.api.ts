@@ -21,7 +21,7 @@ export const generateSkills = async (body: {
   experienceLevel: string;
   jobTitle: string;
 }) => {
-  const res = await api.post("/ai/generate-skill", body);
+  const res = await api.post("/ai/generate-skills", body);
   return res.data;
 };
 

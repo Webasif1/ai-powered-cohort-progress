@@ -1,6 +1,11 @@
 "use client";
 
-export default function Education({ resume, setResume }: any) {
+type Props = {
+  resume: any;
+  setResume: React.Dispatch<React.SetStateAction<any>>;
+};
+
+export default function Education({ resume, setResume }: Props) {
   const addEducation = () => {
     setResume({
       ...resume,
@@ -16,13 +21,28 @@ export default function Education({ resume, setResume }: any) {
     });
   };
 
-  const updateEducation = (
+  const removeEducation = (index: number) => {
+    const updated = resume.education.filter(
+      (_: any, i: number) => i !== index
+    );
+
+    setResume({
+      ...resume,
+      education: updated,
+    });
+  };
+
+  const handleChange = (
     index: number,
     field: string,
     value: string
   ) => {
     const updated = [...resume.education];
-    updated[index][field] = value;
+
+    updated[index] = {
+      ...updated[index],
+      [field]: value,
+    };
 
     setResume({
       ...resume,
@@ -31,54 +51,79 @@ export default function Education({ resume, setResume }: any) {
   };
 
   return (
-    <div>
-      <div className="flex justify-between mb-6">
-        <h2 className="text-2xl font-bold">Education</h2>
+    <div className="space-y-5">
+      <div className="flex justify-between items-center">
+        <div>
+          <h2 className="text-2xl font-bold">Education</h2>
+          <p className="text-gray-500 text-sm">
+            Add your education history
+          </p>
+        </div>
 
         <button
           onClick={addEducation}
           className="bg-orange-500 text-white px-4 py-2 rounded-lg"
         >
-          Add
+          + Add
         </button>
       </div>
 
       {resume.education.map((edu: any, index: number) => (
-        <div key={index} className="border rounded-xl p-4 mb-4 space-y-3">
+        <div
+          key={index}
+          className="border rounded-xl p-5 space-y-4"
+        >
+          <div className="flex justify-between">
+            <h3 className="font-semibold">
+              Education {index + 1}
+            </h3>
+
+            <button
+              onClick={() => removeEducation(index)}
+              className="text-red-500"
+            >
+              Remove
+            </button>
+          </div>
+
           <input
+            type="text"
+            placeholder="Institute"
             value={edu.institute}
             onChange={(e) =>
-              updateEducation(index, "institute", e.target.value)
+              handleChange(index, "institute", e.target.value)
             }
-            placeholder="Institute"
-            className="w-full border p-3 rounded-lg"
+            className="w-full border rounded-lg p-3"
           />
 
           <input
+            type="text"
+            placeholder="Degree"
             value={edu.degree}
             onChange={(e) =>
-              updateEducation(index, "degree", e.target.value)
+              handleChange(index, "degree", e.target.value)
             }
-            placeholder="Degree"
-            className="w-full border p-3 rounded-lg"
+            className="w-full border rounded-lg p-3"
           />
 
           <input
+            type="text"
+            placeholder="Start Date (2020)"
             value={edu.startDate}
             onChange={(e) =>
-              updateEducation(index, "startDate", e.target.value)
+              handleChange(index, "startDate", e.target.value)
             }
-            placeholder="Start Date"
-            className="w-full border p-3 rounded-lg"
+            className="w-full border rounded-lg p-3"
           />
 
           <input
+            type="text"
+            placeholder="End Date (2024)"
             value={edu.endDate}
             onChange={(e) =>
-              updateEducation(index, "endDate", e.target.value)
+              handleChange(index, "endDate", e.target.value)
             }
-            placeholder="End Date"
-            className="w-full border p-3 rounded-lg"
+            className="w-full border rounded-lg p-3"
           />
         </div>
       ))}

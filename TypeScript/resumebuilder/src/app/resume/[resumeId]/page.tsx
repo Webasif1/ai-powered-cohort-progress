@@ -10,6 +10,7 @@ import Experience from "@/components/resume/Experience";
 import Projects from "@/components/resume/Projects";
 import Education from "@/components/resume/Education";
 import Certifications from "@/components/resume/Certifications";
+import Title from "@/components/resume/Title";
 import { updateResume } from "@/apis/resume.api";
 import { useParams } from "next/navigation";
 
@@ -49,6 +50,7 @@ type ResumeType = {
 };
 
 const steps = [
+  "Title",
   "Personal Info",
   "Summary",
   "Skills",
@@ -56,6 +58,7 @@ const steps = [
   "Projects",
   "Education",
   "Certifications",
+  "Preview",
 ];
 
 const initialResume: ResumeType = {
@@ -82,9 +85,10 @@ export default function ResumePage() {
   const [resume, setResume] = useState<ResumeType>(initialResume);
   const [saving, setSaving] = useState(false);
   const params = useParams();
-  const resumeId = params.resumeId as string;
+  const resumeId = params.resumeId;
 
   const stepComponents = [
+    Title,
     PersonalInfo,
     Summary,
     Skills,

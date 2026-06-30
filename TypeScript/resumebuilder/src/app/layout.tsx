@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AuthProvider } from "@/context/auth.context";
 
 export const metadata: Metadata = {
   title: "ResumeAI - Build ATS-Optimized Resumes with AI",
@@ -66,8 +67,10 @@ export default function RootLayout({
           />
         </div>
 
-        {/* Main content */}
-        <main style={{ position: "relative", zIndex: 0 }}>{children}</main>
+        {/* Main content with AuthProvider */}
+        <AuthProvider>
+          <main style={{ position: "relative", zIndex: 0 }}>{children}</main>
+        </AuthProvider>
       </body>
     </html>
   );

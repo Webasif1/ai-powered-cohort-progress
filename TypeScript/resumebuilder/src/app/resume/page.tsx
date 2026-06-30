@@ -36,10 +36,32 @@ export default function ResumeDashboardPage() {
 
   const fetchResumes = async () => {
     try {
-      const data = await getAllResumes();
-      setResumes(data.resumes || data || []);
+      const response = await getAllResumes();
+
+      // Debug: Log the response to see its structure
+      console.log("API Response:", response);
+
+      // Handle different response structures
+      let resumeArray: Resume[] = [];
+
+      if (Array.isArray(response.data)) {
+        // Response is already an array
+        resumeArray = response.data;
+      } else if (response?.data && Array.isArray(response.data)) {
+        // Response has a data property that is an array
+        resumeArray = response.data;
+      } else if (response?.data && Array.isArray(response.data)) {
+        // Response has a resumes property that is an array
+        resumeArray = response.data;
+      } else if (response.data && typeof response === "object") {
+        // Response might be a single resume object, wrap it in array
+        resumeArray = [response.data];
+      }
+
+      setResumes(resumeArray);
     } catch (error) {
       console.error("Failed to fetch resumes:", error);
+      setResumes([]); // Set empty array on error
     } finally {
       setIsLoading(false);
     }
@@ -49,8 +71,15 @@ export default function ResumeDashboardPage() {
     setIsCreating(true);
     try {
       const data = await createResume();
-      const newResumeId = data.resume?._id || data._id;
-      router.push(`/resume/${newResumeId}`);
+      console.log("handelCreateResume ---->", data)
+      // Handle different response structures
+      const newResumeId = data?.data._id || data?.resume?._id || data?.data?._id;
+      if (newResumeId) {
+        router.push(`/resume/${newResumeId}`);
+      } else {
+        console.error("No resume ID in response:", data.data);
+        setIsCreating(false);
+      }
     } catch (error) {
       console.error("Failed to create resume:", error);
       setIsCreating(false);

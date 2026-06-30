@@ -1,25 +1,25 @@
+// src/context/auth.context.tsx
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
-type User = {
-  _id: string;
-  name: string;
-  email: string;
-};
-
-type AuthContextType = {
-  user: User | null;
-  setUser: (user: User | null) => void;
-};
+interface AuthContextType {
+  user: any;
+  isAuthenticated: boolean;
+  login: (data: any) => void;
+  logout: () => void;
+}
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-export const AuthProvider = ({ children }: any) => {
-  const [user, setUser] = useState<User | null>(null);
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Your auth logic here...
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, login: () => {}, logout: () => {} }}>
       {children}
     </AuthContext.Provider>
   );

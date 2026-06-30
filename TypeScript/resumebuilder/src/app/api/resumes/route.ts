@@ -4,7 +4,6 @@ import ResumeModel from "@/models/Resume.model";
 import { ApiResponse } from "@/types/api.types";
 import { NextRequest, NextResponse } from "next/server";
 
-// GET all resumes for current user
 export async function GET(req: NextRequest) {
   try {
     await connectDB();
@@ -14,16 +13,15 @@ export async function GET(req: NextRequest) {
       return NextResponse.json<ApiResponse>(
         {
           success: false,
-          message: "Unauthorized",
+          message: "Unauthorized - Please log in again",
         },
-        { status: 401 }
+        { status: 401 } // Return 401, not 500
       );
     }
 
-    // Find ALL resumes for this user (use find, not findById)
     const resumes = await ResumeModel.find({
       user_id: userID,
-    }).sort({ updatedAt: -1 }); // Sort by most recently updated
+    }).sort({ updatedAt: -1 });
 
     return NextResponse.json<ApiResponse>(
       {
@@ -33,8 +31,20 @@ export async function GET(req: NextRequest) {
       },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error: any) {
     console.log("Error in get all resumes api:", error);
+
+    // Check if it's a JWT error
+    if (error.name === "TokenExpiredError" || error.name === "JsonWebTokenError") {
+      return NextResponse.json<ApiResponse>(
+        {
+          success: false,
+          message: "Session expired - Please log in again",
+        },
+        { status: 401 }
+      );
+    }
+
     return NextResponse.json<ApiResponse>(
       {
         success: false,

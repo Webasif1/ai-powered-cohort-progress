@@ -9,17 +9,34 @@ export async function POST(req: NextRequest) {
     await connectDB();
 
     const userID = await getCurrentUser();
+    if (!userID) {
+      return NextResponse.json<ApiResponse>(
+        {
+          success: false,
+          message: "Unauthorized - Please log in again",
+        },
+        { status: 401 }
+      );
+    }
 
     const newResume = await ResumeModel.create({
       user_id: userID,
-      title: "",
-      summery: "",
-      personalInfo: {},
-      workExperience: [],
+      title: "Untitled Resume",
+      personalInfo: {
+        fullName: "",
+        email: "",
+        phone: "",
+        location: "",
+        github: "",
+        linkedin: "",
+        portfolio: "",
+      },
+      summary: "",
+      experience: [],
       projects: [],
+      skills: [],
       education: [],
       certifications: [],
-      skills: [],
     });
 
     return NextResponse.json<ApiResponse>(
@@ -28,16 +45,27 @@ export async function POST(req: NextRequest) {
         message: "Resume created successfully",
         data: newResume,
       },
-      { status: 201 },
+      { status: 201 }
     );
-  } catch (error) {
-    console.log("Error in creating resume api", error);
+  } catch (error: any) {
+    console.log("Error in creating resume api:", error);
+
+    if (error.name === "TokenExpiredError" || error.name === "JsonWebTokenError") {
+      return NextResponse.json<ApiResponse>(
+        {
+          success: false,
+          message: "Session expired - Please log in again",
+        },
+        { status: 401 }
+      );
+    }
+
     return NextResponse.json<ApiResponse>(
       {
         success: false,
         message: "Something went wrong",
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

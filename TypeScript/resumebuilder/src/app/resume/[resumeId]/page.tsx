@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -23,7 +22,7 @@ import Certifications from "@/components/resume/Certifications";
 import ResumePreview from "@/components/resume/ResumePreview";
 import { getResumeById, updateResume } from "@/apis/resume.api";
 
-// Types
+// ==================== TYPES ====================
 interface ResumeData {
   _id: string;
   title: string;
@@ -37,35 +36,14 @@ interface ResumeData {
     portfolio: string;
   };
   summary: string;
-  experience: Array<{
-    id: string;
-    company: string;
-    position: string;
-    startDate: string;
-    endDate: string;
-    current: boolean;
-    description: string;
-  }>;
-  projects: Array<{
-    id: string;
-    title: string;
-    description: string;
-    githubUrl: string;
-    liveUrl: string;
-    techStack: string[];
-  }>;
+  experience: any[];
+  projects: any[];
   skills: string[];
-  education: Array<{
-    id: string;
-    degree: string;
-    institution: string;
-    startYear: string;
-    endYear: string;
-  }>;
+  education: any[];
   certifications: string[];
 }
 
-const DEFAULT_RESUME: ResumeData = {
+const DEFAULT_DATA: ResumeData = {
   _id: "",
   title: "Untitled Resume",
   personalInfo: {
@@ -85,538 +63,544 @@ const DEFAULT_RESUME: ResumeData = {
   certifications: [],
 };
 
-// ============ MAIN COMPONENT ============
+// ==================== MAIN COMPONENT ====================
 export default function ResumeEditorPage() {
+  // Get params
   const params = useParams();
-  const resumeId =
-    typeof params?.resumeId === "string"
-      ? params.resumeId
-      : Array.isArray(params?.resumeId)
-      ? params.resumeId[0]
-      : "";
+  const resumeId = typeof params?.resumeId === "string" ? params.resumeId : "";
 
   // State
-  const [resumeData, setResumeData] = useState<ResumeData>(DEFAULT_RESUME);
+  const [data, setData] = useState<ResumeData>(DEFAULT_DATA);
   const [isLoading, setIsLoading] = useState(true);
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [activeTab, setActiveTab] = useState<"edit" | "preview">("edit");
   const [title, setTitle] = useState("Untitled Resume");
   const [isEditingTitle, setIsEditingTitle] = useState(false);
 
-  // Refs to prevent loops
-  const fetchedRef = useRef(false);
-  const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const canSaveRef = useRef(false);
+  // Refs - CRITICAL for preventing loops
+  const hasFetched = useRef(false);
+  const saveTimeout = useRef<NodeJS.Timeout | null>(null);
+  const canSave = useRef(false);
+  const isSaving = useRef(false);
 
-  // ============ FETCH - RUNS ONLY ONCE ============
+  // ==================== FETCH DATA (ONCE) ====================
   useEffect(() => {
-    // Guard: only fetch once
-    if (fetchedRef.current) return;
+    // Prevent multiple fetches
+    if (hasFetched.current) return;
     if (!resumeId) {
       setIsLoading(false);
       return;
     }
 
-    fetchedRef.current = true;
+    hasFetched.current = true;
+    console.log("📡 Fetching resume:", resumeId);
 
-    const fetchData = async () => {
+    const fetchResume = async () => {
       try {
-        const data = await getResumeById(resumeId);
-        console.log("gerResumeById ---->", data)
-        setResumeData({
-          ...DEFAULT_RESUME,
-          ...data,
-          _id: data._id || resumeId,
-          personalInfo: { ...DEFAULT_RESUME.personalInfo, ...(data.data.personalInfo || {}) },
-          experience: data.data.experience || [],
-          projects: data.data.projects || [],
-          skills: data.data.skills || [],
-          education: data.data.education || [],
-          certifications: data.data.certifications || [],
+        const res = await getResumeById(resumeId);
+        console.log("✅ Fetched:", res);
+
+        setData({
+          _id: res._id || resumeId,
+          title: res.title || "Untitled Resume",
+          personalInfo: {
+            fullName: res.personalInfo?.fullName || "",
+            email: res.personalInfo?.email || "",
+            phone: res.personalInfo?.phone || "",
+            location: res.personalInfo?.location || "",
+            github: res.personalInfo?.github || "",
+            linkedin: res.personalInfo?.linkedin || "",
+            portfolio: res.personalInfo?.portfolio || "",
+          },
+          summary: res.summary || res.summery || "",
+          experience: res.experience || res.workExperience || [],
+          projects: res.projects || [],
+          skills: res.skills || [],
+          education: res.education || [],
+          certifications: res.certifications || [],
         });
-        setTitle(data.data.title || "Untitled Resume");
-      } catch (err) {
-        console.error("Fetch error:", err);
-        setResumeData({ ...DEFAULT_RESUME, _id: resumeId });
+        setTitle(res.title || "Untitled Resume");
+      } catch (error) {
+        console.error("❌ Fetch error:", error);
+        setData({ ...DEFAULT_DATA, _id: resumeId });
       } finally {
         setIsLoading(false);
-        // Enable saving after 1 second
+        // Enable saving after delay
         setTimeout(() => {
-          canSaveRef.current = true;
-        }, 1000);
+          canSave.current = true;
+          console.log("✅ Saving enabled");
+        }, 1500);
       }
     };
 
-    fetchData();
-  }, [resumeId]); // Only resumeId - no functions!
+    fetchResume();
 
-  // ============ CLEANUP ============
-  useEffect(() => {
+    // Cleanup
     return () => {
-      if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
-    };
-  }, []);
-
-  // ============ SAVE FUNCTION ============
-  const doSave = useCallback(
-    async (data: ResumeData, newTitle: string) => {
-      if (!resumeId || !canSaveRef.current) return;
-
-      setSaveStatus("saving");
-      try {
-        await updateResume(resumeId, {
-          title: newTitle,
-          personalInfo: data.personalInfo,
-          summary: data.summary,
-          experience: data.experience,
-          projects: data.projects,
-          skills: data.skills,
-          education: data.education,
-          certifications: data.certifications,
-        });
-        setSaveStatus("saved");
-        setTimeout(() => setSaveStatus("idle"), 2000);
-      } catch (err) {
-        console.error("Save error:", err);
-        setSaveStatus("error");
+      if (saveTimeout.current) {
+        clearTimeout(saveTimeout.current);
       }
-    },
-    [resumeId]
-  );
+    };
+  }, [resumeId]);
 
-  // ============ DEBOUNCED SAVE TRIGGER ============
-  const triggerSave = useCallback(
-    (data: ResumeData, newTitle: string) => {
-      if (!canSaveRef.current) return;
+  // ==================== SAVE FUNCTION ====================
+  const performSave = async (dataToSave: ResumeData, titleToSave: string) => {
+    if (!resumeId || !canSave.current || isSaving.current) return;
 
-      if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+    isSaving.current = true;
+    setSaveStatus("saving");
+    console.log("💾 Saving...");
 
-      saveTimeoutRef.current = setTimeout(() => {
-        doSave(data, newTitle);
-      }, 2000);
-    },
-    [doSave]
-  );
+    try {
+      await updateResume(resumeId, {
+        title: titleToSave,
+        personalInfo: dataToSave.personalInfo,
+        summary: dataToSave.summary,
+        experience: dataToSave.experience,
+        projects: dataToSave.projects,
+        skills: dataToSave.skills,
+        education: dataToSave.education,
+        certifications: dataToSave.certifications,
+      });
 
-  // ============ UPDATE HANDLERS ============
-  const handleUpdate = <K extends keyof ResumeData>(field: K, value: ResumeData[K]) => {
-    setResumeData((prev) => {
+      setSaveStatus("saved");
+      console.log("✅ Saved");
+      setTimeout(() => setSaveStatus("idle"), 2000);
+    } catch (error) {
+      console.error("❌ Save error:", error);
+      setSaveStatus("error");
+    } finally {
+      isSaving.current = false;
+    }
+  };
+
+  // ==================== DEBOUNCED SAVE ====================
+  const triggerSave = (newData: ResumeData, newTitle: string) => {
+    if (!canSave.current) return;
+
+    if (saveTimeout.current) {
+      clearTimeout(saveTimeout.current);
+    }
+
+    saveTimeout.current = setTimeout(() => {
+      performSave(newData, newTitle);
+    }, 2000);
+  };
+
+  // ==================== UPDATE HANDLERS ====================
+  const updateField = <K extends keyof ResumeData>(field: K, value: ResumeData[K]) => {
+    setData((prev) => {
       const updated = { ...prev, [field]: value };
       triggerSave(updated, title);
       return updated;
     });
   };
 
-  const handleTitleChange = (newTitle: string) => {
-    setTitle(newTitle);
-    triggerSave(resumeData, newTitle);
+  const handleTitleBlur = () => {
+    setIsEditingTitle(false);
+    triggerSave(data, title);
   };
 
-  const handleDownload = () => {
-    window.open(`/resume/${resumeId}/preview?download=true`, "_blank");
+  const handleRetry = () => {
+    performSave(data, title);
   };
 
-  // ============ LOADING STATE ============
+  // ==================== LOADING STATE ====================
   if (isLoading) {
     return (
-      <div className="loading-screen">
-        <div className="spinner" />
-        <p>Loading resume...</p>
-        <style jsx>{`
-          .loading-screen {
-            min-height: 100vh;
-            background: #0a0a0f;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-          }
-          .spinner {
-            width: 48px;
-            height: 48px;
-            border: 3px solid rgba(124, 58, 237, 0.2);
-            border-top-color: #7c3aed;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-          }
-          p {
-            color: #6b7280;
-            font-size: 14px;
-          }
-          @keyframes spin {
-            to {
-              transform: rotate(360deg);
-            }
-          }
-        `}</style>
+      <div style={styles.centerScreen}>
+        <div style={styles.spinner} />
+        <p style={styles.loadingText}>Loading resume...</p>
       </div>
     );
   }
 
-  // ============ ERROR STATE ============
+  // ==================== NO RESUME ID ====================
   if (!resumeId) {
     return (
-      <div className="error-screen">
-        <h2>Resume Not Found</h2>
-        <Link href="/resume">Go to Dashboard</Link>
-        <style jsx>{`
-          .error-screen {
-            min-height: 100vh;
-            background: #0a0a0f;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-          }
-          h2 {
-            color: #f8f8ff;
-          }
-          a {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
-            color: white;
-            border-radius: 12px;
-            text-decoration: none;
-          }
-        `}</style>
+      <div style={styles.centerScreen}>
+        <div style={styles.errorBox}>
+          <h2 style={styles.errorTitle}>Resume Not Found</h2>
+          <Link href="/resume" style={styles.errorLink}>
+            Go to Dashboard
+          </Link>
+        </div>
       </div>
     );
   }
 
-  // ============ MAIN RENDER ============
+  // ==================== MAIN RENDER ====================
   return (
-    <div className="editor-page">
-      {/* ===== NAVBAR (rendered ONCE here) ===== */}
-      <nav className="navbar">
-        <div className="nav-left">
-          <Link href="/resume" className="back-btn">
-            <ArrowLeft size={18} />
-            <span>Back</span>
-          </Link>
+    <div style={styles.page}>
+      {/* ========== NAVBAR ========== */}
+      <nav style={styles.navbar}>
+        {/* Left */}
+        <Link href="/resume" style={styles.backLink}>
+          <ArrowLeft size={18} />
+          <span>Back</span>
+        </Link>
 
+        {/* Center */}
+        <div style={styles.navCenter}>
           {isEditingTitle ? (
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              onBlur={() => {
-                setIsEditingTitle(false);
-                handleTitleChange(title);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  setIsEditingTitle(false);
-                  handleTitleChange(title);
-                }
-              }}
+              onBlur={handleTitleBlur}
+              onKeyDown={(e) => e.key === "Enter" && handleTitleBlur()}
               autoFocus
-              className="title-input"
+              style={styles.titleInput}
             />
           ) : (
-            <h1 className="title" onClick={() => setIsEditingTitle(true)}>
-              {title}
-            </h1>
+            <button
+              onClick={() => setIsEditingTitle(true)}
+              style={styles.titleButton}
+            >
+              {title || "Untitled Resume"}
+            </button>
           )}
 
-          <span className="save-status">
+          {/* Save Status */}
+          <div style={styles.saveStatus}>
             {saveStatus === "saving" && (
               <>
-                <Loader2 size={14} className="spin" /> Saving...
+                <Loader2 size={14} style={styles.spinIcon} />
+                <span>Saving...</span>
               </>
             )}
             {saveStatus === "saved" && (
               <>
-                <Check size={14} /> Saved
+                <Check size={14} style={{ color: "#10B981" }} />
+                <span style={{ color: "#10B981" }}>Saved</span>
               </>
             )}
             {saveStatus === "error" && (
               <>
-                <AlertCircle size={14} /> Failed
-                <button onClick={() => doSave(resumeData, title)} className="retry-btn">
+                <AlertCircle size={14} style={{ color: "#EF4444" }} />
+                <span style={{ color: "#EF4444" }}>Failed</span>
+                <button onClick={handleRetry} style={styles.retryBtn}>
                   <RefreshCw size={12} />
                 </button>
               </>
             )}
-          </span>
+          </div>
         </div>
 
-        <div className="nav-right">
-          <Link href={`/resume/${resumeId}/preview`} className="preview-btn">
+        {/* Right */}
+        <div style={styles.navRight}>
+          <Link href={`/resume/${resumeId}/preview`} style={styles.previewBtn}>
             <Eye size={16} />
             <span>Preview</span>
           </Link>
-          <button onClick={handleDownload} className="download-btn">
+          <button
+            onClick={() => window.open(`/resume/${resumeId}/preview?download=true`, "_blank")}
+            style={styles.downloadBtn}
+          >
             <Download size={16} />
             <span>Download</span>
           </button>
         </div>
       </nav>
 
-      {/* ===== MOBILE TABS ===== */}
-      <div className="mobile-tabs">
+      {/* ========== MOBILE TABS ========== */}
+      <div style={styles.mobileTabs} className="mobile-tabs">
         <button
-          className={`tab ${activeTab === "edit" ? "active" : ""}`}
           onClick={() => setActiveTab("edit")}
+          style={{
+            ...styles.tab,
+            ...(activeTab === "edit" ? styles.tabActive : {}),
+          }}
         >
           Edit
         </button>
         <button
-          className={`tab ${activeTab === "preview" ? "active" : ""}`}
           onClick={() => setActiveTab("preview")}
+          style={{
+            ...styles.tab,
+            ...(activeTab === "preview" ? styles.tabActive : {}),
+          }}
         >
           Preview
         </button>
       </div>
 
-      {/* ===== EDITOR LAYOUT ===== */}
-      <div className="editor-layout">
-        {/* Left: Form */}
-        <motion.div
+      {/* ========== EDITOR LAYOUT ========== */}
+      <div style={styles.editorLayout} className="editor-layout">
+        {/* Form Panel */}
+        <div
+          style={styles.formPanel}
           className={`form-panel ${activeTab === "edit" ? "active" : ""}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
         >
-          <div className="form-content">
+          <div style={styles.formContent}>
             <PersonalInformation
-              data={resumeData.personalInfo}
-              onChange={(v) => handleUpdate("personalInfo", v)}
+              data={data.personalInfo}
+              onChange={(v) => updateField("personalInfo", v)}
             />
             <ProfessionalSummary
-              summary={resumeData.summary}
-              onChange={(v) => handleUpdate("summary", v)}
-              personalInfo={resumeData.personalInfo}
-              skills={resumeData.skills}
+              summary={data.summary}
+              onChange={(v) => updateField("summary", v)}
+              personalInfo={data.personalInfo}
+              skills={data.skills}
             />
             <Experience
-              experience={resumeData.experience}
-              onChange={(v) => handleUpdate("experience", v)}
-              skills={resumeData.skills}
+              experience={data.experience}
+              onChange={(v) => updateField("experience", v)}
+              skills={data.skills}
             />
             <Projects
-              projects={resumeData.projects}
-              onChange={(v) => handleUpdate("projects", v)}
+              projects={data.projects}
+              onChange={(v) => updateField("projects", v)}
             />
             <Skills
-              skills={resumeData.skills}
-              onChange={(v) => handleUpdate("skills", v)}
-              personalInfo={resumeData.personalInfo}
+              skills={data.skills}
+              onChange={(v) => updateField("skills", v)}
+              personalInfo={data.personalInfo}
             />
             <Education
-              education={resumeData.education}
-              onChange={(v) => handleUpdate("education", v)}
+              education={data.education}
+              onChange={(v) => updateField("education", v)}
             />
             <Certifications
-              certifications={resumeData.certifications}
-              onChange={(v) => handleUpdate("certifications", v)}
+              certifications={data.certifications}
+              onChange={(v) => updateField("certifications", v)}
             />
           </div>
-        </motion.div>
+        </div>
 
-        {/* Right: Preview */}
-        <motion.div
+        {/* Preview Panel */}
+        <div
+          style={styles.previewPanel}
           className={`preview-panel ${activeTab === "preview" ? "active" : ""}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
         >
-          <p className="preview-label">Live Preview</p>
-          <ResumePreview data={resumeData} />
-        </motion.div>
+          <p style={styles.previewLabel}>Live Preview</p>
+          <ResumePreview data={data} />
+        </div>
       </div>
 
-      {/* ===== STYLES ===== */}
-      <style jsx>{`
-        .editor-page {
-          min-height: 100vh;
-          background: #0a0a0f;
-        }
-
-        /* Navbar */
-        .navbar {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 12px 24px;
-          background: #111118;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-          position: sticky;
-          top: 0;
-          z-index: 50;
-        }
-        .nav-left,
-        .nav-right {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-        }
-        .back-btn {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          color: #6b7280;
-          text-decoration: none;
-          font-size: 14px;
-          padding: 8px 12px;
-          border-radius: 8px;
-          transition: all 0.2s;
-        }
-        .back-btn:hover {
-          background: rgba(255, 255, 255, 0.05);
-          color: #f8f8ff;
-        }
-        .title {
-          font-size: 16px;
-          font-weight: 600;
-          color: #f8f8ff;
-          cursor: pointer;
-          padding: 4px 8px;
-          border-radius: 6px;
-          margin: 0;
-        }
-        .title:hover {
-          background: rgba(255, 255, 255, 0.05);
-        }
-        .title-input {
-          font-size: 16px;
-          font-weight: 600;
-          color: #f8f8ff;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid #7c3aed;
-          border-radius: 6px;
-          padding: 4px 8px;
-          outline: none;
-        }
-        .save-status {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          font-size: 12px;
-          color: #6b7280;
-        }
-        .retry-btn {
-          background: none;
-          border: none;
-          color: #7c3aed;
-          cursor: pointer;
-          padding: 4px;
-        }
-        .preview-btn,
-        .download-btn {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          padding: 8px 16px;
-          font-size: 14px;
-          font-weight: 500;
-          border-radius: 10px;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-        .preview-btn {
-          color: #f8f8ff;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          text-decoration: none;
-        }
-        .preview-btn:hover {
-          background: rgba(255, 255, 255, 0.1);
-        }
-        .download-btn {
-          color: white;
-          background: linear-gradient(135deg, #7c3aed, #8b5cf6);
-          border: none;
-        }
-        .download-btn:hover {
-          box-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
-        }
-
-        /* Mobile Tabs */
-        .mobile-tabs {
-          display: none;
-          padding: 12px 16px;
-          background: #111118;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .tab {
-          flex: 1;
-          padding: 10px;
-          font-size: 14px;
-          font-weight: 500;
-          color: #6b7280;
-          background: transparent;
-          border: none;
-          border-radius: 8px;
-          cursor: pointer;
-        }
-        .tab.active {
-          color: #f8f8ff;
-          background: rgba(124, 58, 237, 0.2);
-        }
-
-        /* Editor Layout */
-        .editor-layout {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          min-height: calc(100vh - 65px);
-        }
-        .form-panel {
-          overflow-y: auto;
-          height: calc(100vh - 65px);
-          border-right: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .form-content {
-          padding: 24px;
-        }
-        .preview-panel {
-          background: #0d0d12;
-          overflow-y: auto;
-          height: calc(100vh - 65px);
-          padding: 24px;
-        }
-        .preview-label {
-          font-size: 12px;
-          color: #6b7280;
-          text-align: center;
-          margin-bottom: 16px;
-        }
-
-        /* Animations */
-        :global(.spin) {
-          animation: spin 1s linear infinite;
-        }
+      {/* ========== STYLES ========== */}
+      <style jsx global>{`
         @keyframes spin {
           to {
             transform: rotate(360deg);
           }
         }
 
-        /* Responsive */
         @media (max-width: 1024px) {
           .editor-layout {
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr !important;
           }
           .mobile-tabs {
-            display: flex;
+            display: flex !important;
           }
           .form-panel {
-            display: none;
+            display: none !important;
           }
           .form-panel.active {
-            display: block;
+            display: block !important;
           }
           .preview-panel {
-            display: none;
+            display: none !important;
           }
           .preview-panel.active {
-            display: block;
-          }
-          .preview-btn span,
-          .download-btn span {
-            display: none;
+            display: block !important;
           }
         }
       `}</style>
     </div>
   );
 }
+
+// ==================== STYLES ====================
+const styles: Record<string, React.CSSProperties> = {
+  page: {
+    minHeight: "100vh",
+    backgroundColor: "#0A0A0F",
+  },
+  centerScreen: {
+    minHeight: "100vh",
+    backgroundColor: "#0A0A0F",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 16,
+  },
+  spinner: {
+    width: 48,
+    height: 48,
+    border: "3px solid rgba(124, 58, 237, 0.2)",
+    borderTopColor: "#7C3AED",
+    borderRadius: "50%",
+    animation: "spin 1s linear infinite",
+  },
+  loadingText: {
+    color: "#6B7280",
+    fontSize: 14,
+  },
+  errorBox: {
+    textAlign: "center",
+    padding: 40,
+    background: "rgba(255,255,255,0.05)",
+    borderRadius: 16,
+    border: "1px solid rgba(255,255,255,0.1)",
+  },
+  errorTitle: {
+    color: "#F8F8FF",
+    marginBottom: 16,
+    fontSize: 20,
+  },
+  errorLink: {
+    display: "inline-block",
+    padding: "12px 24px",
+    background: "linear-gradient(135deg, #7C3AED, #8B5CF6)",
+    color: "white",
+    borderRadius: 12,
+    textDecoration: "none",
+    fontWeight: 500,
+  },
+  navbar: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "12px 24px",
+    backgroundColor: "rgba(17, 17, 24, 0.95)",
+    backdropFilter: "blur(16px)",
+    borderBottom: "1px solid rgba(255,255,255,0.05)",
+    position: "sticky",
+    top: 0,
+    zIndex: 50,
+  },
+  backLink: {
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+    color: "#6B7280",
+    textDecoration: "none",
+    fontSize: 14,
+    fontWeight: 500,
+  },
+  navCenter: {
+    display: "flex",
+    alignItems: "center",
+    gap: 16,
+  },
+  titleButton: {
+    padding: "6px 12px",
+    fontSize: 16,
+    fontWeight: 600,
+    color: "#F8F8FF",
+    backgroundColor: "transparent",
+    border: "1px solid transparent",
+    borderRadius: 8,
+    cursor: "pointer",
+  },
+  titleInput: {
+    padding: "6px 12px",
+    fontSize: 16,
+    fontWeight: 600,
+    color: "#F8F8FF",
+    backgroundColor: "rgba(255,255,255,0.05)",
+    border: "1px solid #7C3AED",
+    borderRadius: 8,
+    outline: "none",
+    minWidth: 200,
+  },
+  saveStatus: {
+    display: "flex",
+    alignItems: "center",
+    gap: 6,
+    fontSize: 13,
+    color: "#6B7280",
+  },
+  spinIcon: {
+    animation: "spin 1s linear infinite",
+  },
+  retryBtn: {
+    display: "flex",
+    alignItems: "center",
+    padding: 4,
+    color: "#7C3AED",
+    backgroundColor: "transparent",
+    border: "none",
+    cursor: "pointer",
+  },
+  navRight: {
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+  },
+  previewBtn: {
+    display: "flex",
+    alignItems: "center",
+    gap: 6,
+    padding: "10px 16px",
+    fontSize: 13,
+    fontWeight: 500,
+    color: "#F8F8FF",
+    backgroundColor: "transparent",
+    border: "1px solid rgba(255,255,255,0.1)",
+    borderRadius: 10,
+    textDecoration: "none",
+  },
+  downloadBtn: {
+    display: "flex",
+    alignItems: "center",
+    gap: 6,
+    padding: "10px 16px",
+    fontSize: 13,
+    fontWeight: 500,
+    color: "white",
+    background: "linear-gradient(135deg, #7C3AED, #8B5CF6)",
+    border: "none",
+    borderRadius: 10,
+    cursor: "pointer",
+  },
+  mobileTabs: {
+    display: "none",
+    padding: 12,
+    backgroundColor: "#111118",
+    borderBottom: "1px solid rgba(255,255,255,0.05)",
+    gap: 8,
+  },
+  tab: {
+    flex: 1,
+    padding: "10px 16px",
+    fontSize: 14,
+    fontWeight: 500,
+    color: "#6B7280",
+    backgroundColor: "transparent",
+    border: "none",
+    borderRadius: 8,
+    cursor: "pointer",
+  },
+  tabActive: {
+    color: "#F8F8FF",
+    backgroundColor: "rgba(124, 58, 237, 0.2)",
+  },
+  editorLayout: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    minHeight: "calc(100vh - 65px)",
+  },
+  formPanel: {
+    overflowY: "auto",
+    height: "calc(100vh - 65px)",
+    borderRight: "1px solid rgba(255,255,255,0.05)",
+  },
+  formContent: {
+    padding: 24,
+  },
+  previewPanel: {
+    backgroundColor: "#0D0D12",
+    overflowY: "auto",
+    height: "calc(100vh - 65px)",
+    padding: 24,
+  },
+  previewLabel: {
+    fontSize: 12,
+    color: "#6B7280",
+    textAlign: "center",
+    marginBottom: 16,
+  },
+};

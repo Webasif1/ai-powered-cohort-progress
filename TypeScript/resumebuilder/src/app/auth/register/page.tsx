@@ -33,7 +33,7 @@ export default function RegisterPage() {
 
     try {
       await registerUser(formData);
-      router.push("/dashboard");
+      router.push("/resume");
     } catch (err: any) {
       setError(err.response?.data?.message || "Registration failed. Please try again.");
     } finally {

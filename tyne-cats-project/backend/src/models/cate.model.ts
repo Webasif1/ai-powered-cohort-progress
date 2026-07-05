@@ -41,4 +41,4 @@ const catSchema = new mongoose.Schema<ICat>(
 
 const CatModel = mongoose.model("Cat", catSchema);
 
-export default CatModel
+export default CatModel;

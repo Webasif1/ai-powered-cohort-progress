@@ -24,7 +24,27 @@ export const searchCatsService = async (query: string) => {
           $regex: query,
           $options: "i",
         },
+      },
+      {
         breed: {
+          $regex: query,
+          $options: "i",
+        },
+      },
+      {
+        description: {
+          $regex: query,
+          $options: "i",
+        },
+      },
+      {
+        color: {
+          $regex: query,
+          $options: "i",
+        },
+      },
+      {
+        energyLevel: {
           $regex: query,
           $options: "i",
         },
@@ -32,7 +52,6 @@ export const searchCatsService = async (query: string) => {
     ],
   });
 };
-
 //Cat recommended Service
 export const recommendService = async (kidsFriendly:boolean, apartmentFriendly:boolean) => {
   return await CatModel.find({

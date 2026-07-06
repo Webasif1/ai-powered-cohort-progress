@@ -8,7 +8,7 @@ import {
 } from "../services/cat.service.ts";
 
 export const createCatController = async (req: Request, res: Response) => {
-  const result = createCatService(req.body);
+  const result = await createCatService(req.body);
 
   return res.status(201).json({
     success: true,
@@ -18,7 +18,7 @@ export const createCatController = async (req: Request, res: Response) => {
 };
 
 export const getAllCatsController = async (req: Request, res: Response) => {
-  const result = getAllCatsService();
+  const result = await getAllCatsService();
 
   return res.status(200).json({
     success: true,
@@ -28,7 +28,8 @@ export const getAllCatsController = async (req: Request, res: Response) => {
 };
 
 export const getSingleCatController = async (req: Request, res: Response) => {
-  const result = getSingleCatService(req.body);
+  let id = req.params.id as string;
+  const result = await getSingleCatService(id);
 
   return res.status(200).json({
     success: true,
@@ -39,7 +40,7 @@ export const getSingleCatController = async (req: Request, res: Response) => {
 
 export const searchCatsController = async (req: Request, res: Response) => {
   let q = req.query.q as string;
-  const result = searchCatsService(q);
+  const result = await searchCatsService(q);
 
   return res.status(200).json({
     success: true,
@@ -51,7 +52,7 @@ export const searchCatsController = async (req: Request, res: Response) => {
 export const recommendCatsController = async (req: Request, res: Response) => {
   const {kidsFriendly,apartmentFriendly} = req.body
   const result = await recommendService(kidsFriendly,apartmentFriendly);
-
+    console.log(req.body);
     return res.status(200).json({
     success: true,
     message: "Cat successfully fetched..",

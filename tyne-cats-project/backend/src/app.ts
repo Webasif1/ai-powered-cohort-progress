@@ -1,5 +1,7 @@
 import express, { type Request, type Response } from "express";
-import route from "./routes/cats.route.ts";
+import catsRoute from "./routes/cats.route.ts";
+import aiRoute from "./routes/ai.route.ts";
+import aiRecommendRoute from "./routes/aiRecommend.route.ts";
 
 const app = express();
 
@@ -13,6 +15,8 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-app.use("/api/cats/", route);
+app.use("/api/cats", catsRoute);
+app.use("/api/ai", aiRoute);
+app.use("/api/aiRecommend", aiRecommendRoute);
 
 export default app;

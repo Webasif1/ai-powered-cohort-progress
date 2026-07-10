@@ -1,5 +1,5 @@
 import { generateAiContent } from "@/lib/gemini";
-import {  AtsScoreBody } from "@/types/ai.types";
+import { AtsScoreBody } from "@/types/ai.types";
 import { ApiResponse } from "@/types/api.types";
 import { NextRequest, NextResponse } from "next/server";
 

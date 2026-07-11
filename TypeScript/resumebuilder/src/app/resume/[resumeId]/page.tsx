@@ -12,6 +12,8 @@ import {
   AlertCircle,
   RefreshCw,
 } from "lucide-react";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import { ResumeEditorSkeleton } from "@/components/SkeletonLoader";
 import PersonalInformation from "@/components/resume/PersonalInformation";
 import ProfessionalSummary from "@/components/resume/Summary";
 import Experience from "@/components/resume/Experience";
@@ -65,6 +67,14 @@ const DEFAULT_DATA: ResumeData = {
 
 // ==================== MAIN COMPONENT ====================
 export default function ResumeEditorPage() {
+  return (
+    <ProtectedRoute>
+      <ResumeEditorContent />
+    </ProtectedRoute>
+  );
+}
+
+function ResumeEditorContent() {
   // Get params
   const params = useParams();
   const resumeId = typeof params?.resumeId === "string" ? params.resumeId : "";
@@ -207,12 +217,7 @@ export default function ResumeEditorPage() {
 
   // ==================== LOADING STATE ====================
   if (isLoading) {
-    return (
-      <div style={styles.centerScreen}>
-        <div style={styles.spinner} />
-        <p style={styles.loadingText}>Loading resume...</p>
-      </div>
-    );
+    return <ResumeEditorSkeleton />;
   }
 
   // ==================== NO RESUME ID ====================

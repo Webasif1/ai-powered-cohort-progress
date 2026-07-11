@@ -379,3 +379,44 @@ code, .font-mono {
 .animate-float-delayed {
   animation: float-delayed 8s ease-in-out 2s infinite;
 }
+
+/* ============================================
+   ATS Section Responsive Layout
+   ============================================ */
+
+.ats-container {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .ats-container {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.ats-content {
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .ats-content {
+    flex: 1;
+    max-width: 600px;
+  }
+}
+
+.ats-card {
+  width: 100%;
+  max-width: 500px;
+}
+
+@media (min-width: 1024px) {
+  .ats-card {
+    flex: 1;
+  }
+}

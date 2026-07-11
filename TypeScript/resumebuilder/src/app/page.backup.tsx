@@ -634,319 +634,205 @@ export default function LandingPage() {
       </section>
 
       {/* ==================== ATS SCORE SECTION ==================== */}
-      <section id="ats" style={{ padding: "100px 24px", background: "linear-gradient(180deg, rgba(124, 58, 237, 0.05) 0%, rgba(0,0,0,0) 100%)" }}>
+      <section id="ats" style={{ padding: "80px 24px" }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-          <div className="ats-container">
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr",
+              gap: "48px",
+              alignItems: "center",
+            }}
+            className="lg:grid-cols-2"
+          >
             {/* Left - Content */}
             <motion.div
-              className="ats-content"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
             >
-        <h2
-          style={{
-            fontSize: "clamp(28px, 4vw, 40px)",
-            fontWeight: 700,
-            marginBottom: "16px",
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
-          }}
-        >
-          Know your{" "}
-          <span
-            style={{
-              background:
-                "linear-gradient(to right, #A78BFA, #818CF8, #22D3EE)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            ATS Score
-          </span>
-          <br />
-          before you apply
-        </h2>
-
-        <p
-          style={{
-            color: "#6B7280",
-            marginBottom: "32px",
-            lineHeight: 1.6,
-          }}
-        >
-          Our AI analyzes your resume against real ATS systems and gives you
-          actionable feedback to improve your chances of getting past the bots
-          and into interviews.
-        </p>
-
-        <ul
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "12px",
-            marginBottom: "32px",
-          }}
-        >
-          {[
-            "Real-time scoring",
-            "Keyword optimization",
-            "Formatting checks",
-            "Actionable suggestions",
-          ].map((item) => (
-            <li
-              key={item}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                fontSize: "14px",
-              }}
-            >
-              <CheckCircle
+              <h2
                 style={{
-                  width: "20px",
-                  height: "20px",
-                  color: "#10B981",
+                  fontSize: "clamp(28px, 4vw, 40px)",
+                  fontWeight: 700,
+                  marginBottom: "16px",
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
                 }}
-              />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
+              >
+                Know your{" "}
+                <span
+                  style={{
+                    background: "linear-gradient(to right, #A78BFA, #818CF8, #22D3EE)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                >
+                  ATS Score
+                </span>
+                <br />
+                before you apply
+              </h2>
+              <p style={{ color: "#6B7280", marginBottom: "32px", lineHeight: 1.6 }}>
+                Our AI analyzes your resume against real ATS systems and gives you actionable
+                feedback to improve your chances of getting past the bots and into interviews.
+              </p>
+              <ul style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "32px" }}>
+                {["Real-time scoring", "Keyword optimization", "Formatting checks", "Actionable suggestions"].map(
+                  (item) => (
+                    <li key={item} style={{ display: "flex", alignItems: "center", gap: "12px", fontSize: "14px" }}>
+                      <CheckCircle style={{ width: "20px", height: "20px", color: "#10B981" }} />
+                      <span>{item}</span>
+                    </li>
+                  )
+                )}
+              </ul>
+              <Link
+                href="/auth/register"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "12px 24px",
+                  fontSize: "14px",
+                  fontWeight: 500,
+                  color: "white",
+                  background: "linear-gradient(135deg, #7C3AED 0%, #8B5CF6 100%)",
+                  border: "none",
+                  borderRadius: "12px",
+                  textDecoration: "none",
+                }}
+              >
+                Try ATS Analyzer
+                <ArrowRight style={{ width: "16px", height: "16px" }} />
+              </Link>
+            </motion.div>
 
-        <Link
-          href="/auth/register"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "8px",
-            padding: "12px 24px",
-            fontSize: "14px",
-            fontWeight: 500,
-            color: "white",
-            background:
-              "linear-gradient(135deg, #7C3AED 0%, #8B5CF6 100%)",
-            borderRadius: "12px",
-            textDecoration: "none",
-          }}
-        >
-          Try ATS Analyzer
-          <ArrowRight
-            style={{
-              width: "16px",
-              height: "16px",
-            }}
-          />
-        </Link>
-      </motion.div>
-
-            {/* Right - ATS Card */}
+            {/* Right - ATS Score Card */}
             <motion.div
-              className="ats-card"
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.1 }}
             >
-        <div
-          style={{
-            width: "100%",
-            maxWidth: "480px",
-            padding: "32px",
-            background: "rgba(255,255,255,0.05)",
-            backdropFilter: "blur(16px)",
-            border: "1px solid rgba(255,255,255,0.1)",
-            borderRadius: "16px",
-          }}
-        >
-          {/* Score Circle */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: "32px",
-            }}
-          >
-            <div
-              style={{
-                position: "relative",
-                width: "160px",
-                height: "160px",
-              }}
-            >
-              <svg
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  transform: "rotate(-90deg)",
-                }}
-              >
-                <circle
-                  cx="80"
-                  cy="80"
-                  r="70"
-                  fill="none"
-                  stroke="rgba(255,255,255,0.1)"
-                  strokeWidth="12"
-                />
-
-                <circle
-                  cx="80"
-                  cy="80"
-                  r="70"
-                  fill="none"
-                  stroke="url(#scoreGradient)"
-                  strokeWidth="12"
-                  strokeLinecap="round"
-                  strokeDasharray={`${87 * 4.4} 440`}
-                />
-
-                <defs>
-                  <linearGradient
-                    id="scoreGradient"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="0%"
-                  >
-                    <stop offset="0%" stopColor="#7C3AED" />
-                    <stop offset="100%" stopColor="#06B6D4" />
-                  </linearGradient>
-                </defs>
-              </svg>
-
               <div
                 style={{
-                  position: "absolute",
-                  inset: 0,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  padding: "32px",
+                  background: "rgba(255,255,255,0.05)",
+                  backdropFilter: "blur(16px)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  borderRadius: "16px",
                 }}
               >
-                <span
-                  style={{
-                    fontSize: "36px",
-                    fontWeight: 700,
-                    fontFamily: "'JetBrains Mono', monospace",
-                  }}
-                >
-                  87
-                </span>
-
-                <span
-                  style={{
-                    fontSize: "14px",
-                    color: "#6B7280",
-                  }}
-                >
-                  out of 100
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Badge */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: "24px",
-            }}
-          >
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-                padding: "8px 16px",
-                borderRadius: "9999px",
-                backgroundColor: "rgba(16,185,129,.1)",
-                border: "1px solid rgba(16,185,129,.2)",
-              }}
-            >
-              <CheckCircle
-                style={{
-                  width: "16px",
-                  height: "16px",
-                  color: "#10B981",
-                }}
-              />
-
-              <span
-                style={{
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  color: "#10B981",
-                }}
-              >
-                ATS Optimized
-              </span>
-            </div>
-          </div>
-
-          {/* Categories */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "16px",
-            }}
-          >
-            {atsCategories.map((category) => (
-              <div key={category.label}>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    fontSize: "14px",
-                    marginBottom: "6px",
-                  }}
-                >
-                  <span style={{ color: "#6B7280" }}>
-                    {category.label}
-                  </span>
-
-                  <span
-                    style={{
-                      fontFamily: "'JetBrains Mono', monospace",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {category.score}%
-                  </span>
+                {/* Score Circle */}
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: "32px" }}>
+                  <div style={{ position: "relative", width: "160px", height: "160px" }}>
+                    <svg style={{ width: "100%", height: "100%", transform: "rotate(-90deg)" }}>
+                      <circle
+                        cx="80"
+                        cy="80"
+                        r="70"
+                        fill="none"
+                        stroke="rgba(255,255,255,0.1)"
+                        strokeWidth="12"
+                      />
+                      <circle
+                        cx="80"
+                        cy="80"
+                        r="70"
+                        fill="none"
+                        stroke="url(#scoreGradient)"
+                        strokeWidth="12"
+                        strokeLinecap="round"
+                        strokeDasharray={`${87 * 4.4} 440`}
+                      />
+                      <defs>
+                        <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="#7C3AED" />
+                          <stop offset="100%" stopColor="#06B6D4" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <span style={{ fontSize: "36px", fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>
+                        87
+                      </span>
+                      <span style={{ fontSize: "14px", color: "#6B7280" }}>out of 100</span>
+                    </div>
+                  </div>
                 </div>
 
-                <div
-                  style={{
-                    height: "8px",
-                    backgroundColor: "rgba(255,255,255,.1)",
-                    borderRadius: "9999px",
-                    overflow: "hidden",
-                  }}
-                >
+                {/* ATS Optimized Badge */}
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: "24px" }}>
                   <div
                     style={{
-                      height: "100%",
-                      width: `${category.score}%`,
-                      background:
-                        "linear-gradient(90deg,#7C3AED,#06B6D4)",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      padding: "8px 16px",
                       borderRadius: "9999px",
-                      transition: "width .4s ease",
+                      backgroundColor: "rgba(16, 185, 129, 0.1)",
+                      border: "1px solid rgba(16, 185, 129, 0.2)",
                     }}
-                  />
+                  >
+                    <CheckCircle style={{ width: "16px", height: "16px", color: "#10B981" }} />
+                    <span style={{ fontSize: "14px", fontWeight: 500, color: "#10B981" }}>ATS Optimized</span>
+                  </div>
+                </div>
+
+                {/* Category Bars */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                  {atsCategories.map((category) => (
+                    <div key={category.label}>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          fontSize: "14px",
+                          marginBottom: "6px",
+                        }}
+                      >
+                        <span style={{ color: "#6B7280" }}>{category.label}</span>
+                        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500 }}>
+                          {category.score}%
+                        </span>
+                      </div>
+                      <div
+                        style={{
+                          height: "8px",
+                          backgroundColor: "rgba(255,255,255,0.1)",
+                          borderRadius: "9999px",
+                          overflow: "hidden",
+                        }}
+                      >
+                        <div
+                          style={{
+                            height: "100%",
+                            width: `${category.score}%`,
+                            background: "linear-gradient(90deg, #7C3AED, #06B6D4)",
+                            borderRadius: "9999px",
+                            transition: "width 0.4s ease",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
+            </motion.div>
           </div>
         </div>
-      </motion.div>
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* ==================== CTA SECTION ==================== */}
       <section style={{ padding: "80px 24px" }}>
@@ -1028,226 +914,68 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ==================== MODERN FOOTER ==================== */}
+      {/* ==================== FOOTER ==================== */}
       <footer
         style={{
-          padding: "80px 24px 40px",
-          borderTop: "1px solid rgba(255,255,255,0.1)",
-          background: "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(124, 58, 237, 0.03) 100%)",
+          padding: "48px 24px",
+          borderTop: "1px solid rgba(255,255,255,0.05)",
         }}
       >
         <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
-          {/* Main Footer Content */}
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-              gap: "48px",
-              marginBottom: "60px",
-            }}
-          >
-            {/* Brand Column */}
-            <div>
-              <Link href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", marginBottom: "20px" }}>
-                <div
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "10px",
-                    background: "linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    boxShadow: "0 0 20px rgba(124, 58, 237, 0.3)",
-                  }}
-                >
-                  <Sparkles style={{ width: "20px", height: "20px", color: "white" }} />
-                </div>
-                <span
-                  style={{
-                    fontSize: "22px",
-                    fontWeight: 700,
-                    background: "linear-gradient(to right, #A78BFA, #818CF8, #22D3EE)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                  }}
-                >
-                  ResumeAI
-                </span>
-              </Link>
-              <p style={{ fontSize: "14px", color: "#9CA3AF", lineHeight: 1.6, marginBottom: "20px" }}>
-                AI-powered resume builder that helps you create ATS-optimized resumes and land more interviews.
-              </p>
-              {/* Social Links */}
-              <div style={{ display: "flex", gap: "12px" }}>
-                <a
-                  href="#"
-                  style={{
-                    width: "36px",
-                    height: "36px",
-                    borderRadius: "8px",
-                    backgroundColor: "rgba(255,255,255,0.05)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textDecoration: "none",
-                    transition: "all 0.3s ease",
-                  }}
-                >
-                  <span style={{ fontSize: "16px" }}>𝕏</span>
-                </a>
-                <a
-                  href="#"
-                  style={{
-                    width: "36px",
-                    height: "36px",
-                    borderRadius: "8px",
-                    backgroundColor: "rgba(255,255,255,0.05)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textDecoration: "none",
-                    transition: "all 0.3s ease",
-                  }}
-                >
-                  <span style={{ fontSize: "16px" }}>in</span>
-                </a>
-                <a
-                  href="#"
-                  style={{
-                    width: "36px",
-                    height: "36px",
-                    borderRadius: "8px",
-                    backgroundColor: "rgba(255,255,255,0.05)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textDecoration: "none",
-                    transition: "all 0.3s ease",
-                  }}
-                >
-                  <span style={{ fontSize: "16px" }}>f</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Product Column */}
-            <div>
-              <h4 style={{ fontSize: "14px", fontWeight: 600, color: "#F8F8FF", marginBottom: "20px", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-                Product
-              </h4>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
-                <li>
-                  <a href="#features" style={{ fontSize: "14px", color: "#9CA3AF", textDecoration: "none", transition: "color 0.2s" }}>
-                    Features
-                  </a>
-                </li>
-                <li>
-                  <a href="#how-it-works" style={{ fontSize: "14px", color: "#9CA3AF", textDecoration: "none", transition: "color 0.2s" }}>
-                    How It Works
-                  </a>
-                </li>
-                <li>
-                  <a href="#ats" style={{ fontSize: "14px", color: "#9CA3AF", textDecoration: "none", transition: "color 0.2s" }}>
-                    ATS Score
-                  </a>
-                </li>
-                <li>
-                  <a href="/auth/register" style={{ fontSize: "14px", color: "#9CA3AF", textDecoration: "none", transition: "color 0.2s" }}>
-                    Pricing
-                  </a>
-                </li>
-                <li>
-                  <a href="/auth/register" style={{ fontSize: "14px", color: "#9CA3AF", textDecoration: "none", transition: "color 0.2s" }}>
-                    Templates
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Company Column */}
-            <div>
-              <h4 style={{ fontSize: "14px", fontWeight: 600, color: "#F8F8FF", marginBottom: "20px", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-                Company
-              </h4>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
-                <li>
-                  <a href="#" style={{ fontSize: "14px", color: "#9CA3AF", textDecoration: "none", transition: "color 0.2s" }}>
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a href="#" style={{ fontSize: "14px", color: "#9CA3AF", textDecoration: "none", transition: "color 0.2s" }}>
-                    Blog
-                  </a>
-                </li>
-                <li>
-                  <a href="#" style={{ fontSize: "14px", color: "#9CA3AF", textDecoration: "none", transition: "color 0.2s" }}>
-                    Careers
-                  </a>
-                </li>
-                <li>
-                  <a href="#" style={{ fontSize: "14px", color: "#9CA3AF", textDecoration: "none", transition: "color 0.2s" }}>
-                    Contact
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Legal Column */}
-            <div>
-              <h4 style={{ fontSize: "14px", fontWeight: 600, color: "#F8F8FF", marginBottom: "20px", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-                Legal
-              </h4>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
-                <li>
-                  <a href="#" style={{ fontSize: "14px", color: "#9CA3AF", textDecoration: "none", transition: "color 0.2s" }}>
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="#" style={{ fontSize: "14px", color: "#9CA3AF", textDecoration: "none", transition: "color 0.2s" }}>
-                    Terms of Service
-                  </a>
-                </li>
-                <li>
-                  <a href="#" style={{ fontSize: "14px", color: "#9CA3AF", textDecoration: "none", transition: "color 0.2s" }}>
-                    Cookie Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="#" style={{ fontSize: "14px", color: "#9CA3AF", textDecoration: "none", transition: "color 0.2s" }}>
-                    Refund Policy
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Bottom Bar */}
-          <div
-            style={{
-              paddingTop: "32px",
-              borderTop: "1px solid rgba(255,255,255,0.08)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: "16px",
-              textAlign: "center",
+              gap: "24px",
             }}
-            className="md:flex-row md:justify-between md:text-left"
+            className="md:flex-row md:justify-between"
           >
+            {/* Logo */}
+            <Link href="/" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none" }}>
+              <div
+                style={{
+                  width: "32px",
+                  height: "32px",
+                  borderRadius: "8px",
+                  background: "linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Sparkles style={{ width: "16px", height: "16px", color: "white" }} />
+              </div>
+              <span
+                style={{
+                  fontSize: "18px",
+                  fontWeight: 700,
+                  background: "linear-gradient(to right, #A78BFA, #818CF8, #22D3EE)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                ResumeAI
+              </span>
+            </Link>
+
+            {/* Copyright */}
             <p style={{ fontSize: "14px", color: "#6B7280" }}>
-              © {new Date().getFullYear()} ResumeAI. All rights reserved. Built with AI & ❤️
+              © {new Date().getFullYear()} ResumeAI. Built with ❤️ using AI
             </p>
-            <div style={{ display: "flex", alignItems: "center", gap: "20px", fontSize: "14px", color: "#6B7280" }}>
-              <span>🌍 English</span>
-              <span>•</span>
-              <span>💵 USD</span>
+
+            {/* Links */}
+            <div style={{ display: "flex", alignItems: "center", gap: "24px", fontSize: "14px", color: "#6B7280" }}>
+              <a href="#" style={{ textDecoration: "none", color: "inherit" }}>
+                Privacy
+              </a>
+              <a href="#" style={{ textDecoration: "none", color: "inherit" }}>
+                Terms
+              </a>
+              <a href="#" style={{ textDecoration: "none", color: "inherit" }}>
+                Contact
+              </a>
             </div>
           </div>
         </div>

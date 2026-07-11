@@ -9,6 +9,7 @@ interface ProfessionalSummaryProps {
   summary: string;
   onChange: (summary: string) => void;
   personalInfo: {
+    title:string;
     fullName: string;
     email: string;
     phone: string;
@@ -48,7 +49,7 @@ export default function ProfessionalSummary({
     try {
       const response = await generateSummary({
         experienceLevel: "mid",
-        jobTitle: personalInfo.fullName ? `${personalInfo.fullName}'s Resume` : "Software Engineer",
+        jobTitle: personalInfo.fullName ? `${personalInfo.title}'s Resume` : "Software Engineer",
         skills: skills.length > 0 ? skills : ["JavaScript", "React", "Node.js"],
       });
       const generatedText = response.summary || response.data || response;

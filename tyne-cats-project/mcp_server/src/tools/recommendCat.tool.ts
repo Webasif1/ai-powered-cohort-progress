@@ -11,3 +11,10 @@ export const recommendCatsTool = async (
 
   return res.data;
 };
+
+
+export const getAllCatsTool = async () => {
+  const res = await axios.get("http://localhost:3000/api/cats");
+
+  return res.data;
+};

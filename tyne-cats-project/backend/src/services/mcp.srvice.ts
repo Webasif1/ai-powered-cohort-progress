@@ -3,7 +3,7 @@ import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js"
 
 let client: Client;
 
-export const getMcpClient = () => {
+export const getMcpClient = async () => {
   const transport = new StdioClientTransport({
     command: "npx",
     args: ["tsx", "../mcp_server/src/index.ts"],
@@ -13,4 +13,8 @@ export const getMcpClient = () => {
     name: "tiny-cats-clients",
     version: "1.0.0",
   });
+
+  await client.connect(transport);
+
+  return client;
 };

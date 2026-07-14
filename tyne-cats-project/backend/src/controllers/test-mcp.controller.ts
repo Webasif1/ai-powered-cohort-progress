@@ -6,8 +6,16 @@ export const testMcpTestController = async(req:Request, res:Response) =>{
 
   const tools = await client.listTools();
 
+  const result = await client.callTool({
+    name:"recommend_cats",
+    arguments:{
+      kidsFriendly: true,
+      apartmentFriendly:false
+    }
+  })
+
   return res.json({
     success:true,
-    tools
+    result
   })
 }

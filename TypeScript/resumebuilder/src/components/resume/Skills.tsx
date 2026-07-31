@@ -1,288 +1,114 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Wrench, ChevronDown, Sparkles, Loader2, Check, X } from "lucide-react";
+import { Wrench, X } from "lucide-react";
+import toast from "react-hot-toast";
+import { SectionShell } from "./SectionShell";
+import { AIActionButton, useAIStatus } from "./AIActionButton";
 import { generateSkills } from "@/apis/ai.api";
+import { toList } from "@/lib/aiText";
 
 interface SkillsProps {
   skills: string[];
   onChange: (skills: string[]) => void;
-  personalInfo: {
-    fullName: string;
-    email: string;
-    phone: string;
-    location: string;
-    github: string;
-    linkedin: string;
-    portfolio: string;
-  };
+  /** Used to target the AI suggestions. */
+  jobTitle: string;
 }
 
-export default function Skills({ skills, onChange, personalInfo }: SkillsProps) {
-  const [isOpen, setIsOpen] = useState(true);
-  const [tagInput, setTagInput] = useState("");
-  const [generateStatus, setGenerateStatus] = useState<"idle" | "loading" | "success">("idle");
+export default function Skills({ skills, onChange, jobTitle }: SkillsProps) {
+  const [draft, setDraft] = useState("");
+  const generate = useAIStatus();
 
-  const addSkill = () => {
-    const skill = tagInput.trim();
-    if (skill && !skills.includes(skill)) {
-      onChange([...skills, skill]);
-    }
-    setTagInput("");
+  const addSkill = (value: string) => {
+    const skill = value.trim();
+    if (skill && !skills.includes(skill)) onChange([...skills, skill]);
+    setDraft("");
   };
 
-  const removeSkill = (skillToRemove: string) => {
-    onChange(skills.filter((skill) => skill !== skillToRemove));
-  };
+  const removeSkill = (skill: string) =>
+    onChange(skills.filter((s) => s !== skill));
 
   const handleGenerate = async () => {
-    setGenerateStatus("loading");
+    generate.setStatus("loading");
+
     try {
       const response = await generateSkills({
         experienceLevel: "mid",
-        jobTitle: "Software Engineer",
+        jobTitle: jobTitle || "Software Engineer",
       });
-      const generatedSkills = response.skills || response.data || response;
-      const skillsArray = Array.isArray(generatedSkills)
-        ? generatedSkills
-        : typeof generatedSkills === "string"
-        ? generatedSkills.split(",").map((s: string) => s.trim())
-        : [];
 
-      // Animate skills appearing one by one
-      let index = 0;
-      const interval = setInterval(() => {
-        if (index < skillsArray.length) {
-          const newSkill = skillsArray[index];
-          if (!skills.includes(newSkill)) {
-            onChange([...skills, newSkill]);
-          }
-          index++;
-        } else {
-          clearInterval(interval);
-          setGenerateStatus("success");
-          setTimeout(() => setGenerateStatus("idle"), 2000);
-        }
-      }, 100);
-    } catch (error) {
-      console.error("Failed to generate skills:", error);
-      setGenerateStatus("idle");
+      const suggested = toList(response, "skills");
+      if (!suggested.length) throw new Error("Empty response");
+
+      // Merge in one update — the old code called onChange inside an interval
+      // with a stale `skills` closure, so most suggestions were dropped.
+      const merged = [...skills];
+      for (const skill of suggested) {
+        if (!merged.includes(skill)) merged.push(skill);
+      }
+
+      onChange(merged);
+      generate.succeed();
+    } catch {
+      generate.setStatus("idle");
+      toast.error("Could not suggest skills");
     }
   };
 
   return (
-    <div
-      style={{
-        marginBottom: "24px",
-        background: "rgba(255,255,255,0.02)",
-        border: "1px solid rgba(255,255,255,0.05)",
-        borderRadius: "16px",
-        overflow: "hidden",
-      }}
+    <SectionShell
+      icon={Wrench}
+      title="Skills"
+      count={skills.length}
+      description="The keywords the filter is looking for"
     >
-      {/* Header */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        style={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "16px 20px",
-          backgroundColor: "transparent",
-          border: "none",
-          cursor: "pointer",
-          borderBottom: isOpen ? "1px solid rgba(255,255,255,0.05)" : "none",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <div
-            style={{
-              width: "36px",
-              height: "36px",
-              borderRadius: "10px",
-              backgroundColor: "rgba(124, 58, 237, 0.1)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Wrench style={{ width: "18px", height: "18px", color: "#7C3AED" }} />
-          </div>
-          <span style={{ fontSize: "16px", fontWeight: 600, color: "#F8F8FF" }}>
-            Skills
-          </span>
-          <span
-            style={{
-              fontSize: "12px",
-              color: "#6B7280",
-              backgroundColor: "rgba(255,255,255,0.05)",
-              padding: "2px 8px",
-              borderRadius: "10px",
-            }}
-          >
-            {skills.length}
-          </span>
-        </div>
-        <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
-          <ChevronDown style={{ width: "20px", height: "20px", color: "#6B7280" }} />
-        </motion.div>
-      </button>
+      {skills.length > 0 && (
+        <ul className="mb-3 flex flex-wrap gap-1.5">
+          {skills.map((skill) => (
+            <li key={skill}>
+              <span className="inline-flex items-center gap-1 rounded-full border border-line bg-elevated py-1 pl-3 pr-1.5 text-[13px] text-fg">
+                {skill}
+                <button
+                  type="button"
+                  onClick={() => removeSkill(skill)}
+                  aria-label={`Remove ${skill}`}
+                  className="inline-flex h-4 w-4 items-center justify-center rounded-full text-fg-subtle transition-colors hover:bg-danger-soft hover:text-danger focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
 
-      {/* Content */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            style={{ overflow: "hidden" }}
-          >
-            <div style={{ padding: "20px" }}>
-              {/* Skills Tags */}
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "10px",
-                  padding: "14px",
-                  backgroundColor: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  borderRadius: "12px",
-                  minHeight: "60px",
-                  marginBottom: "16px",
-                }}
-              >
-                <AnimatePresence>
-                  {skills.map((skill) => (
-                    <motion.span
-                      key={skill}
-                      initial={{ opacity: 0, scale: 0.8, y: 10 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "6px",
-                        padding: "6px 12px",
-                        fontSize: "13px",
-                        fontWeight: 500,
-                        color: "#A78BFA",
-                        backgroundColor: "rgba(124, 58, 237, 0.2)",
-                        border: "1px solid rgba(124, 58, 237, 0.3)",
-                        borderRadius: "9999px",
-                      }}
-                    >
-                      {skill}
-                      <button
-                        onClick={() => removeSkill(skill)}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          padding: "2px",
-                          backgroundColor: "transparent",
-                          border: "none",
-                          cursor: "pointer",
-                          color: "#A78BFA",
-                          transition: "color 0.15s ease",
-                        }}
-                        onMouseEnter={(e) => (e.currentTarget.style.color = "#EF4444")}
-                        onMouseLeave={(e) => (e.currentTarget.style.color = "#A78BFA")}
-                      >
-                        <X style={{ width: "14px", height: "14px" }} />
-                      </button>
-                    </motion.span>
-                  ))}
-                </AnimatePresence>
-                <input
-                  type="text"
-                  value={tagInput}
-                  onChange={(e) => setTagInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === ",") {
-                      e.preventDefault();
-                      addSkill();
-                    }
-                  }}
-                  placeholder={skills.length === 0 ? "Type a skill and press Enter..." : "Add more..."}
-                  style={{
-                    flex: 1,
-                    minWidth: "120px",
-                    padding: "6px",
-                    fontSize: "14px",
-                    color: "#F8F8FF",
-                    backgroundColor: "transparent",
-                    border: "none",
-                    outline: "none",
-                  }}
-                />
-              </div>
-
-              <p style={{ fontSize: "12px", color: "#6B7280", marginBottom: "16px" }}>
-                Press Enter or comma to add a skill
-              </p>
-
-              {/* AI Button */}
-              <button
-                onClick={handleGenerate}
-                disabled={generateStatus === "loading"}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  padding: "10px 16px",
-                  fontSize: "13px",
-                  fontWeight: 500,
-                  color: generateStatus === "success" ? "#10B981" : "#7C3AED",
-                  backgroundColor:
-                    generateStatus === "success"
-                      ? "rgba(16, 185, 129, 0.1)"
-                      : generateStatus === "loading"
-                      ? "rgba(124, 58, 237, 0.05)"
-                      : "transparent",
-                  border: `1px solid ${
-                    generateStatus === "success"
-                      ? "rgba(16, 185, 129, 0.3)"
-                      : "rgba(124, 58, 237, 0.3)"
-                  }`,
-                  borderRadius: "10px",
-                  cursor: generateStatus === "loading" ? "not-allowed" : "pointer",
-                  opacity: generateStatus === "loading" ? 0.7 : 1,
-                }}
-              >
-                {generateStatus === "loading" ? (
-                  <>
-                    <Loader2 style={{ width: "16px", height: "16px", animation: "spin 1s linear infinite" }} />
-                    AI is thinking...
-                  </>
-                ) : generateStatus === "success" ? (
-                  <>
-                    <Check style={{ width: "16px", height: "16px" }} />
-                    Generated!
-                  </>
-                ) : (
-                  <>
-                    <Sparkles style={{ width: "16px", height: "16px" }} />
-                    Generate Skills with AI
-                  </>
-                )}
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <style jsx global>{`
-        @keyframes spin {
-          to {
-            transform: rotate(360deg);
+      <input
+        value={draft}
+        onChange={(e) => setDraft(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === ",") {
+            e.preventDefault();
+            addSkill(draft);
           }
-        }
-      `}</style>
-    </div>
+          if (e.key === "Backspace" && !draft && skills.length) {
+            removeSkill(skills[skills.length - 1]);
+          }
+        }}
+        onBlur={() => addSkill(draft)}
+        placeholder="Type a skill and press Enter"
+        aria-label="Add a skill"
+        className="h-9.5 w-full rounded-md border border-line bg-elevated px-3 text-sm text-fg placeholder:text-fg-subtle transition-[border-color,box-shadow] hover:border-line-strong focus:border-accent focus:outline-none focus:ring-[3px] focus:ring-[var(--accent-ring)]"
+      />
+
+      <div className="mt-3">
+        <AIActionButton
+          status={generate.status}
+          onClick={handleGenerate}
+          label="Suggest skills"
+          loadingLabel="Thinking"
+          successLabel="Added"
+        />
+      </div>
+    </SectionShell>
   );
 }

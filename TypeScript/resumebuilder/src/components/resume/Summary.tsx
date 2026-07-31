@@ -9,7 +9,9 @@ interface ProfessionalSummaryProps {
   summary: string;
   onChange: (summary: string) => void;
   personalInfo: {
-    title:string;
+    // The editor's resume shape has no `title` field, so requiring it here
+    // made the project fail to type check.
+    title?: string;
     fullName: string;
     email: string;
     phone: string;

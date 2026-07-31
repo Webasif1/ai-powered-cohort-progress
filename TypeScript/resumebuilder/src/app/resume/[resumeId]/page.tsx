@@ -1,17 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { useParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import {
-  ArrowLeft,
-  Eye,
-  Download,
-  Check,
-  Loader2,
-  AlertCircle,
-  RefreshCw,
-} from "lucide-react";
+import { useParams } from "next/navigation";
+import { ArrowLeft, Download, Eye, PanelsTopLeft } from "lucide-react";
+import toast from "react-hot-toast";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { ResumeEditorSkeleton } from "@/components/SkeletonLoader";
 import PersonalInformation from "@/components/resume/PersonalInformation";
@@ -22,50 +15,14 @@ import Skills from "@/components/resume/Skills";
 import Education from "@/components/resume/Education";
 import Certifications from "@/components/resume/Certifications";
 import ResumePreview from "@/components/resume/ResumePreview";
+import { CompletionBar, SaveStatus, type SaveState } from "@/components/resume/SaveStatus";
+import { Button, ButtonLink } from "@/components/ui/Button";
+import { Tabs } from "@/components/ui/Tabs";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { EMPTY_RESUME, type ResumeData } from "@/types/resume.types";
 import { getResumeById, updateResume } from "@/apis/resume.api";
+import { cn } from "@/lib/cn";
 
-// ==================== TYPES ====================
-interface ResumeData {
-  _id: string;
-  title: string;
-  personalInfo: {
-    fullName: string;
-    email: string;
-    phone: string;
-    location: string;
-    github: string;
-    linkedin: string;
-    portfolio: string;
-  };
-  summary: string;
-  experience: any[];
-  projects: any[];
-  skills: string[];
-  education: any[];
-  certifications: string[];
-}
-
-const DEFAULT_DATA: ResumeData = {
-  _id: "",
-  title: "Untitled Resume",
-  personalInfo: {
-    fullName: "",
-    email: "",
-    phone: "",
-    location: "",
-    github: "",
-    linkedin: "",
-    portfolio: "",
-  },
-  summary: "",
-  experience: [],
-  projects: [],
-  skills: [],
-  education: [],
-  certifications: [],
-};
-
-// ==================== MAIN COMPONENT ====================
 export default function ResumeEditorPage() {
   return (
     <ProtectedRoute>
@@ -74,270 +31,286 @@ export default function ResumeEditorPage() {
   );
 }
 
+const AUTOSAVE_DELAY = 1200;
+
 function ResumeEditorContent() {
-  // Get params
   const params = useParams();
   const resumeId = typeof params?.resumeId === "string" ? params.resumeId : "";
 
-  // State
-  const [data, setData] = useState<ResumeData>(DEFAULT_DATA);
-  const [isLoading, setIsLoading] = useState(true);
-  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
-  const [activeTab, setActiveTab] = useState<"edit" | "preview">("edit");
+  const [data, setData] = useState<ResumeData>(EMPTY_RESUME);
   const [title, setTitle] = useState("Untitled Resume");
+  // Derived from the route param at first render, so the missing-id case
+  // never has to flip loading off from inside an effect.
+  const [isLoading, setIsLoading] = useState(() => Boolean(resumeId));
+  const [saveState, setSaveState] = useState<SaveState>("idle");
+  const [pane, setPane] = useState<"edit" | "preview">("edit");
   const [isEditingTitle, setIsEditingTitle] = useState(false);
 
-  // Refs - CRITICAL for preventing loops
+  // Guards against the autosave firing on the initial hydration, and against
+  // two saves overlapping.
   const hasFetched = useRef(false);
-  const saveTimeout = useRef<NodeJS.Timeout | null>(null);
   const canSave = useRef(false);
   const isSaving = useRef(false);
+  const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Kept in a ref so the debounced callback always saves the newest values.
+  const latest = useRef({ data: EMPTY_RESUME, title: "Untitled Resume" });
 
-  // ==================== FETCH DATA (ONCE) ====================
+  /* ---------------------------------------------------------------- */
+  /* Load                                                              */
+  /* ---------------------------------------------------------------- */
   useEffect(() => {
-    // Prevent multiple fetches
-    if (hasFetched.current) return;
-    if (!resumeId) {
-      setIsLoading(false);
-      return;
-    }
-
+    if (hasFetched.current || !resumeId) return;
     hasFetched.current = true;
-    console.log("📡 Fetching resume:", resumeId);
 
-    const fetchResume = async () => {
+    const load = async () => {
       try {
         const res = await getResumeById(resumeId);
-        console.log("✅ Fetched:", res);
 
-        setData({
+        // Documents written before the schema was aligned still carry the
+        // legacy `summery` / `workExperience` names.
+        const loaded: ResumeData = {
+          ...EMPTY_RESUME,
           _id: res._id || resumeId,
           title: res.title || "Untitled Resume",
-          personalInfo: {
-            fullName: res.personalInfo?.fullName || "",
-            email: res.personalInfo?.email || "",
-            phone: res.personalInfo?.phone || "",
-            location: res.personalInfo?.location || "",
-            github: res.personalInfo?.github || "",
-            linkedin: res.personalInfo?.linkedin || "",
-            portfolio: res.personalInfo?.portfolio || "",
-          },
-          summary: res.summary || res.summery || "",
-          experience: res.experience || res.workExperience || [],
-          projects: res.projects || [],
-          skills: res.skills || [],
-          education: res.education || [],
-          certifications: res.certifications || [],
-        });
-        setTitle(res.title || "Untitled Resume");
-      } catch (error) {
-        console.error("❌ Fetch error:", error);
-        setData({ ...DEFAULT_DATA, _id: resumeId });
+          personalInfo: { ...EMPTY_RESUME.personalInfo, ...res.personalInfo },
+          summary: res.summary ?? res.summery ?? "",
+          experience: res.experience ?? res.workExperience ?? [],
+          projects: res.projects ?? [],
+          skills: res.skills ?? [],
+          education: res.education ?? [],
+          certifications: res.certifications ?? [],
+        };
+
+        setData(loaded);
+        setTitle(loaded.title);
+        latest.current = { data: loaded, title: loaded.title };
+      } catch {
+        toast.error("Could not load that resume");
+        setData({ ...EMPTY_RESUME, _id: resumeId });
       } finally {
         setIsLoading(false);
-        // Enable saving after delay
-        setTimeout(() => {
-          canSave.current = true;
-          console.log("✅ Saving enabled");
-        }, 1500);
+        canSave.current = true;
       }
     };
 
-    fetchResume();
+    load();
 
-    // Cleanup
     return () => {
-      if (saveTimeout.current) {
-        clearTimeout(saveTimeout.current);
-      }
+      if (saveTimer.current) clearTimeout(saveTimer.current);
     };
   }, [resumeId]);
 
-  // ==================== SAVE FUNCTION ====================
-  const performSave = async (dataToSave: ResumeData, titleToSave: string) => {
+  /* ---------------------------------------------------------------- */
+  /* Save                                                              */
+  /* ---------------------------------------------------------------- */
+  const performSave = useCallback(async () => {
     if (!resumeId || !canSave.current || isSaving.current) return;
 
     isSaving.current = true;
-    setSaveStatus("saving");
-    console.log("💾 Saving...");
+    setSaveState("saving");
+
+    const { data: current, title: currentTitle } = latest.current;
 
     try {
       await updateResume(resumeId, {
-        title: titleToSave,
-        personalInfo: dataToSave.personalInfo,
-        summary: dataToSave.summary,
-        experience: dataToSave.experience,
-        projects: dataToSave.projects,
-        skills: dataToSave.skills,
-        education: dataToSave.education,
-        certifications: dataToSave.certifications,
+        title: currentTitle,
+        personalInfo: current.personalInfo,
+        summary: current.summary,
+        experience: current.experience,
+        projects: current.projects,
+        skills: current.skills,
+        education: current.education,
+        certifications: current.certifications,
       });
 
-      setSaveStatus("saved");
-      console.log("✅ Saved");
-      setTimeout(() => setSaveStatus("idle"), 2000);
-    } catch (error) {
-      console.error("❌ Save error:", error);
-      setSaveStatus("error");
+      setSaveState("saved");
+      setTimeout(
+        () => setSaveState((s) => (s === "saved" ? "idle" : s)),
+        1800,
+      );
+    } catch {
+      setSaveState("error");
     } finally {
       isSaving.current = false;
     }
-  };
+  }, [resumeId]);
 
-  // ==================== DEBOUNCED SAVE ====================
-  const triggerSave = (newData: ResumeData, newTitle: string) => {
+  const scheduleSave = useCallback(() => {
     if (!canSave.current) return;
+    if (saveTimer.current) clearTimeout(saveTimer.current);
+    saveTimer.current = setTimeout(performSave, AUTOSAVE_DELAY);
+  }, [performSave]);
 
-    if (saveTimeout.current) {
-      clearTimeout(saveTimeout.current);
-    }
+  const updateField = useCallback(
+    <K extends keyof ResumeData>(field: K, value: ResumeData[K]) => {
+      setData((prev) => {
+        const next = { ...prev, [field]: value };
+        latest.current = { ...latest.current, data: next };
+        return next;
+      });
+      scheduleSave();
+    },
+    [scheduleSave],
+  );
 
-    saveTimeout.current = setTimeout(() => {
-      performSave(newData, newTitle);
-    }, 2000);
-  };
-
-  // ==================== UPDATE HANDLERS ====================
-  const updateField = <K extends keyof ResumeData>(field: K, value: ResumeData[K]) => {
-    setData((prev) => {
-      const updated = { ...prev, [field]: value };
-      triggerSave(updated, title);
-      return updated;
-    });
-  };
-
-  const handleTitleBlur = () => {
+  const commitTitle = () => {
     setIsEditingTitle(false);
-    triggerSave(data, title);
+    const clean = title.trim() || "Untitled Resume";
+    setTitle(clean);
+    latest.current = { ...latest.current, title: clean };
+    scheduleSave();
   };
 
-  const handleRetry = () => {
-    performSave(data, title);
-  };
+  // Ctrl/Cmd+S flushes the pending autosave instead of opening the browser's
+  // save dialog.
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "s") {
+        e.preventDefault();
+        if (saveTimer.current) clearTimeout(saveTimer.current);
+        performSave();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [performSave]);
 
-  // ==================== LOADING STATE ====================
-  if (isLoading) {
-    return <ResumeEditorSkeleton />;
-  }
+  /* ---------------------------------------------------------------- */
+  /* Derived                                                           */
+  /* ---------------------------------------------------------------- */
 
-  // ==================== NO RESUME ID ====================
+  // Gives the AI a role to write for, instead of the old `${fullName}'s Resume`.
+  const jobTitle = useMemo(
+    () => data.experience.find((e) => e.position)?.position ?? "",
+    [data.experience],
+  );
+
+  const completion = useMemo(() => {
+    const checks = [
+      Boolean(data.personalInfo.fullName && data.personalInfo.email),
+      Boolean(data.summary.trim()),
+      data.experience.length > 0,
+      data.projects.length > 0,
+      data.skills.length > 0,
+      data.education.length > 0,
+    ];
+    return Math.round((checks.filter(Boolean).length / checks.length) * 100);
+  }, [data]);
+
+  if (isLoading) return <ResumeEditorSkeleton />;
+
   if (!resumeId) {
     return (
-      <div style={styles.centerScreen}>
-        <div style={styles.errorBox}>
-          <h2 style={styles.errorTitle}>Resume Not Found</h2>
-          <Link href="/resume" style={styles.errorLink}>
-            Go to Dashboard
-          </Link>
-        </div>
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center">
+        <h1 className="text-lg font-semibold text-fg">Resume not found</h1>
+        <ButtonLink href="/resume" variant="primary">
+          Back to your resumes
+        </ButtonLink>
       </div>
     );
   }
 
-  // ==================== MAIN RENDER ====================
+  /* ---------------------------------------------------------------- */
+  /* Render                                                            */
+  /* ---------------------------------------------------------------- */
   return (
-    <div style={styles.page}>
-      {/* ========== NAVBAR ========== */}
-      <nav style={styles.navbar}>
-        {/* Left */}
-        <Link href="/resume" style={styles.backLink}>
-          <ArrowLeft size={18} />
-          <span>Back</span>
-        </Link>
+    <div className="min-h-screen bg-bg">
+      {/* ================= HEADER ================= */}
+      <header className="sticky top-0 z-40 border-b border-line bg-bg/85 backdrop-blur-xl">
+        <div className="flex h-14 items-center gap-3 px-4 sm:px-5">
+          <Link
+            href="/resume"
+            aria-label="Back to your resumes"
+            className="inline-flex h-8 items-center gap-1.5 rounded-md px-2 text-[13px] font-medium text-fg-muted transition-colors hover:bg-surface-2 hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            <span className="hidden sm:inline">Resumes</span>
+          </Link>
 
-        {/* Center */}
-        <div style={styles.navCenter}>
-          {isEditingTitle ? (
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              onBlur={handleTitleBlur}
-              onKeyDown={(e) => e.key === "Enter" && handleTitleBlur()}
-              autoFocus
-              style={styles.titleInput}
-            />
-          ) : (
-            <button
-              onClick={() => setIsEditingTitle(true)}
-              style={styles.titleButton}
+          <div className="mx-auto flex min-w-0 items-center gap-3">
+            {isEditingTitle ? (
+              <input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                onBlur={commitTitle}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") commitTitle();
+                  if (e.key === "Escape") setIsEditingTitle(false);
+                }}
+                autoFocus
+                aria-label="Resume title"
+                className="h-8 min-w-[180px] rounded-md border border-accent bg-elevated px-2.5 text-sm font-semibold text-fg outline-none ring-[3px] ring-[var(--accent-ring)]"
+              />
+            ) : (
+              <button
+                type="button"
+                onClick={() => setIsEditingTitle(true)}
+                title="Rename"
+                className="max-w-[38vw] truncate rounded-md px-2 py-1 text-sm font-semibold text-fg transition-colors hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                {title}
+              </button>
+            )}
+
+            <SaveStatus state={saveState} onRetry={performSave} />
+          </div>
+
+          <div className="flex items-center gap-2">
+            <div className="hidden lg:block">
+              <CompletionBar percent={completion} />
+            </div>
+            <ThemeToggle />
+            <ButtonLink
+              href={`/resume/${resumeId}/preview`}
+              variant="secondary"
+              size="sm"
+              className="hidden sm:inline-flex"
             >
-              {title || "Untitled Resume"}
-            </button>
-          )}
-
-          {/* Save Status */}
-          <div style={styles.saveStatus}>
-            {saveStatus === "saving" && (
-              <>
-                <Loader2 size={14} style={styles.spinIcon} />
-                <span>Saving...</span>
-              </>
-            )}
-            {saveStatus === "saved" && (
-              <>
-                <Check size={14} style={{ color: "#10B981" }} />
-                <span style={{ color: "#10B981" }}>Saved</span>
-              </>
-            )}
-            {saveStatus === "error" && (
-              <>
-                <AlertCircle size={14} style={{ color: "#EF4444" }} />
-                <span style={{ color: "#EF4444" }}>Failed</span>
-                <button onClick={handleRetry} style={styles.retryBtn}>
-                  <RefreshCw size={12} />
-                </button>
-              </>
-            )}
+              <Eye className="h-4 w-4" />
+              Preview
+            </ButtonLink>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() =>
+                window.open(
+                  `/resume/${resumeId}/preview?download=1`,
+                  "_blank",
+                  "noopener",
+                )
+              }
+            >
+              <Download className="h-4 w-4" />
+              <span className="hidden sm:inline">Download</span>
+            </Button>
           </div>
         </div>
 
-        {/* Right */}
-        <div style={styles.navRight}>
-          <Link href={`/resume/${resumeId}/preview`} style={styles.previewBtn}>
-            <Eye size={16} />
-            <span>Preview</span>
-          </Link>
-          <button
-            onClick={() => window.open(`/resume/${resumeId}/preview?download=true`, "_blank")}
-            style={styles.downloadBtn}
-          >
-            <Download size={16} />
-            <span>Download</span>
-          </button>
+        {/* Mobile pane switch */}
+        <div className="border-t border-line px-4 py-2 lg:hidden">
+          <Tabs
+            aria-label="Editor view"
+            value={pane}
+            onChange={setPane}
+            className="w-full"
+            options={[
+              { value: "edit", label: "Edit", icon: PanelsTopLeft },
+              { value: "preview", label: "Preview", icon: Eye },
+            ]}
+          />
         </div>
-      </nav>
+      </header>
 
-      {/* ========== MOBILE TABS ========== */}
-      <div style={styles.mobileTabs} className="mobile-tabs">
-        <button
-          onClick={() => setActiveTab("edit")}
-          style={{
-            ...styles.tab,
-            ...(activeTab === "edit" ? styles.tabActive : {}),
-          }}
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => setActiveTab("preview")}
-          style={{
-            ...styles.tab,
-            ...(activeTab === "preview" ? styles.tabActive : {}),
-          }}
-        >
-          Preview
-        </button>
-      </div>
-
-      {/* ========== EDITOR LAYOUT ========== */}
-      <div style={styles.editorLayout} className="editor-layout">
-        {/* Form Panel */}
+      {/* ================= BODY ================= */}
+      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+        {/* Form */}
         <div
-          style={styles.formPanel}
-          className={`form-panel ${activeTab === "edit" ? "active" : ""}`}
+          className={cn(
+            "px-4 py-5 sm:px-5 lg:h-[calc(100vh-3.5rem)] lg:overflow-y-auto lg:border-r lg:border-line",
+            pane === "edit" ? "block" : "hidden lg:block",
+          )}
         >
-          <div style={styles.formContent}>
+          <div className="mx-auto flex max-w-2xl flex-col gap-3 pb-16">
             <PersonalInformation
               data={data.personalInfo}
               onChange={(v) => updateField("personalInfo", v)}
@@ -345,7 +318,7 @@ function ResumeEditorContent() {
             <ProfessionalSummary
               summary={data.summary}
               onChange={(v) => updateField("summary", v)}
-              personalInfo={data.personalInfo}
+              jobTitle={jobTitle}
               skills={data.skills}
             />
             <Experience
@@ -360,7 +333,7 @@ function ResumeEditorContent() {
             <Skills
               skills={data.skills}
               onChange={(v) => updateField("skills", v)}
-              personalInfo={data.personalInfo}
+              jobTitle={jobTitle}
             />
             <Education
               education={data.education}
@@ -373,239 +346,19 @@ function ResumeEditorContent() {
           </div>
         </div>
 
-        {/* Preview Panel */}
+        {/* Preview */}
         <div
-          style={styles.previewPanel}
-          className={`preview-panel ${activeTab === "preview" ? "active" : ""}`}
+          className={cn(
+            "bg-surface px-4 py-5 sm:px-5 lg:h-[calc(100vh-3.5rem)] lg:overflow-y-auto",
+            pane === "preview" ? "block" : "hidden lg:block",
+          )}
         >
-          <p style={styles.previewLabel}>Live Preview</p>
+          <p className="mb-4 text-center text-[11px] font-medium uppercase tracking-[0.09em] text-fg-subtle">
+            Live preview
+          </p>
           <ResumePreview data={data} />
         </div>
       </div>
-
-      {/* ========== STYLES ========== */}
-      <style jsx global>{`
-        @keyframes spin {
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        @media (max-width: 1024px) {
-          .editor-layout {
-            grid-template-columns: 1fr !important;
-          }
-          .mobile-tabs {
-            display: flex !important;
-          }
-          .form-panel {
-            display: none !important;
-          }
-          .form-panel.active {
-            display: block !important;
-          }
-          .preview-panel {
-            display: none !important;
-          }
-          .preview-panel.active {
-            display: block !important;
-          }
-        }
-      `}</style>
     </div>
   );
 }
-
-// ==================== STYLES ====================
-const styles: Record<string, React.CSSProperties> = {
-  page: {
-    minHeight: "100vh",
-    backgroundColor: "#0A0A0F",
-  },
-  centerScreen: {
-    minHeight: "100vh",
-    backgroundColor: "#0A0A0F",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 16,
-  },
-  spinner: {
-    width: 48,
-    height: 48,
-    border: "3px solid rgba(124, 58, 237, 0.2)",
-    borderTopColor: "#7C3AED",
-    borderRadius: "50%",
-    animation: "spin 1s linear infinite",
-  },
-  loadingText: {
-    color: "#6B7280",
-    fontSize: 14,
-  },
-  errorBox: {
-    textAlign: "center",
-    padding: 40,
-    background: "rgba(255,255,255,0.05)",
-    borderRadius: 16,
-    border: "1px solid rgba(255,255,255,0.1)",
-  },
-  errorTitle: {
-    color: "#F8F8FF",
-    marginBottom: 16,
-    fontSize: 20,
-  },
-  errorLink: {
-    display: "inline-block",
-    padding: "12px 24px",
-    background: "linear-gradient(135deg, #7C3AED, #8B5CF6)",
-    color: "white",
-    borderRadius: 12,
-    textDecoration: "none",
-    fontWeight: 500,
-  },
-  navbar: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: "12px 24px",
-    backgroundColor: "rgba(17, 17, 24, 0.95)",
-    backdropFilter: "blur(16px)",
-    borderBottom: "1px solid rgba(255,255,255,0.05)",
-    position: "sticky",
-    top: 0,
-    zIndex: 50,
-  },
-  backLink: {
-    display: "flex",
-    alignItems: "center",
-    gap: 8,
-    color: "#6B7280",
-    textDecoration: "none",
-    fontSize: 14,
-    fontWeight: 500,
-  },
-  navCenter: {
-    display: "flex",
-    alignItems: "center",
-    gap: 16,
-  },
-  titleButton: {
-    padding: "6px 12px",
-    fontSize: 16,
-    fontWeight: 600,
-    color: "#F8F8FF",
-    backgroundColor: "transparent",
-    border: "1px solid transparent",
-    borderRadius: 8,
-    cursor: "pointer",
-  },
-  titleInput: {
-    padding: "6px 12px",
-    fontSize: 16,
-    fontWeight: 600,
-    color: "#F8F8FF",
-    backgroundColor: "rgba(255,255,255,0.05)",
-    border: "1px solid #7C3AED",
-    borderRadius: 8,
-    outline: "none",
-    minWidth: 200,
-  },
-  saveStatus: {
-    display: "flex",
-    alignItems: "center",
-    gap: 6,
-    fontSize: 13,
-    color: "#6B7280",
-  },
-  spinIcon: {
-    animation: "spin 1s linear infinite",
-  },
-  retryBtn: {
-    display: "flex",
-    alignItems: "center",
-    padding: 4,
-    color: "#7C3AED",
-    backgroundColor: "transparent",
-    border: "none",
-    cursor: "pointer",
-  },
-  navRight: {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-  },
-  previewBtn: {
-    display: "flex",
-    alignItems: "center",
-    gap: 6,
-    padding: "10px 16px",
-    fontSize: 13,
-    fontWeight: 500,
-    color: "#F8F8FF",
-    backgroundColor: "transparent",
-    border: "1px solid rgba(255,255,255,0.1)",
-    borderRadius: 10,
-    textDecoration: "none",
-  },
-  downloadBtn: {
-    display: "flex",
-    alignItems: "center",
-    gap: 6,
-    padding: "10px 16px",
-    fontSize: 13,
-    fontWeight: 500,
-    color: "white",
-    background: "linear-gradient(135deg, #7C3AED, #8B5CF6)",
-    border: "none",
-    borderRadius: 10,
-    cursor: "pointer",
-  },
-  mobileTabs: {
-    display: "none",
-    padding: 12,
-    backgroundColor: "#111118",
-    borderBottom: "1px solid rgba(255,255,255,0.05)",
-    gap: 8,
-  },
-  tab: {
-    flex: 1,
-    padding: "10px 16px",
-    fontSize: 14,
-    fontWeight: 500,
-    color: "#6B7280",
-    backgroundColor: "transparent",
-    border: "none",
-    borderRadius: 8,
-    cursor: "pointer",
-  },
-  tabActive: {
-    color: "#F8F8FF",
-    backgroundColor: "rgba(124, 58, 237, 0.2)",
-  },
-  editorLayout: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    minHeight: "calc(100vh - 65px)",
-  },
-  formPanel: {
-    overflowY: "auto",
-    height: "calc(100vh - 65px)",
-    borderRight: "1px solid rgba(255,255,255,0.05)",
-  },
-  formContent: {
-    padding: 24,
-  },
-  previewPanel: {
-    backgroundColor: "#0D0D12",
-    overflowY: "auto",
-    height: "calc(100vh - 65px)",
-    padding: 24,
-  },
-  previewLabel: {
-    fontSize: 12,
-    color: "#6B7280",
-    textAlign: "center",
-    marginBottom: 16,
-  },
-};

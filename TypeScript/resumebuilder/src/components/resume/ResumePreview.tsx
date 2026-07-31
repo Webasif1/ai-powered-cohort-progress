@@ -1,606 +1,300 @@
 "use client";
 
 import { memo } from "react";
-import { Mail, Phone, MapPin, GitBranch, Link, Globe } from "lucide-react";
+import { toText } from "@/lib/aiText";
+import { cn } from "@/lib/cn";
+import type { ResumeData } from "@/types/resume.types";
 
-// ==================== TYPES ====================
-interface ResumeData {
-  _id: string;
-  title: string;
-  personalInfo: {
-    fullName: string;
-    email: string;
-    phone: string;
-    location: string;
-    github: string;
-    linkedin: string;
-    portfolio: string;
-  };
-  summary: string;
-  experience: Array<{
-    id: string;
-    company: string;
-    position: string;
-    startDate: string;
-    endDate: string;
-    current: boolean;
-    description: string;
-  }>;
-  projects: Array<{
-    id: string;
-    title: string;
-    description: string;
-    githubUrl: string;
-    liveUrl: string;
-    techStack: string[];
-  }>;
-  skills: string[];
-  education: Array<{
-    id: string;
-    degree: string;
-    institution: string;
-    startYear: string;
-    endYear: string;
-  }>;
-  certifications: string[];
-}
+/**
+ * The rendered document.
+ *
+ * Deliberately *not* theme-aware: a resume is a printed artefact, so the
+ * sheet stays white paper with black ink in both light and dark mode, and
+ * what you see is exactly what lands in the PDF. Only the surface it sits on
+ * follows the theme.
+ */
 
-interface ResumePreviewProps {
-  data: ResumeData;
-}
-
-// ==================== HELPER FUNCTIONS ====================
-
-// Extract plain text from JSON or object responses
-const extractPlainText = (value: any): string => {
+function formatDate(value: string): string {
   if (!value) return "";
+  if (value.toLowerCase() === "present") return "Present";
 
-  if (typeof value === "string") {
-    const trimmed = value.trim();
-    // Check if it looks like JSON
-    if (trimmed.startsWith("{") || trimmed.startsWith("[")) {
-      try {
-        const parsed = JSON.parse(trimmed);
-        return (
-          parsed.summary ||
-          parsed.summery ||
-          parsed.text ||
-          parsed.content ||
-          parsed.description ||
-          parsed.data?.summary ||
-          parsed.data?.summery ||
-          value
-        );
-      } catch {
-        return value;
-      }
-    }
-    return value;
-  }
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
 
-  if (typeof value === "object" && value !== null) {
-    return (
-      value.summary ||
-      value.summery ||
-      value.text ||
-      value.content ||
-      value.description ||
-      JSON.stringify(value)
-    );
-  }
+  return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+}
 
-  return String(value);
-};
+function cleanUrl(url: string): string {
+  return url
+    .replace(/^https?:\/\//, "")
+    .replace(/^www\./, "")
+    .replace(/\/$/, "");
+}
 
-// Format date for display
-const formatDate = (dateStr: string): string => {
-  if (!dateStr) return "";
-  if (dateStr.toLowerCase() === "present") return "Present";
+function href(url: string): string {
+  return url.startsWith("http") ? url : `https://${url}`;
+}
 
-  try {
-    const date = new Date(dateStr);
-    if (isNaN(date.getTime())) return dateStr;
-    return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
-  } catch {
-    return dateStr;
-  }
-};
+const ResumePreview = memo(function ResumePreview({
+  data,
+  className,
+}: {
+  data: ResumeData;
+  className?: string;
+}) {
+  const {
+    personalInfo,
+    summary,
+    experience,
+    projects,
+    skills,
+    education,
+    certifications,
+  } = data;
 
-// ==================== MAIN COMPONENT ====================
-const ResumePreview = memo(function ResumePreview({ data }: ResumePreviewProps) {
-  const { personalInfo, summary, experience, projects, skills, education, certifications } = data;
+  const summaryText = toText(summary);
 
-  // Check if there's any content to display
-  const hasPersonalInfo =
+  const hasHeader = Boolean(
     personalInfo.fullName ||
-    personalInfo.email ||
-    personalInfo.phone ||
-    personalInfo.location;
-  const hasSummary = extractPlainText(summary).trim().length > 0;
-  const hasExperience = experience && experience.length > 0;
-  const hasProjects = projects && projects.length > 0;
-  const hasSkills = skills && skills.length > 0;
-  const hasEducation = education && education.length > 0;
-  const hasCertifications = certifications && certifications.length > 0;
+      personalInfo.email ||
+      personalInfo.phone ||
+      personalInfo.location,
+  );
 
-  const hasAnyContent =
-    hasPersonalInfo ||
-    hasSummary ||
-    hasExperience ||
-    hasProjects ||
-    hasSkills ||
-    hasEducation ||
-    hasCertifications;
+  const isEmpty =
+    !hasHeader &&
+    !summaryText &&
+    !experience.length &&
+    !projects.length &&
+    !skills.length &&
+    !education.length &&
+    !certifications.length;
 
-  // Empty state
-  if (!hasAnyContent) {
+  if (isEmpty) {
     return (
-      <div style={styles.emptyState}>
-        <p style={styles.emptyText}>
-          Start filling in your information to see the preview
+      <div className="flex min-h-[420px] items-center justify-center rounded-lg border border-dashed border-line bg-surface px-6 text-center print-hide">
+        <p className="max-w-xs text-[13px] leading-relaxed text-fg-muted">
+          Your resume renders here as you type. Start with your name and
+          contact details.
         </p>
       </div>
     );
   }
 
+  const contacts = [
+    personalInfo.email,
+    personalInfo.phone,
+    personalInfo.location,
+  ].filter(Boolean);
+
+  const links = [
+    personalInfo.github,
+    personalInfo.linkedin,
+    personalInfo.portfolio,
+  ].filter(Boolean);
+
   return (
-    <div style={styles.resumeContainer}>
-      <div style={styles.resumePaper}>
-        {/* ========== HEADER ========== */}
-        {hasPersonalInfo && (
-          <header style={styles.header}>
-            {personalInfo.fullName && (
-              <h1 style={styles.name}>{personalInfo.fullName}</h1>
-            )}
+    <article
+      className={cn(
+        "print-sheet mx-auto w-full max-w-[760px] rounded-lg border border-line bg-white px-10 py-11 text-[#111] shadow-md",
+        "text-[13px] leading-[1.65]",
+        className,
+      )}
+    >
+      {/* ---------- Header ---------- */}
+      {hasHeader && (
+        <header className="print-block border-b border-[#e5e5e5] pb-4 text-center">
+          {personalInfo.fullName && (
+            <h1 className="text-[26px] font-semibold tracking-[-0.02em] text-[#111]">
+              {personalInfo.fullName}
+            </h1>
+          )}
 
-            {/* Contact Info Row */}
-            <div style={styles.contactRow}>
-              {personalInfo.email && (
-                <ContactItem icon={Mail} text={personalInfo.email} />
-              )}
-              {personalInfo.phone && (
-                <ContactItem icon={Phone} text={personalInfo.phone} />
-              )}
-              {personalInfo.location && (
-                <ContactItem icon={MapPin} text={personalInfo.location} />
-              )}
-            </div>
+          {contacts.length > 0 && (
+            <p className="mt-2 text-[12.5px] text-[#444]">
+              {contacts.join("  ·  ")}
+            </p>
+          )}
 
-            {/* Links Row */}
-            <div style={styles.linksRow}>
-              {personalInfo.github && (
-                <LinkItem
-                  icon={GitBranch}
-                  url={personalInfo.github}
-                  label="GitHub"
+          {links.length > 0 && (
+            <p className="mt-1.5 flex flex-wrap justify-center gap-x-4 gap-y-1 text-[12px]">
+              {links.map((link) => (
+                <a
+                  key={link}
+                  href={href(link)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#2563eb] underline-offset-2 hover:underline"
+                >
+                  {cleanUrl(link)}
+                </a>
+              ))}
+            </p>
+          )}
+        </header>
+      )}
+
+      {/* ---------- Summary ---------- */}
+      {summaryText && (
+        <Section title="Summary">
+          <p className="whitespace-pre-line text-[#333]">{summaryText}</p>
+        </Section>
+      )}
+
+      {/* ---------- Experience ---------- */}
+      {experience.length > 0 && (
+        <Section title="Experience">
+          <div className="space-y-4">
+            {experience.map((item, i) => (
+              <div key={item.id || i} className="print-block">
+                <EntryHead
+                  primary={item.position}
+                  secondary={item.company}
+                  meta={`${formatDate(item.startDate)}${
+                    item.startDate ? " — " : ""
+                  }${item.current ? "Present" : formatDate(item.endDate)}`}
                 />
-              )}
-              {personalInfo.linkedin && (
-                <LinkItem
-                  icon={Link}
-                  url={personalInfo.linkedin}
-                  label="LinkedIn"
-                />
-              )}
-              {personalInfo.portfolio && (
-                <LinkItem
-                  icon={Globe}
-                  url={personalInfo.portfolio}
-                  label="Portfolio"
-                />
-              )}
-            </div>
-          </header>
-        )}
-
-        {/* ========== SUMMARY ========== */}
-        {hasSummary && (
-          <section style={styles.section}>
-            <h2 style={styles.sectionTitle}>Professional Summary</h2>
-            <p style={styles.summaryText}>{extractPlainText(summary)}</p>
-          </section>
-        )}
-
-        {/* ========== EXPERIENCE ========== */}
-        {hasExperience && (
-          <section style={styles.section}>
-            <h2 style={styles.sectionTitle}>Work Experience</h2>
-            {experience.map((exp, index) => (
-              <div key={exp.id || index} style={styles.experienceItem}>
-                <div style={styles.expHeader}>
-                  <div>
-                    <h3 style={styles.expPosition}>{exp.position}</h3>
-                    <p style={styles.expCompany}>{exp.company}</p>
-                  </div>
-                  <p style={styles.expDate}>
-                    {formatDate(exp.startDate)} —{" "}
-                    {exp.current ? "Present" : formatDate(exp.endDate)}
-                  </p>
-                </div>
-                {exp.description && (
-                  <p style={styles.expDescription}>
-                    {extractPlainText(exp.description)}
+                {item.description && (
+                  <p className="mt-1.5 whitespace-pre-line text-[#444]">
+                    {toText(item.description)}
                   </p>
                 )}
               </div>
             ))}
-          </section>
-        )}
+          </div>
+        </Section>
+      )}
 
-        {/* ========== PROJECTS ========== */}
-        {hasProjects && (
-          <section style={styles.section}>
-            <h2 style={styles.sectionTitle}>Projects</h2>
-            {projects.map((project, index) => (
-              <div key={project.id || index} style={styles.projectItem}>
-                <div style={styles.projectHeader}>
-                  <h3 style={styles.projectTitle}>{project.title}</h3>
-                  <div style={styles.projectLinks}>
-                    {project.githubUrl && (
+      {/* ---------- Projects ---------- */}
+      {projects.length > 0 && (
+        <Section title="Projects">
+          <div className="space-y-4">
+            {projects.map((item, i) => (
+              <div key={item.id || i} className="print-block">
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="text-[14px] font-semibold text-[#111]">
+                    {item.title}
+                  </h3>
+                  <span className="flex shrink-0 gap-3 text-[11.5px]">
+                    {item.githubUrl && (
                       <a
-                        href={project.githubUrl}
+                        href={href(item.githubUrl)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={styles.projectLink}
+                        className="text-[#2563eb] underline-offset-2 hover:underline"
                       >
-                        GitHub
+                        Code
                       </a>
                     )}
-                    {project.liveUrl && (
+                    {item.liveUrl && (
                       <a
-                        href={project.liveUrl}
+                        href={href(item.liveUrl)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={styles.projectLink}
+                        className="text-[#2563eb] underline-offset-2 hover:underline"
                       >
-                        Live Demo
+                        Live
                       </a>
                     )}
-                  </div>
+                  </span>
                 </div>
-                {project.description && (
-                  <p style={styles.projectDescription}>
-                    {extractPlainText(project.description)}
+
+                {item.description && (
+                  <p className="mt-1.5 whitespace-pre-line text-[#444]">
+                    {toText(item.description)}
                   </p>
                 )}
-                {project.techStack && project.techStack.length > 0 && (
-                  <div style={styles.techStack}>
-                    {project.techStack.map((tech, i) => (
-                      <span key={i} style={styles.techTag}>
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+
+                {item.techStack.length > 0 && (
+                  <p className="mt-1.5 text-[11.5px] text-[#666]">
+                    {item.techStack.join(" · ")}
+                  </p>
                 )}
               </div>
             ))}
-          </section>
-        )}
+          </div>
+        </Section>
+      )}
 
-        {/* ========== SKILLS ========== */}
-        {hasSkills && (
-          <section style={styles.section}>
-            <h2 style={styles.sectionTitle}>Skills</h2>
-            <div style={styles.skillsContainer}>
-              {skills.map((skill, index) => (
-                <span key={index} style={styles.skillTag}>
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </section>
-        )}
+      {/* ---------- Skills ---------- */}
+      {skills.length > 0 && (
+        <Section title="Skills">
+          <p className="text-[#333]">{skills.join("  ·  ")}</p>
+        </Section>
+      )}
 
-        {/* ========== EDUCATION ========== */}
-        {hasEducation && (
-          <section style={styles.section}>
-            <h2 style={styles.sectionTitle}>Education</h2>
-            {education.map((edu, index) => (
-              <div key={edu.id || index} style={styles.educationItem}>
-                <div style={styles.eduHeader}>
-                  <div>
-                    <h3 style={styles.eduDegree}>{edu.degree}</h3>
-                    <p style={styles.eduInstitution}>{edu.institution}</p>
-                  </div>
-                  <p style={styles.eduDate}>
-                    {edu.startYear} — {edu.endYear || "Present"}
-                  </p>
-                </div>
+      {/* ---------- Education ---------- */}
+      {education.length > 0 && (
+        <Section title="Education">
+          <div className="space-y-3">
+            {education.map((item, i) => (
+              <div key={item.id || i} className="print-block">
+                <EntryHead
+                  primary={item.degree}
+                  secondary={item.institution}
+                  meta={[item.startYear, item.endYear]
+                    .filter(Boolean)
+                    .join(" — ")}
+                />
               </div>
             ))}
-          </section>
-        )}
+          </div>
+        </Section>
+      )}
 
-        {/* ========== CERTIFICATIONS ========== */}
-        {hasCertifications && (
-          <section style={styles.section}>
-            <h2 style={styles.sectionTitle}>Certifications</h2>
-            <ul style={styles.certList}>
-              {certifications.map((cert, index) => (
-                <li key={index} style={styles.certItem}>
-                  {cert}
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-      </div>
-    </div>
+      {/* ---------- Certifications ---------- */}
+      {certifications.filter(Boolean).length > 0 && (
+        <Section title="Certifications">
+          <ul className="list-disc space-y-1 pl-5 text-[#444]">
+            {certifications.filter(Boolean).map((cert, i) => (
+              <li key={i}>{cert}</li>
+            ))}
+          </ul>
+        </Section>
+      )}
+    </article>
   );
 });
 
 export default ResumePreview;
 
-// ==================== SUB-COMPONENTS ====================
-
-interface ContactItemProps {
-  icon: React.ElementType;
-  text: string;
-}
-
-const ContactItem = ({ icon: Icon, text }: ContactItemProps) => (
-  <div style={styles.contactItem}>
-    <Icon size={12} color="#666" />
-    <span>{text}</span>
-  </div>
-);
-
-interface LinkItemProps {
-  icon: React.ElementType;
-  url: string;
-  label: string;
-}
-
-const LinkItem = ({ icon: Icon, url, label }: LinkItemProps) => {
-  // Extract display text from URL
-  const displayUrl = url
-    .replace(/^https?:\/\//, "")
-    .replace(/^www\./, "")
-    .replace(/\/$/, "");
-
+function Section({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
-    <a
-      href={url.startsWith("http") ? url : `https://${url}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={styles.linkItem}
-    >
-      <Icon size={12} />
-      <span>{displayUrl}</span>
-    </a>
+    <section className="mt-6">
+      <h2 className="mb-2.5 border-b border-[#e5e5e5] pb-1.5 text-[11px] font-bold uppercase tracking-[0.09em] text-[#111]">
+        {title}
+      </h2>
+      {children}
+    </section>
   );
-};
+}
 
-// ==================== STYLES ====================
-const styles: Record<string, React.CSSProperties> = {
-  resumeContainer: {
-    display: "flex",
-    justifyContent: "center",
-  },
-  resumePaper: {
-    width: "100%",
-    maxWidth: 800,
-    backgroundColor: "#FFFFFF",
-    borderRadius: 8,
-    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
-    padding: "40px 48px",
-    color: "#1a1a1a",
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-    fontSize: 14,
-    lineHeight: 1.6,
-  },
-  emptyState: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    minHeight: 400,
-    backgroundColor: "rgba(255,255,255,0.02)",
-    borderRadius: 12,
-    border: "2px dashed rgba(255,255,255,0.1)",
-  },
-  emptyText: {
-    color: "#6B7280",
-    fontSize: 14,
-    textAlign: "center",
-  },
-
-  // Header
-  header: {
-    textAlign: "center",
-    marginBottom: 24,
-    paddingBottom: 20,
-    borderBottom: "2px solid #e5e5e5",
-  },
-  name: {
-    fontSize: 28,
-    fontWeight: 700,
-    color: "#1a1a1a",
-    margin: "0 0 12px 0",
-    letterSpacing: "-0.5px",
-  },
-  contactRow: {
-    display: "flex",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    gap: 16,
-    marginBottom: 8,
-  },
-  contactItem: {
-    display: "flex",
-    alignItems: "center",
-    gap: 6,
-    fontSize: 13,
-    color: "#444",
-  },
-  linksRow: {
-    display: "flex",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    gap: 16,
-    marginTop: 8,
-  },
-  linkItem: {
-    display: "flex",
-    alignItems: "center",
-    gap: 6,
-    fontSize: 12,
-    color: "#2563eb",
-    textDecoration: "none",
-  },
-
-  // Sections
-  section: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 14,
-    fontWeight: 700,
-    color: "#1a1a1a",
-    textTransform: "uppercase",
-    letterSpacing: "1px",
-    marginBottom: 12,
-    paddingBottom: 6,
-    borderBottom: "1px solid #e5e5e5",
-  },
-
-  // Summary
-  summaryText: {
-    fontSize: 13,
-    color: "#333",
-    lineHeight: 1.7,
-    margin: 0,
-    textAlign: "justify",
-  },
-
-  // Experience
-  experienceItem: {
-    marginBottom: 16,
-  },
-  expHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    marginBottom: 6,
-  },
-  expPosition: {
-    fontSize: 15,
-    fontWeight: 600,
-    color: "#1a1a1a",
-    margin: 0,
-  },
-  expCompany: {
-    fontSize: 13,
-    color: "#666",
-    margin: "2px 0 0 0",
-  },
-  expDate: {
-    fontSize: 12,
-    color: "#888",
-    margin: 0,
-    whiteSpace: "nowrap",
-  },
-  expDescription: {
-    fontSize: 13,
-    color: "#444",
-    lineHeight: 1.6,
-    margin: 0,
-    whiteSpace: "pre-line",
-  },
-
-  // Projects
-  projectItem: {
-    marginBottom: 16,
-  },
-  projectHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 6,
-  },
-  projectTitle: {
-    fontSize: 15,
-    fontWeight: 600,
-    color: "#1a1a1a",
-    margin: 0,
-  },
-  projectLinks: {
-    display: "flex",
-    gap: 12,
-  },
-  projectLink: {
-    fontSize: 11,
-    color: "#2563eb",
-    textDecoration: "none",
-  },
-  projectDescription: {
-    fontSize: 13,
-    color: "#444",
-    lineHeight: 1.6,
-    margin: "0 0 8px 0",
-    whiteSpace: "pre-line",
-  },
-  techStack: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: 6,
-  },
-  techTag: {
-    fontSize: 11,
-    color: "#666",
-    backgroundColor: "#f3f4f6",
-    padding: "2px 8px",
-    borderRadius: 4,
-  },
-
-  // Skills
-  skillsContainer: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: 8,
-  },
-  skillTag: {
-    fontSize: 12,
-    color: "#1a1a1a",
-    backgroundColor: "#f3f4f6",
-    padding: "4px 12px",
-    borderRadius: 4,
-    fontWeight: 500,
-  },
-
-  // Education
-  educationItem: {
-    marginBottom: 12,
-  },
-  eduHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-  },
-  eduDegree: {
-    fontSize: 14,
-    fontWeight: 600,
-    color: "#1a1a1a",
-    margin: 0,
-  },
-  eduInstitution: {
-    fontSize: 13,
-    color: "#666",
-    margin: "2px 0 0 0",
-  },
-  eduDate: {
-    fontSize: 12,
-    color: "#888",
-    margin: 0,
-  },
-
-  // Certifications
-  certList: {
-    margin: 0,
-    paddingLeft: 20,
-  },
-  certItem: {
-    fontSize: 13,
-    color: "#444",
-    marginBottom: 4,
-  },
-};
+function EntryHead({
+  primary,
+  secondary,
+  meta,
+}: {
+  primary: string;
+  secondary: string;
+  meta: string;
+}) {
+  return (
+    <div className="flex items-baseline justify-between gap-4">
+      <div className="min-w-0">
+        <h3 className="text-[14px] font-semibold text-[#111]">{primary}</h3>
+        {secondary && <p className="text-[12.5px] text-[#666]">{secondary}</p>}
+      </div>
+      {meta.trim() && (
+        <p className="shrink-0 whitespace-nowrap text-[11.5px] text-[#888]">
+          {meta}
+        </p>
+      )}
+    </div>
+  );
+}

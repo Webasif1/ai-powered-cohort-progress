@@ -1,11 +1,38 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "@/context/auth.context";
+import {
+  ThemeProvider,
+  themeInitScript,
+} from "@/components/providers/ThemeProvider";
+import { ToastHost } from "@/components/ui/ToastHost";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "ResumeAI - Build ATS-Optimized Resumes with AI",
+  title: {
+    default: "ResumeAI — Build ATS-optimized resumes with AI",
+    template: "%s · ResumeAI",
+  },
   description:
     "Create professional, ATS-friendly resumes in minutes with AI-powered suggestions, real-time scoring, and instant PDF export.",
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+  ],
 };
 
 export default function RootLayout({
@@ -14,63 +41,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body suppressHydrationWarning>
-        {/* Background Orbs */}
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            overflow: "hidden",
-            pointerEvents: "none",
-            zIndex: -1,
-          }}
-        >
-          {/* Violet orb */}
-          <div
-            className="animate-float"
-            style={{
-              position: "absolute",
-              top: "-160px",
-              left: "-160px",
-              width: "600px",
-              height: "600px",
-              borderRadius: "50%",
-              background:
-                "radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%)",
-              filter: "blur(60px)",
-            }}
-          />
-          {/* Cyan orb */}
-          <div
-            className="animate-float-delayed"
-            style={{
-              position: "absolute",
-              bottom: "-160px",
-              right: "-160px",
-              width: "500px",
-              height: "500px",
-              borderRadius: "50%",
-              background:
-                "radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, transparent 70%)",
-              filter: "blur(60px)",
-            }}
-          />
-          {/* Grid overlay */}
-          <div
-            className="bg-grid"
-            style={{
-              position: "absolute",
-              inset: 0,
-              opacity: 0.5,
-            }}
-          />
-        </div>
-
-        {/* Main content with AuthProvider */}
-        <AuthProvider>
-          <main style={{ position: "relative", zIndex: 0 }}>{children}</main>
-        </AuthProvider>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/*
+          Applies the stored (or system) theme before the first paint.
+          Without this the page renders light, then snaps to dark on hydrate.
+        */}
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-bg font-sans text-fg antialiased`}
+        suppressHydrationWarning
+      >
+        <ThemeProvider>
+          {children}
+          <ToastHost />
+        </ThemeProvider>
       </body>
     </html>
   );

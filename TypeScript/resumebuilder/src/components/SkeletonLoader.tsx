@@ -1,183 +1,36 @@
-"use client";
+import { Skeleton } from "@/components/ui/Skeleton";
 
+/** Placeholder for one card in the dashboard grid. */
 export function ResumeCardSkeleton() {
   return (
-    <div
-      style={{
-        padding: "24px",
-        background: "rgba(255,255,255,0.03)",
-        border: "1px solid rgba(255,255,255,0.08)",
-        borderRadius: "16px",
-        animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-      }}
-    >
-      <div
-        style={{
-          height: "20px",
-          width: "60%",
-          backgroundColor: "rgba(255,255,255,0.1)",
-          borderRadius: "4px",
-          marginBottom: "16px",
-        }}
-      />
-      <div
-        style={{
-          height: "14px",
-          width: "40%",
-          backgroundColor: "rgba(255,255,255,0.08)",
-          borderRadius: "4px",
-          marginBottom: "8px",
-        }}
-      />
-      <div
-        style={{
-          height: "14px",
-          width: "30%",
-          backgroundColor: "rgba(255,255,255,0.08)",
-          borderRadius: "4px",
-        }}
-      />
-
-      <style jsx global>{`
-        @keyframes pulse {
-          0%,
-          100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.5;
-          }
-        }
-      `}</style>
+    <div className="rounded-lg border border-line bg-elevated p-5 shadow-xs">
+      <Skeleton className="h-[104px] w-full rounded-md" />
+      <Skeleton className="mt-4 h-4 w-3/5" />
+      <Skeleton className="mt-2.5 h-3 w-2/5" />
     </div>
   );
 }
 
+/** Placeholder for the two-pane editor while the resume loads. */
 export function ResumeEditorSkeleton() {
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#0A0A0F" }}>
-      {/* Navbar Skeleton */}
-      <div
-        style={{
-          height: "64px",
-          backgroundColor: "rgba(17, 17, 24, 0.95)",
-          borderBottom: "1px solid rgba(255,255,255,0.05)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "0 24px",
-        }}
-      >
-        <div
-          style={{
-            width: "120px",
-            height: "16px",
-            backgroundColor: "rgba(255,255,255,0.1)",
-            borderRadius: "4px",
-          }}
-        />
-        <div style={{ display: "flex", gap: "12px" }}>
-          <div
-            style={{
-              width: "80px",
-              height: "36px",
-              backgroundColor: "rgba(255,255,255,0.08)",
-              borderRadius: "8px",
-            }}
-          />
-          <div
-            style={{
-              width: "120px",
-              height: "36px",
-              backgroundColor: "rgba(124, 58, 237, 0.2)",
-              borderRadius: "8px",
-            }}
-          />
-        </div>
+    <div className="min-h-screen bg-bg">
+      <div className="flex h-14 items-center justify-between border-b border-line px-5">
+        <Skeleton className="h-4 w-16" />
+        <Skeleton className="h-4 w-40" />
+        <Skeleton className="h-8 w-32 rounded-md" />
       </div>
 
-      {/* Editor Content Skeleton */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: "calc(100vh - 64px)" }}>
-        {/* Left Panel */}
-        <div style={{ padding: "24px", borderRight: "1px solid rgba(255,255,255,0.05)" }}>
-          {[1, 2, 3, 4].map((i) => (
-            <div
-              key={i}
-              style={{
-                marginBottom: "24px",
-                padding: "20px",
-                background: "rgba(255,255,255,0.02)",
-                border: "1px solid rgba(255,255,255,0.05)",
-                borderRadius: "16px",
-              }}
-            >
-              <div
-                style={{
-                  height: "18px",
-                  width: "50%",
-                  backgroundColor: "rgba(255,255,255,0.1)",
-                  borderRadius: "4px",
-                  marginBottom: "16px",
-                  animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-                }}
-              />
-              <div
-                style={{
-                  height: "40px",
-                  width: "100%",
-                  backgroundColor: "rgba(255,255,255,0.05)",
-                  borderRadius: "8px",
-                  marginBottom: "12px",
-                  animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-                }}
-              />
-              <div
-                style={{
-                  height: "40px",
-                  width: "100%",
-                  backgroundColor: "rgba(255,255,255,0.05)",
-                  borderRadius: "8px",
-                  animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-                }}
-              />
-            </div>
+      <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+        <div className="space-y-3 p-5">
+          {[0, 1, 2, 3, 4].map((i) => (
+            <Skeleton key={i} className="h-[60px] w-full rounded-lg" />
           ))}
         </div>
-
-        {/* Right Panel - Preview */}
-        <div
-          style={{
-            padding: "24px",
-            backgroundColor: "#0D0D12",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "100%",
-              maxWidth: "400px",
-              height: "600px",
-              backgroundColor: "rgba(255,255,255,0.05)",
-              borderRadius: "12px",
-              animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-            }}
-          />
+        <div className="hidden bg-surface p-5 lg:block">
+          <Skeleton className="mx-auto h-[640px] w-full max-w-[680px] rounded-lg" />
         </div>
       </div>
-
-      <style jsx global>{`
-        @keyframes pulse {
-          0%,
-          100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.5;
-          }
-        }
-      `}</style>
     </div>
   );
 }

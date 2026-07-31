@@ -1,12 +1,10 @@
-// import { AtsScoreBody, GenerateExperienceDescriptionBody, GenerateProjectDescription, GenerateSkillsBody, GenerateSummeryBody, ImproveContentBody } from "@/types/ai.types";
-
-// import { AtsScoreBody, GenerateExperienceDescriptionBody, GenerateProjectDescription, GenerateSkillsBody, GenerateSummeryBody, ImproveContentBody } from "@/types/ai.types";
-
-
-
 import { api } from "@/lib/axios";
 
-// Generate Summary
+/**
+ * Every AI route returns a loosely-shaped payload, so callers normalise with
+ * `toText` / `toList` from `components/resume/AIActionButton`.
+ */
+
 export const generateSummary = async (body: {
   experienceLevel: string;
   jobTitle: string;
@@ -16,7 +14,6 @@ export const generateSummary = async (body: {
   return res.data;
 };
 
-// Generate Skills
 export const generateSkills = async (body: {
   experienceLevel: string;
   jobTitle: string;
@@ -25,7 +22,6 @@ export const generateSkills = async (body: {
   return res.data;
 };
 
-// Experience Description
 export const generateExperience = async (body: {
   experienceLevel: string;
   yearsOfExperience: string;
@@ -36,7 +32,6 @@ export const generateExperience = async (body: {
   return res.data;
 };
 
-// Project Description
 export const generateProjectDescription = async (body: {
   experienceLevel: string;
   jobTitle: string;
@@ -46,18 +41,14 @@ export const generateProjectDescription = async (body: {
   return res.data;
 };
 
-// Improve Content
-export const improveContent = async (body: {
-  content: string;
-}) => {
-  const res = await api.post("/ai/generate-content", body);
+// The route lives at /api/ai/improve-content. This previously posted to
+// /ai/generate-content, so "Improve with AI" 404'd on every click.
+export const improveContent = async (body: { content: string }) => {
+  const res = await api.post("/ai/improve-content", body);
   return res.data;
 };
 
-// ATS Score
-export const getATSScore = async (body: {
-  resumeText: string;
-}) => {
+export const getATSScore = async (body: { resumeText: string }) => {
   const res = await api.post("/ai/ats-score", body);
   return res.data;
 };

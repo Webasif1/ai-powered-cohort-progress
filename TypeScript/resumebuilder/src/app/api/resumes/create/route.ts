@@ -19,9 +19,19 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Only the free layouts can be selected: there is no billing, so a
+    // premium id arriving here would mean someone had crafted the request
+    // by hand. Anything unrecognised falls back to the default.
+    const FREE_TEMPLATES = ["classic", "minimal", "compact"];
+
+    const body = await req.json().catch(() => ({}));
+    const requested = typeof body?.template === "string" ? body.template : "";
+    const template = FREE_TEMPLATES.includes(requested) ? requested : "classic";
+
     const newResume = await ResumeModel.create({
       user_id: userID,
       title: "Untitled Resume",
+      template,
       personalInfo: {
         fullName: "",
         email: "",

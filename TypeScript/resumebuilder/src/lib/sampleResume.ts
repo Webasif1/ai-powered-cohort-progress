@@ -10,6 +10,10 @@ import type { ResumeData } from "@/types/resume.types";
 export const SAMPLE_RESUME: ResumeData = {
   _id: "sample",
   title: "Sample Resume",
+  // Each gallery card overrides this by rendering its own template
+  // component directly; the value only matters if something renders the
+  // sample through the registry.
+  template: "classic",
   personalInfo: {
     fullName: "Amara Okafor",
     email: "amara.okafor@example.com",

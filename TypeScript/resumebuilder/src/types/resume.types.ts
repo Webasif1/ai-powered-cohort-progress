@@ -43,6 +43,12 @@ export interface IResume {
   _id?: string;
   user_id: Types.ObjectId;
   title: string;
+  /**
+   * Id of a layout in `components/resume/templates/registry`. Kept as a
+   * plain string so this file stays free of component imports — the
+   * registry resolves an unknown or missing id back to the default.
+   */
+  template: string;
   summary: string;
   personalInfo: IPersonalInfo;
   experience: IExperience[];
@@ -63,6 +69,7 @@ export interface IResume {
 export type ResumeData = Pick<
   IResume,
   | "title"
+  | "template"
   | "summary"
   | "personalInfo"
   | "experience"
@@ -75,6 +82,7 @@ export type ResumeData = Pick<
 export const EMPTY_RESUME: ResumeData = {
   _id: "",
   title: "Untitled Resume",
+  template: "classic",
   personalInfo: {
     fullName: "",
     email: "",

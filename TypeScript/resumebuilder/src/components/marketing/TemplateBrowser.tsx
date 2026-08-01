@@ -130,7 +130,7 @@ function TemplateCard({ template }: { template: TemplateMeta }) {
             </span>
           ) : (
             <ButtonLink
-              href="/auth/register"
+              href={`/resume/new?template=${template.id}`}
               variant="primary"
               size="sm"
               className="flex-1"

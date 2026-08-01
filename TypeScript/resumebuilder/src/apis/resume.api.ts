@@ -8,8 +8,8 @@ export const getAllResumes = async () => {
   return res.data?.data || [];
 };
 
-export const createResume = async () => {
-  const res = await api.post("/resumes/create");
+export const createResume = async (template?: string) => {
+  const res = await api.post("/resumes/create", template ? { template } : {});
   // Return the created resume
   return res.data?.data || res.data;
 };

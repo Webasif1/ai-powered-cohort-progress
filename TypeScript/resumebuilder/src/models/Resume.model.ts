@@ -75,6 +75,10 @@ const resumeSchema = new Schema(
       index: true,
     },
     title: { type: String, default: "Untitled Resume" },
+    // Layout id from the template registry. Documents written before
+    // templates existed have no value here, and the registry falls back to
+    // the default when it cannot resolve one.
+    template: { type: String, default: "classic" },
 
     summary: { type: String, default: "" },
     personalInfo: { type: personalInfoSchema, default: () => ({}) },

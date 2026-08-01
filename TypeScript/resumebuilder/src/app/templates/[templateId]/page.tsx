@@ -129,7 +129,7 @@ export default async function TemplateDetailPage({ params }: Params) {
                   </div>
                 ) : (
                   <ButtonLink
-                    href="/auth/register"
+                    href={`/resume/new?template=${template.id}`}
                     variant="primary"
                     size="lg"
                     className="w-full"

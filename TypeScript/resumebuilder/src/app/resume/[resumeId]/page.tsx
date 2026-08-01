@@ -15,6 +15,7 @@ import Skills from "@/components/resume/Skills";
 import Education from "@/components/resume/Education";
 import Certifications from "@/components/resume/Certifications";
 import ResumePreview from "@/components/resume/ResumePreview";
+import { TemplatePicker } from "@/components/resume/TemplatePicker";
 import { CompletionBar, SaveStatus, type SaveState } from "@/components/resume/SaveStatus";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { Tabs } from "@/components/ui/Tabs";
@@ -72,6 +73,8 @@ function ResumeEditorContent() {
           ...EMPTY_RESUME,
           _id: res._id || resumeId,
           title: res.title || "Untitled Resume",
+          // Resumes created before templates existed have no value here.
+          template: res.template || EMPTY_RESUME.template,
           personalInfo: { ...EMPTY_RESUME.personalInfo, ...res.personalInfo },
           summary: res.summary ?? res.summery ?? "",
           experience: res.experience ?? res.workExperience ?? [],
@@ -114,6 +117,7 @@ function ResumeEditorContent() {
     try {
       await updateResume(resumeId, {
         title: currentTitle,
+        template: current.template,
         personalInfo: current.personalInfo,
         summary: current.summary,
         experience: current.experience,
@@ -311,6 +315,10 @@ function ResumeEditorContent() {
           )}
         >
           <div className="mx-auto flex max-w-2xl flex-col gap-3 pb-16">
+            <TemplatePicker
+              value={data.template}
+              onChange={(v) => updateField("template", v)}
+            />
             <PersonalInformation
               data={data.personalInfo}
               onChange={(v) => updateField("personalInfo", v)}

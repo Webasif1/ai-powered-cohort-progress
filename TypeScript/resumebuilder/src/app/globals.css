@@ -10,16 +10,17 @@
    so every utility below is theme-aware for free.
    ============================================================ */
 :root {
-  /* Neutral zinc rather than warm stone: the light theme reads as true
-     white and paper-neutral, and it matches the dark scale below so the
-     two themes are the same system rather than two different greys. */
-  --bg: #ffffff;
-  --surface: #fafafa;
-  --surface-2: #f4f4f5;
+  /* The page canvas is grey and cards are white, rather than the reverse.
+     A pure-white page gives elevation nothing to push against, so every
+     card had to be outlined to be visible. Tinting the canvas lets white
+     surfaces carry the hierarchy on their own. */
+  --bg: #f4f4f6;
+  --surface: #ececed;
+  --surface-2: #e3e3e6;
   --elevated: #ffffff;
 
-  --border: #e8e8ea;
-  --border-strong: #d4d4d8;
+  --border: #e0e0e4;
+  --border-strong: #cbcbd1;
 
   --fg: #18181b;
   --fg-muted: #71717a;

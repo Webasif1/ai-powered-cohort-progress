@@ -13,6 +13,9 @@ import { Container } from "@/components/layout/Container";
 import { GuideFrame, GuideRule } from "@/components/marketing/GuideFrame";
 import { HeroShowcase } from "@/components/marketing/HeroShowcase";
 import { ScorePanel } from "@/components/marketing/ScorePanel";
+import { StatsBand } from "@/components/marketing/StatsBand";
+import { TemplateGallery } from "@/components/marketing/TemplateGallery";
+import { FAQ } from "@/components/marketing/FAQ";
 import { ButtonLink } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 
@@ -133,7 +136,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <GuideRule />
+        {/* ==================== STATS ==================== */}
+        <StatsBand />
 
         {/* ==================== FEATURES ==================== */}
         <section id="features" className="scroll-mt-20 py-20 sm:py-28">
@@ -153,7 +157,7 @@ export default function LandingPage() {
               {features.map((feature) => (
                 <li
                   key={feature.title}
-                  className="group bg-bg p-6 transition-colors duration-200 hover:bg-surface"
+                  className="group bg-elevated p-6 transition-colors duration-200 hover:bg-surface"
                 >
                   <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line bg-surface transition-colors duration-200 group-hover:border-accent/30 group-hover:bg-accent-soft">
                     <feature.icon
@@ -212,6 +216,29 @@ export default function LandingPage() {
 
         <GuideRule />
 
+        {/* ==================== TEMPLATES ==================== */}
+        <section id="templates" className="scroll-mt-20 py-20 sm:py-28">
+          <Container>
+            <div className="max-w-2xl">
+              <p className="text-[13px] font-medium text-accent">Templates</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-fg sm:text-4xl">
+                Layouts a parser can read
+              </h2>
+              <p className="mt-4 text-[15px] leading-relaxed text-fg-muted">
+                Single-column structure, real headings and selectable text.
+                The decorative two-column layouts other builders push are
+                exactly what applicant tracking systems garble.
+              </p>
+            </div>
+
+            <div className="mt-12">
+              <TemplateGallery />
+            </div>
+          </Container>
+        </section>
+
+        <GuideRule />
+
         {/* ==================== ATS ==================== */}
         <section id="ats" className="scroll-mt-20 py-20 sm:py-28">
           <Container>
@@ -261,6 +288,28 @@ export default function LandingPage() {
               </div>
 
               <ScorePanel />
+            </div>
+          </Container>
+        </section>
+
+        <GuideRule />
+
+        {/* ==================== FAQ ==================== */}
+        <section id="faq" className="scroll-mt-20 py-20 sm:py-28">
+          <Container>
+            <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16">
+              <div>
+                <p className="text-[13px] font-medium text-accent">FAQ</p>
+                <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-fg sm:text-4xl">
+                  Questions worth asking
+                </h2>
+                <p className="mt-4 text-[15px] leading-relaxed text-fg-muted">
+                  What the AI does and does not touch, how export works, and
+                  what happens to your data.
+                </p>
+              </div>
+
+              <FAQ />
             </div>
           </Container>
         </section>

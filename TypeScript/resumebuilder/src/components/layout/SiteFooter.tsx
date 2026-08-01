@@ -18,7 +18,7 @@ const columns: {
       { label: "Resume builder", href: "/resume" },
       { label: "AI writing tools", href: "/#features" },
       { label: "ATS score", href: "/#ats" },
-      { label: "Templates", href: "/#templates" },
+      { label: "Templates", href: "/templates" },
     ],
   },
   {

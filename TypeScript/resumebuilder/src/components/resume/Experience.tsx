@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
 import { Briefcase } from "lucide-react";
 import toast from "react-hot-toast";
 import { AddItemButton, ItemCard, SectionShell } from "./SectionShell";
@@ -94,7 +93,6 @@ export default function Experience({
       description="Most recent role first"
     >
       <div className="space-y-3">
-        <AnimatePresence initial={false}>
           {experience.map((item, index) => (
             <ItemCard
               key={item.id}
@@ -170,7 +168,6 @@ export default function Experience({
               </div>
             </ItemCard>
           ))}
-        </AnimatePresence>
 
         <AddItemButton onClick={addItem} label="Add a role" />
       </div>

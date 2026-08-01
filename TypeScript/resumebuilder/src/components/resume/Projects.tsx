@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
 import { FolderGit2, X } from "lucide-react";
 import toast from "react-hot-toast";
 import { AddItemButton, ItemCard, SectionShell } from "./SectionShell";
@@ -104,7 +103,6 @@ export default function Projects({ projects, onChange }: ProjectsProps) {
       description="Things you built that are worth showing"
     >
       <div className="space-y-3">
-        <AnimatePresence initial={false}>
           {projects.map((item, index) => (
             <ItemCard
               key={item.id}
@@ -207,7 +205,6 @@ export default function Projects({ projects, onChange }: ProjectsProps) {
               </div>
             </ItemCard>
           ))}
-        </AnimatePresence>
 
         <AddItemButton onClick={addItem} label="Add a project" />
       </div>

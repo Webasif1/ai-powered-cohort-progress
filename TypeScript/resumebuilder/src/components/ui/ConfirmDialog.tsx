@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "./Button";
 
 interface ConfirmDialogProps {
@@ -55,63 +54,50 @@ export function ConfirmDialog({
     };
   }, [open, onCancel]);
 
+  if (!open) return null;
+
   return (
-    <AnimatePresence>
-      {open && (
-        <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            onClick={onCancel}
-            className="absolute inset-0 bg-black/45 backdrop-blur-[2px]"
-          />
+    <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
+      <div
+        onClick={onCancel}
+        className="absolute inset-0 bg-black/45 backdrop-blur-[2px] animate-[fade-in_0.15s_ease-out_both]"
+      />
 
-          <motion.div
-            role="alertdialog"
-            aria-modal="true"
-            aria-labelledby="confirm-title"
-            aria-describedby={description ? "confirm-body" : undefined}
-            initial={{ opacity: 0, scale: 0.97, y: 8 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98, y: 4 }}
-            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full max-w-sm rounded-xl border border-line bg-elevated p-5 shadow-lg"
+      <div
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="confirm-title"
+        aria-describedby={description ? "confirm-body" : undefined}
+        className="relative w-full max-w-sm rounded-xl border border-line bg-elevated p-5 shadow-lg animate-[pop-in_0.18s_cubic-bezier(0.22,1,0.36,1)_both]"
+      >
+        <h2 id="confirm-title" className="text-[15px] font-semibold text-fg">
+          {title}
+        </h2>
+
+        {description && (
+          <p
+            id="confirm-body"
+            className="mt-2 text-[13px] leading-relaxed text-fg-muted"
           >
-            <h2
-              id="confirm-title"
-              className="text-[15px] font-semibold text-fg"
-            >
-              {title}
-            </h2>
+            {description}
+          </p>
+        )}
 
-            {description && (
-              <p
-                id="confirm-body"
-                className="mt-2 text-[13px] leading-relaxed text-fg-muted"
-              >
-                {description}
-              </p>
-            )}
-
-            <div className="mt-5 flex justify-end gap-2">
-              <Button variant="ghost" size="sm" onClick={onCancel}>
-                {cancelLabel}
-              </Button>
-              <Button
-                ref={confirmRef}
-                variant={tone === "danger" ? "danger" : "primary"}
-                size="sm"
-                isLoading={isBusy}
-                onClick={onConfirm}
-              >
-                {confirmLabel}
-              </Button>
-            </div>
-          </motion.div>
+        <div className="mt-5 flex justify-end gap-2">
+          <Button variant="ghost" size="sm" onClick={onCancel}>
+            {cancelLabel}
+          </Button>
+          <Button
+            ref={confirmRef}
+            variant={tone === "danger" ? "danger" : "primary"}
+            size="sm"
+            isLoading={isBusy}
+            onClick={onConfirm}
+          >
+            {confirmLabel}
+          </Button>
         </div>
-      )}
-    </AnimatePresence>
+      </div>
+    </div>
   );
 }

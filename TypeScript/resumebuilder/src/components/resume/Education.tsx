@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence } from "framer-motion";
 import { GraduationCap } from "lucide-react";
 import { AddItemButton, ItemCard, SectionShell } from "./SectionShell";
 import { Input } from "@/components/ui/Field";
@@ -42,7 +41,6 @@ export default function Education({ education, onChange }: EducationProps) {
       count={education.length}
     >
       <div className="space-y-3">
-        <AnimatePresence initial={false}>
           {education.map((item, index) => (
             <ItemCard
               key={item.id}
@@ -86,7 +84,6 @@ export default function Education({ education, onChange }: EducationProps) {
               </div>
             </ItemCard>
           ))}
-        </AnimatePresence>
 
         <AddItemButton onClick={addItem} label="Add education" />
       </div>

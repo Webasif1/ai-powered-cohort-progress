@@ -10,17 +10,20 @@
    so every utility below is theme-aware for free.
    ============================================================ */
 :root {
+  /* Neutral zinc rather than warm stone: the light theme reads as true
+     white and paper-neutral, and it matches the dark scale below so the
+     two themes are the same system rather than two different greys. */
   --bg: #ffffff;
-  --surface: #fafaf9;
-  --surface-2: #f5f5f4;
+  --surface: #fafafa;
+  --surface-2: #f4f4f5;
   --elevated: #ffffff;
 
-  --border: #e7e5e4;
-  --border-strong: #d6d3d1;
+  --border: #e8e8ea;
+  --border-strong: #d4d4d8;
 
-  --fg: #1c1917;
-  --fg-muted: #78716c;
-  --fg-subtle: #a8a29e;
+  --fg: #18181b;
+  --fg-muted: #71717a;
+  --fg-subtle: #a1a1aa;
 
   --accent: #2563eb;
   --accent-hover: #1d4ed8;
@@ -38,10 +41,10 @@
   /* Named `--sh-*`, not `--shadow-*`: the latter is Tailwind's own theme
      namespace, and reusing it makes the generated theme block define
      `--shadow-xs: var(--shadow-xs)` against itself. */
-  --sh-xs: 0 1px 2px rgba(28, 25, 23, 0.05);
-  --sh-sm: 0 1px 2px rgba(28, 25, 23, 0.04), 0 2px 8px rgba(28, 25, 23, 0.05);
-  --sh-md: 0 2px 4px rgba(28, 25, 23, 0.04), 0 8px 24px rgba(28, 25, 23, 0.07);
-  --sh-lg: 0 4px 8px rgba(28, 25, 23, 0.04), 0 16px 48px rgba(28, 25, 23, 0.1);
+  --sh-xs: 0 1px 2px rgba(24, 24, 27, 0.05);
+  --sh-sm: 0 1px 2px rgba(24, 24, 27, 0.04), 0 2px 8px rgba(24, 24, 27, 0.05);
+  --sh-md: 0 2px 4px rgba(24, 24, 27, 0.04), 0 8px 24px rgba(24, 24, 27, 0.07);
+  --sh-lg: 0 4px 8px rgba(24, 24, 27, 0.04), 0 16px 48px rgba(24, 24, 27, 0.1);
 
   color-scheme: light;
 }
@@ -252,6 +255,28 @@
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* Splash: pulsing halo behind the mark, and the indeterminate bar under it. */
+@keyframes halo {
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  70%,
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+@keyframes sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
   }
 }
 

@@ -6,6 +6,7 @@ import {
   themeInitScript,
 } from "@/components/providers/ThemeProvider";
 import { ToastHost } from "@/components/ui/ToastHost";
+import { SplashScreen } from "@/components/ui/SplashScreen";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -48,12 +49,20 @@ export default function RootLayout({
           Without this the page renders light, then snaps to dark on hydrate.
         */}
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {/*
+          The splash is dismissed by JavaScript. Without this it would cover
+          the page permanently for anyone who has scripting disabled.
+        */}
+        <noscript>
+          <style>{`#splash{display:none !important}`}</style>
+        </noscript>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-bg font-sans text-fg antialiased`}
         suppressHydrationWarning
       >
         <ThemeProvider>
+          <SplashScreen />
           {children}
           <ToastHost />
         </ThemeProvider>

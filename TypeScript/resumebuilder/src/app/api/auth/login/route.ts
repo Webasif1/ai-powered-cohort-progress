@@ -71,10 +71,15 @@ export async function POST(req: NextRequest) {
       },
     );
 
+    // `maxAge` is in seconds. `60 * 60 * 1000` kept the cookie for ~41 days
+    // while the JWT inside it expires in 1 hour, so the browser went on
+    // sending a token the server had already rejected. Match the JWT.
     response.cookies.set("token", token, {
       httpOnly: true,
       sameSite: "lax",
-      maxAge: 60 * 60 * 1000,
+      path: "/",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60,
     });
 
     return response

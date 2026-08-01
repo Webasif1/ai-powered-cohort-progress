@@ -61,6 +61,7 @@ function PreviewContent() {
           ...EMPTY_RESUME,
           _id: res._id || resumeId,
           title: res.title || "Untitled Resume",
+          template: res.template || EMPTY_RESUME.template,
           personalInfo: { ...EMPTY_RESUME.personalInfo, ...res.personalInfo },
           summary: res.summary ?? res.summery ?? "",
           experience: res.experience ?? res.workExperience ?? [],

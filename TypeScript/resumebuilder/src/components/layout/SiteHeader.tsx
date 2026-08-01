@@ -9,9 +9,10 @@ import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { cn } from "@/lib/cn";
 
 const links = [
-  { href: "#features", label: "Features" },
-  { href: "#how-it-works", label: "How it works" },
-  { href: "#ats", label: "ATS score" },
+  { href: "/#features", label: "Features" },
+  { href: "/templates", label: "Templates" },
+  { href: "/#how-it-works", label: "How it works" },
+  { href: "/#ats", label: "ATS score" },
 ];
 
 export function SiteHeader() {

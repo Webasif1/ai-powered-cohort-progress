@@ -8,16 +8,20 @@ interface UserDocument extends Omit<IUser, "_id">, Document{
 
 const userSchema = new mongoose.Schema<UserDocument>(
   {
+    // `require` is not a Mongoose option — the correct key is `required`.
+    // With the typo none of these were ever enforced, which is how a user
+    // document can exist with no password at all.
     name: {
       type: String,
       trim: true,
-      require: [true, "Name is required"],
+      required: [true, "Name is required"],
     },
     email: {
       type: String,
       trim: true,
-      unique: [true, "Email should be unique"],
-      require: [true, "Email is required"],
+      lowercase: true,
+      unique: true,
+      required: [true, "Email is required"],
     },
     mobile: {
       type: String,
@@ -26,7 +30,7 @@ const userSchema = new mongoose.Schema<UserDocument>(
     },
     password: {
       type: String,
-      require: [true, "Password is required"],
+      required: [true, "Password is required"],
       minlength: [6, "Min 6 characters require"],
     },
   },
@@ -41,7 +45,23 @@ userSchema.pre("save", function (): void {
 });
 
 userSchema.methods.comparePass = function (candidatePass: string): boolean {
-  return bcrypt.compareSync(candidatePass, this.password);
+  // `bcrypt.compareSync` throws — it does not return false — when either
+  // argument is missing ("data and hash arguments required"). Any account
+  // stored without a password therefore turned a wrong-credentials check
+  // into an uncaught exception, and the login route answered 500 instead
+  // of 401. A missing hash means "cannot authenticate", so answer false.
+  if (!candidatePass || typeof this.password !== "string" || !this.password) {
+    return false;
+  }
+
+  try {
+    return bcrypt.compareSync(candidatePass, this.password);
+  } catch {
+    // Stored value is not a valid bcrypt hash (e.g. a plaintext password
+    // written before hashing was added). Treat it as a failed login rather
+    // than a server error.
+    return false;
+  }
 };
 
 const userModel = mongoose.models.User || mongoose.model("User", userSchema);

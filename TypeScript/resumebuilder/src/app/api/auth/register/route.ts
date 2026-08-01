@@ -65,10 +65,13 @@ export async function POST(req: NextRequest) {
       },
     );
 
+    // Seconds, not milliseconds — see the note in the login route.
     response.cookies.set("token", token, {
       httpOnly: true,
       sameSite: "lax",
-      maxAge: 60 * 60 * 1000,
+      path: "/",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60,
     });
 
     return response

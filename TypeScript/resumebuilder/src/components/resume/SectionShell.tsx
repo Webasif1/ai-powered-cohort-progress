@@ -1,7 +1,6 @@
 "use client";
 
 import { useId, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { CountBadge } from "@/components/ui/Badge";
 import { cn } from "@/lib/cn";
@@ -77,20 +76,23 @@ export function SectionShell({
         </button>
       </h2>
 
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            id={panelId}
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.22, ease: [0.2, 0, 0, 1] }}
-            className="overflow-hidden"
-          >
-            <div className="border-t border-line p-4">{children}</div>
-          </motion.div>
+      {/*
+        Auto-height collapse with no JavaScript: a grid row animated from
+        `0fr` to `1fr` resolves to the child's natural height, which is the
+        one thing a plain `height` transition cannot do. Replaces the
+        framer-motion version — see the perf note in this component's commit.
+      */}
+      <div
+        id={panelId}
+        className={cn(
+          "grid transition-[grid-template-rows,opacity] duration-200 ease-[cubic-bezier(0.2,0,0,1)]",
+          isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
         )}
-      </AnimatePresence>
+      >
+        <div className="overflow-hidden">
+          <div className="border-t border-line p-4">{children}</div>
+        </div>
+      </div>
     </section>
   );
 }
@@ -135,14 +137,7 @@ export function ItemCard({
   children: React.ReactNode;
 }) {
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 6 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -6 }}
-      transition={{ duration: 0.2, ease: [0.2, 0, 0, 1] }}
-      className="rounded-md border border-line bg-surface p-4"
-    >
+    <div className="animate-[rise_0.24s_cubic-bezier(0.22,1,0.36,1)_both] rounded-md border border-line bg-surface p-4">
       <div className="mb-3.5 flex items-center justify-between">
         <span className="text-xs font-medium uppercase tracking-wide text-fg-subtle">
           {label} {index + 1}
@@ -161,6 +156,6 @@ export function ItemCard({
         </button>
       </div>
       {children}
-    </motion.div>
+    </div>
   );
 }

@@ -1,0 +1,38 @@
+# Secrets. `.env.local` holds a live database URI, the JWT secret and an API
+# key — `COPY . .` would bake them into an image layer, where they survive
+# even if a later layer deletes them. Keep this rule first and broad.
+.env
+.env.*
+!.env.docker.example
+
+# Installed and built artefacts: `npm ci` and `next build` regenerate these
+# inside the image, and copying host copies in would break on a different
+# libc or architecture.
+node_modules
+.next
+out
+build
+
+# Version control and editor state
+.git
+.gitignore
+.vscode
+.idea
+
+# Docker's own files — nothing in the image needs them
+Dockerfile
+.dockerignore
+docker-compose.yml
+docker-compose.*.yml
+
+# Logs and caches
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.tsbuildinfo
+coverage
+.DS_Store
+
+# Docs
+README.md

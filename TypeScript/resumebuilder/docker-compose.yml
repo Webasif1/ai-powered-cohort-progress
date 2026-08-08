@@ -1,0 +1,40 @@
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    # Port 27017 is deliberately not published. The app reaches Mongo over the
+    # compose network by service name; publishing it would put an
+    # unauthenticated database on the host's network interface.
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  app:
+    build:
+      context: .
+      args:
+        NODE_VERSION: 22-alpine
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      # Set here rather than in .env.docker so the service name resolves and
+      # cannot be pointed at a host database by accident.
+      MONGO_URI: mongodb://mongo:27017/resumebuilder
+    env_file:
+      # Holds JWT_SECRET and GEMINI_API_KEY. Optional so `docker compose
+      # config` still works before it is created; the app will fail loudly at
+      # runtime if JWT_SECRET is missing.
+      - path: .env.docker
+        required: false
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+volumes:
+  mongo-data:

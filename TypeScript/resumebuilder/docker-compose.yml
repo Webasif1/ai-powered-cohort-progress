@@ -1,19 +1,4 @@
 services:
-  mongo:
-    image: mongo:7
-    restart: unless-stopped
-    # Port 27017 is deliberately not published. The app reaches Mongo over the
-    # compose network by service name; publishing it would put an
-    # unauthenticated database on the host's network interface.
-    volumes:
-      - mongo-data:/data/db
-    healthcheck:
-      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 20s
-
   app:
     build:
       context: .
@@ -22,19 +7,49 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
-    environment:
-      # Set here rather than in .env.docker so the service name resolves and
-      # cannot be pointed at a host database by accident.
-      MONGO_URI: mongodb://mongo:27017/resumebuilder
+    # MONGO_URI, JWT_SECRET and GEMINI_API_KEY all come from here. env_file
+    # forwards every variable in the file to the container.
+    #
+    # There is deliberately no `environment:` block. `environment` takes
+    # precedence over `env_file`, so listing a bare `- MONGO_URI` that is not
+    # also set in the shell resolves to null and *overrides* the value from
+    # the file — the container then starts with an empty MONGO_URI and every
+    # request fails with "MONGO_URI is not set".
+    #
+    # Nor is there a `${MONGO_URI:?...}` guard: interpolation runs for every
+    # compose subcommand, so a required-variable error would also break
+    # `compose logs`, `compose ps` and `compose down`, leaving no way to
+    # inspect or stop the stack. The app raises its own clear error instead.
     env_file:
-      # Holds JWT_SECRET and GEMINI_API_KEY. Optional so `docker compose
-      # config` still works before it is created; the app will fail loudly at
-      # runtime if JWT_SECRET is missing.
       - path: .env.docker
         required: false
-    depends_on:
-      mongo:
-        condition: service_healthy
+
+  # Optional local database, off by default.
+  #
+  # Most of the time MONGO_URI points at an existing cluster, and pulling
+  # ~200 MB of mongo image to sit idle is the slowest part of a first
+  # `compose up`. Start it explicitly when you want a throwaway local DB:
+  #
+  #   docker compose --profile local-db up --build
+  #
+  # and set MONGO_URI=mongodb://mongo:27017/resumebuilder in .env.docker so
+  # the app resolves it by service name.
+  #
+  # Port 27017 is deliberately not published: the app reaches it over the
+  # compose network, and publishing it would put an unauthenticated database
+  # on the host's network interface.
+  mongo:
+    profiles: ["local-db"]
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
 volumes:
   mongo-data:

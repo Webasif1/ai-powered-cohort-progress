@@ -1,4 +1,7 @@
-# syntax=docker/dockerfile:1
+# No `# syntax=` directive on purpose: it makes BuildKit pull the
+# docker/dockerfile frontend image (~14 MB) on every cold build before it can
+# even read this file. Nothing here needs a newer frontend than the built-in
+# one, apart from the cache mounts below, which the bundled frontend supports.
 
 # Node 22 LTS. The floors that matter: next@16 needs >=20.9.0 and
 # mongoose@9.7 needs >=20.19.0, so Node 20 would have worked but only on its
@@ -17,7 +20,26 @@ FROM node:${NODE_VERSION} AS deps
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm ci
+
+# The image ships npm 10, but this lockfile was produced by npm 11 and npm 10
+# rejects it:
+#
+#   npm error `npm ci` can only install packages when your package.json and
+#   package-lock.json ... are in sync.
+#   npm error Missing: @emnapi/runtime@1.11.3 from lock file
+#
+# Those two packages are optional wasm dependencies of
+# @tailwindcss/oxide-wasm32-wasi. npm omits them from the lockfile — npm 11
+# then tolerates its own omission and npm 10 does not. Regenerating the lock
+# with either version does not add them, so the fix is to install the npm that
+# matches the lockfile rather than to fight the lockfile.
+#
+# Pinned exactly, so a future npm release cannot change how the lock resolves.
+RUN npm install -g npm@11.6.2
+
+# Cache mount keeps the npm cache across builds, so a rebuild after a
+# dependency change re-uses already-downloaded tarballs.
+RUN --mount=type=cache,target=/root/.npm npm ci
 
 
 # ---------------------------------------------------------------------------

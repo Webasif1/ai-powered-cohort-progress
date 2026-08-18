@@ -1,23 +1,34 @@
 "use client";
 
+import { useMemo } from "react";
 import Link from "next/link";
-import { Trash2 } from "lucide-react";
+import { Copy, Eye, Pencil, Trash2, TriangleAlert } from "lucide-react";
+import { ResumeThumbnail } from "./ResumeThumbnail";
+import { CompletionBar } from "./SaveStatus";
+import { ATS_LABEL, getTemplate } from "./templates/registry";
+import { Badge } from "@/components/ui/Badge";
+import { Menu } from "@/components/ui/Menu";
+import { completionPercent } from "@/lib/completion";
+import { normalizeResume } from "@/lib/resumeData";
 import { cn } from "@/lib/cn";
+import type { IResume } from "@/types/resume.types";
 
-export interface ResumeSummary {
-  _id: string;
-  title?: string;
-  updatedAt?: string;
-  personalInfo?: { fullName?: string };
-  skills?: string[];
-}
+/**
+ * `GET /api/resumes` returns whole documents — no projection — so the card
+ * can render the real template and compute completeness without a second
+ * request. This used to declare only four fields, which is why every card
+ * looked identical no matter which layout its resume actually used.
+ */
+export type ResumeSummary = Partial<IResume> & { _id: string };
 
 interface ResumeCardProps {
   resume: ResumeSummary;
   onDelete: (id: string) => void;
+  onDuplicate: (id: string) => void;
+  isDuplicating?: boolean;
 }
 
-function formatUpdated(value?: string) {
+export function formatUpdated(value?: string | Date) {
   if (!value) return "Never opened";
 
   const date = new Date(value);
@@ -35,80 +46,99 @@ function formatUpdated(value?: string) {
 }
 
 /**
- * The whole card is a single link, with the delete control layered on top —
- * so the card is reachable in one Tab and the destructive action stays a
- * separate, clearly-labelled target instead of a nested click handler that
- * has to call `stopPropagation`.
+ * The card body is a stretched overlay link rather than a wrapper, because
+ * the thumbnail renders a real template and templates contain real anchors —
+ * `<a>` inside `<a>` is invalid HTML. Keeping the link a *sibling* of the
+ * preview means the card is still reachable in one Tab, while the action menu
+ * layers cleanly on top.
  */
-export function ResumeCard({ resume, onDelete }: ResumeCardProps) {
+export function ResumeCard({
+  resume,
+  onDelete,
+  onDuplicate,
+  isDuplicating = false,
+}: ResumeCardProps) {
   const title = resume.title?.trim() || "Untitled Resume";
+  const template = getTemplate(resume.template);
+  const percent = completionPercent(resume);
+
+  // The thumbnail needs the editor's shape, and the raw row may still be
+  // carrying legacy field names.
+  const data = useMemo(() => normalizeResume(resume, resume._id), [resume]);
 
   return (
-    <div className="group relative">
+    <article
+      className={cn(
+        // No `overflow-hidden` here — it would clip the action menu. The
+        // thumbnail frame does its own clipping instead.
+        "group relative flex h-full flex-col rounded-lg border border-line bg-elevated shadow-xs",
+        "transition-[border-color,box-shadow,transform] duration-200",
+        "hover:-translate-y-0.5 hover:border-line-strong hover:shadow-md",
+        "focus-within:border-line-strong focus-within:shadow-md",
+      )}
+    >
+      <div className="overflow-hidden rounded-t-lg border-b border-line">
+        <ResumeThumbnail data={data} height={176} scale={0.34} />
+      </div>
+
+      <div className="flex flex-1 flex-col p-4">
+        <h3 className="truncate pr-8 text-sm font-semibold text-fg">{title}</h3>
+
+        <div className="mt-2 flex flex-wrap items-center gap-1.5">
+          <Badge tone="neutral">{template.name}</Badge>
+          <Badge
+            tone={template.ats === "check" ? "warning" : "success"}
+            title={template.atsNote}
+          >
+            {template.ats === "check" && (
+              <TriangleAlert aria-hidden className="h-3 w-3" />
+            )}
+            {ATS_LABEL[template.ats]}
+          </Badge>
+        </div>
+
+        <p className="mt-2.5 text-xs text-fg-subtle">
+          {formatUpdated(resume.updatedAt)}
+        </p>
+
+        <div className="mt-3">
+          <CompletionBar percent={percent} />
+        </div>
+      </div>
+
       <Link
         href={`/resume/${resume._id}`}
-        className={cn(
-          "block overflow-hidden rounded-lg border border-line bg-elevated shadow-xs",
-          "transition-[border-color,box-shadow,transform] duration-200",
-          "hover:-translate-y-0.5 hover:border-line-strong hover:shadow-md",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
-        )}
+        className="absolute inset-0 z-0 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
-        {/* Abstract page thumbnail — cheap, and it recolours with the theme. */}
-        <div
-          aria-hidden
-          className="relative h-[124px] overflow-hidden border-b border-line bg-surface px-5 pt-5"
-        >
-          <div className="mx-auto h-full w-full max-w-[150px] rounded-t-sm border border-line bg-elevated p-2.5 shadow-xs">
-            <div className="h-1.5 w-2/5 rounded-full bg-line-strong" />
-            <div className="mt-1 h-1 w-1/4 rounded-full bg-line" />
-            <div className="mt-3 space-y-1">
-              {[92, 80, 88, 62].map((w, i) => (
-                <div
-                  key={i}
-                  className="h-1 rounded-full bg-line"
-                  style={{ width: `${w}%` }}
-                />
-              ))}
-            </div>
-            <div className="mt-2.5 flex gap-1">
-              {[16, 22, 13].map((w, i) => (
-                <div
-                  key={i}
-                  className="h-1.5 rounded-full bg-accent-soft"
-                  style={{ width: w }}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="p-4">
-          <h3 className="truncate pr-8 text-sm font-semibold text-fg">
-            {title}
-          </h3>
-          <p className="mt-1 text-xs text-fg-subtle">
-            {formatUpdated(resume.updatedAt)}
-          </p>
-        </div>
+        <span className="sr-only">Open {title}</span>
       </Link>
 
-      <button
-        type="button"
-        onClick={() => onDelete(resume._id)}
-        aria-label={`Delete ${title}`}
-        className={cn(
-          "absolute bottom-3.5 right-3 inline-flex h-7 w-7 items-center justify-center rounded-md",
-          "text-fg-subtle transition-colors duration-150",
-          "hover:bg-danger-soft hover:text-danger",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
-          // Hidden until hover on pointer devices, but always present for
-          // touch and keyboard so the action is never unreachable.
-          "md:opacity-0 md:group-hover:opacity-100 md:focus-visible:opacity-100",
-        )}
-      >
-        <Trash2 className="h-3.5 w-3.5" />
-      </button>
-    </div>
+      {/* Above the overlay, so the menu stays clickable. */}
+      <div className="absolute right-2.5 top-2.5 z-10">
+        <Menu
+          label={`Actions for ${title}`}
+          items={[
+            { label: "Open", icon: Pencil, href: `/resume/${resume._id}` },
+            {
+              label: "Preview",
+              icon: Eye,
+              href: `/resume/${resume._id}/preview`,
+            },
+            {
+              label: "Duplicate",
+              icon: Copy,
+              onSelect: () => onDuplicate(resume._id),
+              disabled: isDuplicating,
+            },
+            {
+              label: "Delete",
+              icon: Trash2,
+              tone: "danger",
+              onSelect: () => onDelete(resume._id),
+            },
+          ]}
+        />
+      </div>
+    </article>
   );
 }

@@ -3,10 +3,19 @@ import { Skeleton } from "@/components/ui/Skeleton";
 /** Placeholder for one card in the dashboard grid. */
 export function ResumeCardSkeleton() {
   return (
-    <div className="rounded-lg border border-line bg-elevated p-5 shadow-xs">
-      <Skeleton className="h-[104px] w-full rounded-md" />
-      <Skeleton className="mt-4 h-4 w-3/5" />
-      <Skeleton className="mt-2.5 h-3 w-2/5" />
+    <div className="overflow-hidden rounded-lg border border-line bg-elevated shadow-xs">
+      {/* Same 176px window the real thumbnail renders into. */}
+      <Skeleton className="h-44 w-full rounded-none" />
+
+      <div className="p-4">
+        <Skeleton className="h-4 w-3/5" />
+        <div className="mt-2.5 flex gap-1.5">
+          <Skeleton className="h-5 w-16 rounded-full" />
+          <Skeleton className="h-5 w-20 rounded-full" />
+        </div>
+        <Skeleton className="mt-3 h-3 w-2/5" />
+        <Skeleton className="mt-3.5 h-3 w-28" />
+      </div>
     </div>
   );
 }

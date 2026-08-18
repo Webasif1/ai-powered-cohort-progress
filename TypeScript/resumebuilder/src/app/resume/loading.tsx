@@ -6,7 +6,8 @@ import { Skeleton } from "@/components/ui/Skeleton";
 export default function Loading() {
   return (
     <div className="min-h-screen bg-bg">
-      <div className="h-14 border-b border-line" />
+      {/* Matches SiteHeader's height, or the shell jumps on hydration. */}
+      <div className="h-16 border-b border-line" />
 
       <Container className="py-10 sm:py-12">
         <div className="flex flex-wrap items-end justify-between gap-4">
@@ -16,6 +17,8 @@ export default function Loading() {
           </div>
           <Skeleton className="h-9.5 w-36 rounded-md" />
         </div>
+
+        <Skeleton className="mt-8 h-23 w-full rounded-xl" />
 
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {[0, 1, 2, 3].map((i) => (

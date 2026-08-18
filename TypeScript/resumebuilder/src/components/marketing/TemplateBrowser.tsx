@@ -6,6 +6,7 @@ import { Check, Lock, TriangleAlert } from "lucide-react";
 import { Tabs } from "@/components/ui/Tabs";
 import { Badge } from "@/components/ui/Badge";
 import { ButtonLink } from "@/components/ui/Button";
+import { ResumeThumbnail } from "@/components/resume/ResumeThumbnail";
 import {
   ATS_LABEL,
   TEMPLATES,
@@ -65,14 +66,27 @@ function TemplateCard({ template }: { template: TemplateMeta }) {
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-elevated shadow-xs transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-md">
-      <Link
-        href={`/templates/${template.id}`}
-        aria-label={`Preview the ${template.name} template`}
-        className="relative block border-b border-line bg-surface focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
-      >
-        <TemplateThumbnail template={template} />
+      {/*
+        The preview link is an overlay rather than a wrapper: templates render
+        real anchors for GitHub/LinkedIn, and `<a>` inside `<a>` is invalid
+        HTML. Keeping it a sibling of the thumbnail avoids the nesting.
+      */}
+      <div className="relative border-b border-line bg-surface">
+        <ResumeThumbnail
+          data={SAMPLE_RESUME}
+          templateId={template.id}
+          height={400}
+          scale={0.42}
+          className="bg-transparent"
+        />
 
-        <span className="absolute left-3 top-3 flex gap-1.5">
+        <Link
+          href={`/templates/${template.id}`}
+          aria-label={`Preview the ${template.name} template`}
+          className="absolute inset-0 z-10 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent"
+        />
+
+        <span className="pointer-events-none absolute left-3 top-3 z-20 flex gap-1.5">
           {isPremium ? (
             <Badge tone="accent" className="gap-1 bg-elevated shadow-xs">
               <Lock aria-hidden className="h-3 w-3" />
@@ -85,7 +99,7 @@ function TemplateCard({ template }: { template: TemplateMeta }) {
             </Badge>
           )}
         </span>
-      </Link>
+      </div>
 
       <div className="flex flex-1 flex-col p-4">
         <div className="flex items-baseline justify-between gap-3">
@@ -141,32 +155,5 @@ function TemplateCard({ template }: { template: TemplateMeta }) {
         </div>
       </div>
     </article>
-  );
-}
-
-/**
- * Renders the actual template scaled down, rather than a mock-up, so the
- * card cannot drift out of sync with what the template really produces.
- * The sheet is 760px wide; the frame is a fixed 320x400 window onto it.
- */
-export function TemplateThumbnail({ template }: { template: TemplateMeta }) {
-  const Template = template.component;
-
-  return (
-    <div
-      aria-hidden
-      className="relative h-[400px] w-full overflow-hidden"
-      // The sheet renders at its natural width and is then scaled, so the
-      // preview shows real type sizes and spacing rather than a re-layout.
-    >
-      <div className="absolute left-1/2 top-5 w-[760px] -translate-x-1/2">
-        <div className="origin-top scale-[0.42]">
-          <Template data={SAMPLE_RESUME} className="shadow-none" />
-        </div>
-      </div>
-
-      {/* Fades the cut-off bottom edge instead of slicing mid-line. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-surface to-transparent" />
-    </div>
   );
 }

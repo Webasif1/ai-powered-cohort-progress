@@ -1,4 +1,5 @@
 import axios from "axios";
+import { clearSessionHint } from "./sessionHint";
 
 export const api = axios.create({
   baseURL: "/api",
@@ -18,9 +19,10 @@ api.interceptors.response.use(
       (error.response?.status === 500 &&
         error.response?.data?.message?.includes("expired"))
     ) {
-      // Clear any stored auth data
       if (typeof window !== "undefined") {
-        // Redirect to login
+        // Without this the login page would paint signed-in header chrome
+        // from a hint the server has just told us is stale.
+        clearSessionHint();
         window.location.href = "/auth/login";
       }
     }

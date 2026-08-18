@@ -14,6 +14,15 @@ export const createResume = async (template?: string) => {
   return res.data?.data || res.data;
 };
 
+/**
+ * Same endpoint as `createResume` — the server treats a `from` id as "copy
+ * this one" so the free-template whitelist has a single implementation.
+ */
+export const duplicateResume = async (resumeId: string) => {
+  const res = await api.post("/resumes/create", { from: resumeId });
+  return res.data?.data || res.data;
+};
+
 export const getResumeById = async (resumeId: string) => {
   const res = await api.get(`/resumes/${resumeId}`);
   // Return the resume object

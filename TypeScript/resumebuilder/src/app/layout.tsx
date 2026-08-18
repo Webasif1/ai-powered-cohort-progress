@@ -5,8 +5,10 @@ import {
   ThemeProvider,
   themeInitScript,
 } from "@/components/providers/ThemeProvider";
+import { SessionProvider } from "@/components/providers/SessionProvider";
 import { ToastHost } from "@/components/ui/ToastHost";
 import { SplashScreen } from "@/components/ui/SplashScreen";
+import { sessionInitScript } from "@/lib/sessionHint";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,6 +52,12 @@ export default function RootLayout({
         */}
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         {/*
+          Same trick for the session: stamps `data-session` on <html> so the
+          header can paint signed-in chrome on the first frame instead of
+          flashing "Sign in" and then swapping once /api/auth/check answers.
+        */}
+        <script dangerouslySetInnerHTML={{ __html: sessionInitScript }} />
+        {/*
           The splash is dismissed by JavaScript. Without this it would cover
           the page permanently for anyone who has scripting disabled.
         */}
@@ -62,9 +70,11 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ThemeProvider>
-          <SplashScreen />
-          {children}
-          <ToastHost />
+          <SessionProvider>
+            <SplashScreen />
+            {children}
+            <ToastHost />
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>

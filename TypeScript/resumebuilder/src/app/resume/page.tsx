@@ -5,14 +5,23 @@ import { useRouter } from "next/navigation";
 import { FileText, Plus } from "lucide-react";
 import toast from "react-hot-toast";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import { AppHeader } from "@/components/layout/AppHeader";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Container } from "@/components/layout/Container";
 import { ResumeCardSkeleton } from "@/components/SkeletonLoader";
+import { DashboardStats } from "@/components/resume/DashboardStats";
 import { ResumeCard, type ResumeSummary } from "@/components/resume/ResumeCard";
+import { TemplatePickerDialog } from "@/components/resume/TemplatePickerDialog";
+import type { TemplateId } from "@/components/resume/templates/registry";
 import { Button } from "@/components/ui/Button";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { createResume, deleteResume, getAllResumes } from "@/apis/resume.api";
+import { Skeleton } from "@/components/ui/Skeleton";
+import {
+  createResume,
+  deleteResume,
+  duplicateResume,
+  getAllResumes,
+} from "@/apis/resume.api";
 
 export default function ResumeDashboard() {
   return (
@@ -27,6 +36,8 @@ function DashboardContent() {
   const [resumes, setResumes] = useState<ResumeSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [duplicatingId, setDuplicatingId] = useState<string | null>(null);
   const [pendingDelete, setPendingDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -46,14 +57,33 @@ function DashboardContent() {
     fetchResumes();
   }, [fetchResumes]);
 
-  const handleCreate = async () => {
+  // Creating from here used to skip the layout choice entirely and always
+  // produce a Classic resume; now the same picker the gallery offers runs
+  // first.
+  const handleSelectTemplate = async (templateId: TemplateId) => {
     try {
       setIsCreating(true);
-      const created = await createResume();
+      const created = await createResume(templateId);
       router.push(`/resume/${created._id}`);
     } catch {
       toast.error("Could not create a resume");
       setIsCreating(false);
+      setPickerOpen(false);
+    }
+  };
+
+  const handleDuplicate = async (id: string) => {
+    try {
+      setDuplicatingId(id);
+      const copy = await duplicateResume(id);
+      // The server sorts newest-first and the copy is the newest thing there
+      // is, so prepending matches what a refetch would return.
+      setResumes((prev) => [copy, ...prev]);
+      toast.success("Duplicated");
+    } catch {
+      toast.error("Could not duplicate that resume");
+    } finally {
+      setDuplicatingId(null);
     }
   };
 
@@ -79,7 +109,7 @@ function DashboardContent() {
 
   return (
     <div className="min-h-screen bg-bg">
-      <AppHeader />
+      <SiteHeader solid />
 
       <Container className="py-10 sm:py-12">
         <div className="flex flex-wrap items-end justify-between gap-4">
@@ -98,7 +128,7 @@ function DashboardContent() {
 
           <Button
             variant="primary"
-            onClick={handleCreate}
+            onClick={() => setPickerOpen(true)}
             isLoading={isCreating}
             loadingText="Creating"
           >
@@ -106,6 +136,14 @@ function DashboardContent() {
             New resume
           </Button>
         </div>
+
+        {isLoading ? (
+          <Skeleton className="mt-8 h-23 w-full rounded-xl" />
+        ) : (
+          <div className="mt-8 empty:mt-0">
+            <DashboardStats resumes={resumes} />
+          </div>
+        )}
 
         <div className="mt-8">
           {isLoading ? (
@@ -122,7 +160,7 @@ function DashboardContent() {
               action={
                 <Button
                   variant="primary"
-                  onClick={handleCreate}
+                  onClick={() => setPickerOpen(true)}
                   isLoading={isCreating}
                   loadingText="Creating"
                 >
@@ -139,13 +177,25 @@ function DashboardContent() {
                   className="animate-[rise_0.32s_cubic-bezier(0.22,1,0.36,1)_both]"
                   style={{ animationDelay: `${Math.min(index, 8) * 40}ms` }}
                 >
-                  <ResumeCard resume={resume} onDelete={setPendingDelete} />
+                  <ResumeCard
+                    resume={resume}
+                    onDelete={setPendingDelete}
+                    onDuplicate={handleDuplicate}
+                    isDuplicating={duplicatingId === resume._id}
+                  />
                 </li>
               ))}
             </ul>
           )}
         </div>
       </Container>
+
+      <TemplatePickerDialog
+        open={pickerOpen}
+        onClose={() => setPickerOpen(false)}
+        onSelect={handleSelectTemplate}
+        isCreating={isCreating}
+      />
 
       <ConfirmDialog
         open={pendingDelete !== null}

@@ -11,7 +11,8 @@ import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { getResumeById } from "@/apis/resume.api";
-import { EMPTY_RESUME, type ResumeData } from "@/types/resume.types";
+import { normalizeResume } from "@/lib/resumeData";
+import { type ResumeData } from "@/types/resume.types";
 
 /**
  * This route did not exist. The editor's "Preview" link and "Download PDF"
@@ -57,19 +58,7 @@ function PreviewContent() {
       .then((res) => {
         if (cancelled) return;
 
-        setData({
-          ...EMPTY_RESUME,
-          _id: res._id || resumeId,
-          title: res.title || "Untitled Resume",
-          template: res.template || EMPTY_RESUME.template,
-          personalInfo: { ...EMPTY_RESUME.personalInfo, ...res.personalInfo },
-          summary: res.summary ?? res.summery ?? "",
-          experience: res.experience ?? res.workExperience ?? [],
-          projects: res.projects ?? [],
-          skills: res.skills ?? [],
-          education: res.education ?? [],
-          certifications: res.certifications ?? [],
-        });
+        setData(normalizeResume(res, resumeId));
       })
       .catch(() => {
         if (!cancelled) toast.error("Could not load that resume");

@@ -22,6 +22,8 @@ import { Tabs } from "@/components/ui/Tabs";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { EMPTY_RESUME, type ResumeData } from "@/types/resume.types";
 import { getResumeById, updateResume } from "@/apis/resume.api";
+import { completionPercent } from "@/lib/completion";
+import { normalizeResume } from "@/lib/resumeData";
 import { cn } from "@/lib/cn";
 
 export default function ResumeEditorPage() {
@@ -66,23 +68,7 @@ function ResumeEditorContent() {
     const load = async () => {
       try {
         const res = await getResumeById(resumeId);
-
-        // Documents written before the schema was aligned still carry the
-        // legacy `summery` / `workExperience` names.
-        const loaded: ResumeData = {
-          ...EMPTY_RESUME,
-          _id: res._id || resumeId,
-          title: res.title || "Untitled Resume",
-          // Resumes created before templates existed have no value here.
-          template: res.template || EMPTY_RESUME.template,
-          personalInfo: { ...EMPTY_RESUME.personalInfo, ...res.personalInfo },
-          summary: res.summary ?? res.summery ?? "",
-          experience: res.experience ?? res.workExperience ?? [],
-          projects: res.projects ?? [],
-          skills: res.skills ?? [],
-          education: res.education ?? [],
-          certifications: res.certifications ?? [],
-        };
+        const loaded = normalizeResume(res, resumeId);
 
         setData(loaded);
         setTitle(loaded.title);
@@ -189,17 +175,9 @@ function ResumeEditorContent() {
     [data.experience],
   );
 
-  const completion = useMemo(() => {
-    const checks = [
-      Boolean(data.personalInfo.fullName && data.personalInfo.email),
-      Boolean(data.summary.trim()),
-      data.experience.length > 0,
-      data.projects.length > 0,
-      data.skills.length > 0,
-      data.education.length > 0,
-    ];
-    return Math.round((checks.filter(Boolean).length / checks.length) * 100);
-  }, [data]);
+  // Shared with the dashboard cards, so the same resume cannot read 60% here
+  // and 50% there.
+  const completion = useMemo(() => completionPercent(data), [data]);
 
   if (isLoading) return <ResumeEditorSkeleton />;
 

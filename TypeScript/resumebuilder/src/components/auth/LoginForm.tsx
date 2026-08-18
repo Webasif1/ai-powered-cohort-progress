@@ -7,9 +7,11 @@ import { AlertCircle, ArrowRight, Mail } from "lucide-react";
 import toast from "react-hot-toast";
 import { AuthShell } from "@/components/auth/AuthShell";
 import { PasswordInput } from "@/components/auth/PasswordInput";
+import { useSession } from "@/components/providers/SessionProvider";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Field";
 import { loginUser } from "@/apis/auth.api";
+import { setSessionHint } from "@/lib/sessionHint";
 
 /**
  * `next` arrives as a prop from the server page rather than through
@@ -19,6 +21,7 @@ import { loginUser } from "@/apis/auth.api";
  */
 export function LoginForm({ next }: { next: string }) {
   const router = useRouter();
+  const { refresh } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -35,6 +38,14 @@ export function LoginForm({ next }: { next: string }) {
 
     try {
       await loginUser(formData);
+
+      // The provider already answered "signed out" while this page loaded,
+      // so it has to be told the answer changed — otherwise `ProtectedRoute`
+      // would bounce the user straight back here. `setSessionHint` covers the
+      // next cold load; `refresh` covers this one.
+      setSessionHint();
+      await refresh();
+
       toast.success("Welcome back");
       router.push(next);
     } catch (err: unknown) {

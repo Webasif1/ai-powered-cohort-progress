@@ -7,13 +7,16 @@ import { AlertCircle, ArrowRight, Mail, Phone, User } from "lucide-react";
 import toast from "react-hot-toast";
 import { AuthShell } from "@/components/auth/AuthShell";
 import { PasswordInput } from "@/components/auth/PasswordInput";
+import { useSession } from "@/components/providers/SessionProvider";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Field";
 import { registerUser } from "@/apis/auth.api";
+import { setSessionHint } from "@/lib/sessionHint";
 
 /** See the note in LoginForm: `next` is a prop so the form stays in the HTML. */
 export function RegisterForm({ next }: { next: string }) {
   const router = useRouter();
+  const { refresh } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
@@ -35,6 +38,12 @@ export function RegisterForm({ next }: { next: string }) {
 
     try {
       await registerUser(formData);
+
+      // See LoginForm — the provider's cached "signed out" answer has to be
+      // replaced before navigating into a protected route.
+      setSessionHint();
+      await refresh();
+
       toast.success("Account created");
       router.push(next);
     } catch (err: unknown) {

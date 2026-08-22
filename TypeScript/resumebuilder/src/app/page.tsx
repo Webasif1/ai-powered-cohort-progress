@@ -16,6 +16,7 @@ import { ScorePanel } from "@/components/marketing/ScorePanel";
 import { StatsBand } from "@/components/marketing/StatsBand";
 import { TemplateGallery } from "@/components/marketing/TemplateGallery";
 import { FAQ } from "@/components/marketing/FAQ";
+import { Reveal } from "@/components/motion/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 
@@ -90,7 +91,7 @@ export default function LandingPage() {
           <GuideFrame />
 
           <Container className="relative">
-            <div className="mx-auto max-w-3xl text-center">
+            <Reveal as="div" className="mx-auto max-w-3xl text-center" stagger>
               <Badge
                 tone="neutral"
                 className="gap-2 bg-elevated py-1 pl-1 pr-3 shadow-xs"
@@ -125,24 +126,28 @@ export default function LandingPage() {
               <p className="mt-5 text-xs text-fg-subtle">
                 Free to start · No card required · Export as PDF
               </p>
-            </div>
+            </Reveal>
           </Container>
 
           <div className="relative mt-16 sm:mt-20">
             <GuideRule />
             <Container className="pt-10">
-              <HeroShowcase />
+              <Reveal delay={0.1}>
+                <HeroShowcase />
+              </Reveal>
             </Container>
           </div>
         </section>
 
         {/* ==================== STATS ==================== */}
-        <StatsBand />
+        <Reveal>
+          <StatsBand />
+        </Reveal>
 
         {/* ==================== FEATURES ==================== */}
         <section id="features" className="scroll-mt-20 py-20 sm:py-28">
           <Container>
-            <div className="max-w-2xl">
+            <Reveal as="div" className="max-w-2xl">
               <p className="text-[13px] font-medium text-accent">Features</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-fg sm:text-4xl">
                 Every part of the page, handled
@@ -151,9 +156,18 @@ export default function LandingPage() {
                 Six tools that each remove one of the jobs that makes writing a
                 resume take an entire weekend.
               </p>
-            </div>
+            </Reveal>
 
-            <ul className="mt-12 grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+            {/*
+              Fade only — these tiles sit on a `gap-px` parent whose background
+              draws the hairline grid, so moving them would tear the seams.
+            */}
+            <Reveal
+              as="ul"
+              className="mt-12 grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3"
+              stagger
+              y={0}
+            >
               {features.map((feature) => (
                 <li
                   key={feature.title}
@@ -173,7 +187,7 @@ export default function LandingPage() {
                   </p>
                 </li>
               ))}
-            </ul>
+            </Reveal>
           </Container>
         </section>
 
@@ -185,16 +199,16 @@ export default function LandingPage() {
           className="scroll-mt-20 bg-surface py-20 sm:py-28"
         >
           <Container>
-            <div className="max-w-2xl">
+            <Reveal as="div" className="max-w-2xl">
               <p className="text-[13px] font-medium text-accent">
                 How it works
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-fg sm:text-4xl">
                 Three steps, one sitting
               </h2>
-            </div>
+            </Reveal>
 
-            <ol className="mt-12 grid gap-8 sm:grid-cols-3">
+            <Reveal as="ol" className="mt-12 grid gap-8 sm:grid-cols-3" stagger>
               {steps.map((step) => (
                 <li key={step.number} className="relative">
                   <span className="block font-mono text-xs text-fg-subtle">
@@ -210,7 +224,7 @@ export default function LandingPage() {
                   </span>
                 </li>
               ))}
-            </ol>
+            </Reveal>
           </Container>
         </section>
 
@@ -219,7 +233,7 @@ export default function LandingPage() {
         {/* ==================== TEMPLATES ==================== */}
         <section id="templates" className="scroll-mt-20 py-20 sm:py-28">
           <Container>
-            <div className="max-w-2xl">
+            <Reveal as="div" className="max-w-2xl">
               <p className="text-[13px] font-medium text-accent">Templates</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-fg sm:text-4xl">
                 Layouts a parser can read
@@ -229,11 +243,11 @@ export default function LandingPage() {
                 The decorative two-column layouts other builders push are
                 exactly what applicant tracking systems garble.
               </p>
-            </div>
+            </Reveal>
 
-            <div className="mt-12">
+            <Reveal className="mt-12">
               <TemplateGallery />
-            </div>
+            </Reveal>
           </Container>
         </section>
 
@@ -242,7 +256,11 @@ export default function LandingPage() {
         {/* ==================== ATS ==================== */}
         <section id="ats" className="scroll-mt-20 py-20 sm:py-28">
           <Container>
-            <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+            <Reveal
+              as="div"
+              className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16"
+              stagger
+            >
               <div>
                 <p className="text-[13px] font-medium text-accent">
                   ATS scoring
@@ -288,7 +306,7 @@ export default function LandingPage() {
               </div>
 
               <ScorePanel />
-            </div>
+            </Reveal>
           </Container>
         </section>
 
@@ -297,7 +315,11 @@ export default function LandingPage() {
         {/* ==================== FAQ ==================== */}
         <section id="faq" className="scroll-mt-20 py-20 sm:py-28">
           <Container>
-            <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16">
+            <Reveal
+              as="div"
+              className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16"
+              stagger
+            >
               <div>
                 <p className="text-[13px] font-medium text-accent">FAQ</p>
                 <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-fg sm:text-4xl">
@@ -310,13 +332,14 @@ export default function LandingPage() {
               </div>
 
               <FAQ />
-            </div>
+            </Reveal>
           </Container>
         </section>
 
         {/* ==================== CTA ==================== */}
         <section className="border-t border-line bg-surface py-20 sm:py-24">
           <Container className="text-center">
+            <Reveal>
             <h2 className="mx-auto max-w-2xl text-3xl font-semibold tracking-[-0.03em] text-fg sm:text-4xl">
               Your next resume is about twenty minutes away
             </h2>
@@ -332,6 +355,7 @@ export default function LandingPage() {
               Create your resume
               <ArrowRight className="h-4 w-4" />
             </ButtonLink>
+            </Reveal>
           </Container>
         </section>
       </main>

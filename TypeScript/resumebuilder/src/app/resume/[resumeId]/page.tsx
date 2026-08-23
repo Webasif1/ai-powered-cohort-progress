@@ -15,6 +15,7 @@ import Skills from "@/components/resume/Skills";
 import Education from "@/components/resume/Education";
 import Certifications from "@/components/resume/Certifications";
 import ResumePreview from "@/components/resume/ResumePreview";
+import { AtsPanel } from "@/components/resume/AtsPanel";
 import { TemplatePicker } from "@/components/resume/TemplatePicker";
 import { CompletionBar, SaveStatus, type SaveState } from "@/components/resume/SaveStatus";
 import { Button, ButtonLink } from "@/components/ui/Button";
@@ -297,6 +298,7 @@ function ResumeEditorContent() {
               value={data.template}
               onChange={(v) => updateField("template", v)}
             />
+            <AtsPanel data={data} />
             <PersonalInformation
               data={data.personalInfo}
               onChange={(v) => updateField("personalInfo", v)}

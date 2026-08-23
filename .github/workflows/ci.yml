@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# A newer push makes an in-flight run redundant.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: TypeScript/resumebuilder
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: TypeScript/resumebuilder/package-lock.json
+
+      - run: npm ci
+
+      - run: npm run typecheck
+
+      - run: npm run lint
+
+      # `src/lib/env.ts` validates at import, and `next build` imports it while
+      # prerendering. These are throwaway values that satisfy the schema —
+      # nothing here reaches a real service, and the build makes no network
+      # calls of its own.
+      - name: Build
+        run: npm run build
+        env:
+          MONGO_URI: mongodb://127.0.0.1:27017/ci
+          JWT_SECRET: ci-only-placeholder-secret-not-used-anywhere-32
+          GEMINI_API_KEY: ci-placeholder

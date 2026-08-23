@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { ArrowRight } from "lucide-react";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { Container } from "@/components/layout/Container";
+import { AuthAwareCta } from "@/components/marketing/AuthAwareCta";
 import { GuideRule } from "@/components/marketing/GuideFrame";
 import { TemplateBrowser } from "@/components/marketing/TemplateBrowser";
 import { ButtonLink } from "@/components/ui/Button";
@@ -39,10 +39,12 @@ export default function TemplatesPage() {
               </p>
 
               <div className="mt-7 flex flex-wrap gap-3">
-                <ButtonLink href="/auth/register" variant="primary" size="lg">
-                  Start building
-                  <ArrowRight className="h-4 w-4" />
-                </ButtonLink>
+                <AuthAwareCta
+                  signedOutHref="/auth/register"
+                  signedOutLabel="Start building"
+                  signedInHref="/resume"
+                  signedInLabel="Go to your resumes"
+                />
                 <ButtonLink href="/#faq" variant="secondary" size="lg">
                   How export works
                 </ButtonLink>

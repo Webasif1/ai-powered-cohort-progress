@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { LoginForm } from "@/components/auth/LoginForm";
+import { RedirectIfSignedIn } from "@/components/auth/RedirectIfSignedIn";
 import { safeRedirect } from "@/lib/safeRedirect";
 
 export const metadata: Metadata = {
@@ -20,6 +21,12 @@ export default async function LoginPage({
   searchParams: Promise<{ next?: string }>;
 }) {
   const { next } = await searchParams;
+  const destination = safeRedirect(next);
 
-  return <LoginForm next={safeRedirect(next)} />;
+  return (
+    <>
+      <RedirectIfSignedIn next={destination} />
+      <LoginForm next={destination} />
+    </>
+  );
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { RedirectIfSignedIn } from "@/components/auth/RedirectIfSignedIn";
 import { RegisterForm } from "@/components/auth/RegisterForm";
 import { safeRedirect } from "@/lib/safeRedirect";
 
@@ -13,6 +14,12 @@ export default async function RegisterPage({
   searchParams: Promise<{ next?: string }>;
 }) {
   const { next } = await searchParams;
+  const destination = safeRedirect(next);
 
-  return <RegisterForm next={safeRedirect(next)} />;
+  return (
+    <>
+      <RedirectIfSignedIn next={destination} />
+      <RegisterForm next={destination} />
+    </>
+  );
 }

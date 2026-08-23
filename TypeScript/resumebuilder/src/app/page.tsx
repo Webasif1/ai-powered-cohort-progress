@@ -1,5 +1,4 @@
 import {
-  ArrowRight,
   FileText,
   FolderGit2,
   Gauge,
@@ -10,6 +9,7 @@ import {
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { Container } from "@/components/layout/Container";
+import { AuthAwareCta } from "@/components/marketing/AuthAwareCta";
 import { GuideFrame, GuideRule } from "@/components/marketing/GuideFrame";
 import { HeroShowcase } from "@/components/marketing/HeroShowcase";
 import { ScorePanel } from "@/components/marketing/ScorePanel";
@@ -114,10 +114,12 @@ export default function LandingPage() {
               </p>
 
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <ButtonLink href="/auth/register" variant="primary" size="lg">
-                  Start building
-                  <ArrowRight className="h-4 w-4" />
-                </ButtonLink>
+                <AuthAwareCta
+                  signedOutHref="/auth/register"
+                  signedOutLabel="Start building"
+                  signedInHref="/resume"
+                  signedInLabel="Go to your resumes"
+                />
                 <ButtonLink href="#how-it-works" variant="secondary" size="lg">
                   See how it works
                 </ButtonLink>
@@ -294,15 +296,15 @@ export default function LandingPage() {
                   ))}
                 </ul>
 
-                <ButtonLink
-                  href="/auth/register"
+                <AuthAwareCta
+                  signedOutHref="/auth/register"
+                  signedOutLabel="Score my resume"
+                  signedInHref="/resume"
+                  signedInLabel="Score a resume"
                   variant="secondary"
                   size="md"
                   className="mt-8"
-                >
-                  Score my resume
-                  <ArrowRight className="h-4 w-4" />
-                </ButtonLink>
+                />
               </div>
 
               <ScorePanel />
@@ -346,15 +348,13 @@ export default function LandingPage() {
             <p className="mx-auto mt-4 max-w-lg text-[15px] leading-relaxed text-fg-muted">
               Start with a blank page and let the AI fill in the hard parts.
             </p>
-            <ButtonLink
-              href="/auth/register"
-              variant="primary"
-              size="lg"
+            <AuthAwareCta
+              signedOutHref="/auth/register"
+              signedOutLabel="Create your resume"
+              signedInHref="/resume"
+              signedInLabel="Create a resume"
               className="mt-8"
-            >
-              Create your resume
-              <ArrowRight className="h-4 w-4" />
-            </ButtonLink>
+            />
             </Reveal>
           </Container>
         </section>

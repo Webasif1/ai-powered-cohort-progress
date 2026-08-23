@@ -31,7 +31,8 @@ const columns: {
     ],
   },
   {
-    // TODO: none of these exist yet — build the pages, then add hrefs.
+    // No hrefs on purpose — these render as plain text until the pages
+    // exist, so the footer never points at a 404.
     heading: "Resources",
     links: [
       { label: "Resume examples" },

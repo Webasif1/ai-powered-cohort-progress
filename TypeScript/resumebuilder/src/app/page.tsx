@@ -14,7 +14,7 @@ import { GuideFrame, GuideRule } from "@/components/marketing/GuideFrame";
 import { HeroShowcase } from "@/components/marketing/HeroShowcase";
 import { ScorePanel } from "@/components/marketing/ScorePanel";
 import { StatsBand } from "@/components/marketing/StatsBand";
-import { TemplateGallery } from "@/components/marketing/TemplateGallery";
+import { TemplatePreviewGrid } from "@/components/marketing/TemplatePreviewGrid";
 import { FAQ } from "@/components/marketing/FAQ";
 import { Reveal } from "@/components/motion/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
@@ -246,7 +246,7 @@ export default function LandingPage() {
             </Reveal>
 
             <Reveal className="mt-12">
-              <TemplateGallery />
+              <TemplatePreviewGrid />
             </Reveal>
           </Container>
         </section>

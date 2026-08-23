@@ -1,15 +1,16 @@
 import { Container } from "@/components/layout/Container";
 
 /**
- * TODO: replace with real figures before this goes live.
+ * Product facts, not growth metrics — every number here is checkable against
+ * the app, which is why there are no user or download counts.
  *
- * These are deliberately round placeholder numbers rather than invented
- * precise ones — "4,510,834 users" reads as a real metric and would be a
- * fabricated claim. Swap them for your own analytics.
+ * Keep them in step with the code: `sections` is what the editor renders,
+ * `AI writing tools` is what `apis/ai.api.ts` exposes, and `templates` is the
+ * free tier of the template registry.
  */
 const stats = [
-  { value: "6", suffix: "", label: "guided sections", note: "from contact details to certifications" },
-  { value: "5", suffix: "", label: "AI writing tools", note: "summary, skills, experience, projects, rewrite" },
+  { value: "7", suffix: "", label: "guided sections", note: "from contact details to certifications" },
+  { value: "6", suffix: "", label: "AI writing tools", note: "summary, skills, experience, projects, rewrite, ATS score" },
   { value: "A4", suffix: "", label: "print-ready export", note: "selectable text, not a flattened image" },
   { value: "0", suffix: "", label: "cost to start", note: "no card required" },
 ];

@@ -1,94 +1,74 @@
-import { generateAiContent } from "@/lib/gemini";
-import { AtsScoreBody } from "@/types/ai.types";
-import { ApiResponse } from "@/types/api.types";
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { AiTimeoutError, generateAiContent } from "@/lib/gemini";
+import { connectDB } from "@/lib/mongodb";
+import { logExpected } from "@/lib/logger";
+import {
+  enforceLimit,
+  fail,
+  guard,
+  ok,
+  parseBody,
+  requireUser,
+} from "../../_lib/respond";
+import { atsPrompt } from "../_lib/prompts";
+import { atsResponseSchema, atsResultSchema, atsScoreSchema } from "../_lib/schemas";
+
+/**
+ * Scoring is the most expensive call in the app — a whole resume in, a
+ * structured object out — so it gets its own tighter limit rather than
+ * sharing the general AI budget.
+ */
+const LIMIT = 6;
+const WINDOW_SECONDS = 60;
+
+/** Strips a ```json fence the model sometimes adds despite being told not to. */
+function unfence(raw: string): string {
+  const fenced = raw.trim().match(/^```(?:json)?\s*\n?([\s\S]*?)\n?```$/i);
+  return fenced ? fenced[1].trim() : raw.trim();
+}
 
 export async function POST(req: NextRequest) {
-  try {
-    const body: AtsScoreBody = await req.json();
+  return guard("ai/ats-score", async () => {
+    await connectDB();
 
-    const { resumeText } = body;
+    const auth = await requireUser();
+    if ("response" in auth) return auth.response;
 
-    if (!resumeText)
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "Something went wrong",
-        },
-        { status: 400 },
-      );
+    const limited = await enforceLimit(req, "ats", auth.userId, LIMIT, WINDOW_SECONDS);
+    if (limited) return limited;
 
-    const prompt = `You are an expert ATS (Applicant Tracking System) analyst and professional resume reviewer with deep knowledge of how modern ATS software parses and ranks resumes.
+    const parsed = await parseBody(req, atsScoreSchema);
+    if ("response" in parsed) return parsed.response;
 
-    Analyze the following resume text and evaluate how well it would perform when scanned by an ATS:
-
-    Resume Text:
-    """
-    {resumeText}
-    """
-
-    Evaluate the resume across these categories:
-    1. Keyword Optimization — presence of relevant, role-specific keywords and skills.
-    2. Formatting & Structure — use of standard, ATS-parseable section headers (e.g., "Experience", "Education", "Skills"), absence of tables/columns/graphics that break parsing, consistent date formats.
-    3. Action Verbs & Impact — use of strong action verbs and quantifiable achievements (numbers, percentages, metrics).
-    4. Contact & Essential Info — presence of clear contact information, job titles, and dates.
-    5. Clarity & Conciseness — readability, absence of redundant or filler content.
-
-    Rules:
-    1. Give an overall ATS score from 0 to 100 based on the categories above.
-    2. Give a sub-score from 0 to 100 for each of the 5 categories.
-    3. List 3–5 specific strengths found in the resume.
-    4. List 3–5 specific, actionable weaknesses or issues found in the resume.
-    5. List 3–5 specific, actionable suggestions for improvement — concrete rewrites or additions, not vague advice like "add more keywords".
-    6. Base the evaluation strictly on the provided resume text — do not assume information that isn't present.
-    7. Be honest and critical — do not inflate the score to be encouraging. A weak resume should score low.
-    8. Output ONLY a valid JSON object matching this exact structure — no markdown, no explanation, no code fences, nothing else:
-
-    {
-      "overallScore": number,
-      "categoryScores": {
-        "keywordOptimization": number,
-        "formattingStructure": number,
-        "actionVerbsImpact": number,
-        "contactEssentialInfo": number,
-        "clarityConciseness": number
-      },
-      "strengths": string[],
-      "weaknesses": string[],
-      "suggestions": string[]
-    }
-
-    Output:
-    return only the json object.
-    `;
-
-    const result = await generateAiContent(prompt);
-
-    let atsScore = result;
-
-    if (typeof atsScore === "string") {
-      try {
-        atsScore = JSON.parse(atsScore);
-      } catch (error) {
-        console.log("Failed to parse skill", error);
+    let raw: string;
+    try {
+      raw = await generateAiContent(atsPrompt(parsed.data), {
+        jsonSchema: atsResponseSchema,
+      });
+    } catch (error) {
+      if (error instanceof AiTimeoutError) {
+        return fail("Scoring took too long. Try again.", 504);
       }
+      throw error;
     }
 
-    return NextResponse.json<ApiResponse>({
-      success: true,
-      message: "improved content created",
-      data: {
-        atsScore,
-      },
-    });
-  } catch (error) {
-    console.log("Error in improved content api", error);
-    return NextResponse.json<ApiResponse>(
-      {
-        success: false,
-        message: "Something went wrong",
-      },
-      { status: 500 },
-    );
-  }
+    // The old route did `JSON.parse` and passed whatever came out straight to
+    // the UI — including, on a parse failure, the raw string. Validate the
+    // shape so the client can rely on it.
+    let candidate: unknown;
+    try {
+      candidate = JSON.parse(unfence(raw));
+    } catch (error) {
+      logExpected("ai/ats-score", error);
+      return fail("The AI returned an unreadable score. Try again.", 502);
+    }
+
+    const result = atsResultSchema.safeParse(candidate);
+    if (!result.success) {
+      logExpected("ai/ats-score", result.error);
+      return fail("The AI returned an unexpected score format. Try again.", 502);
+    }
+
+    return ok("ATS score created", { atsScore: result.data });
+  });
 }

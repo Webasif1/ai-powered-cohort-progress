@@ -33,6 +33,12 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# ...except the templates, which hold placeholders only and are the reference
+# for what a deployment needs. `.env.docker.example` was already tracked from
+# before this rule; `!` makes that explicit rather than accidental.
+!.env.example
+!.env.docker.example
+
 # vercel
 .vercel
 

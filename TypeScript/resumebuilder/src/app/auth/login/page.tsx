@@ -4,6 +4,9 @@ import { safeRedirect } from "@/lib/safeRedirect";
 
 export const metadata: Metadata = {
   title: "Sign in",
+  // Nothing here is a landing page worth indexing, and a `?next=` variant in
+  // search results is worse than useless.
+  robots: { index: false, follow: false },
 };
 
 /**

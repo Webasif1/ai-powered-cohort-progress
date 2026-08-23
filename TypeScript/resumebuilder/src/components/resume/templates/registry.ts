@@ -6,16 +6,15 @@ import { BannerTemplate } from "./BannerTemplate";
 import { SidebarTemplate } from "./SidebarTemplate";
 import { TimelineTemplate } from "./TimelineTemplate";
 import type { TemplateProps } from "./shared";
+import { DEFAULT_TEMPLATE, type TemplateId, type TemplateTier } from "./ids";
 
-export type TemplateId =
-  | "classic"
-  | "minimal"
-  | "compact"
-  | "banner"
-  | "sidebar"
-  | "timeline";
-
-export type TemplateTier = "free" | "premium";
+export {
+  DEFAULT_TEMPLATE,
+  FREE_TEMPLATE_IDS,
+  TEMPLATE_TIERS,
+  type TemplateId,
+  type TemplateTier,
+} from "./ids";
 
 /** How safely a layout survives an applicant tracking system's parser. */
 export type AtsRating = "excellent" | "good" | "check";
@@ -111,8 +110,6 @@ export const TEMPLATES: TemplateMeta[] = [
     component: TimelineTemplate,
   },
 ];
-
-export const DEFAULT_TEMPLATE: TemplateId = "classic";
 
 export function getTemplate(id: string | undefined): TemplateMeta {
   return (

@@ -72,7 +72,10 @@ const resumeSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      index: true,
+      // Belt and braces behind the PATCH allowlist. A writable owner field
+      // meant a caller could move their own document into another account's
+      // dashboard, where it would be served as that user's own.
+      immutable: true,
     },
     title: { type: String, default: "Untitled Resume" },
     // Layout id from the template registry. Documents written before
@@ -92,8 +95,18 @@ const resumeSchema = new Schema(
     summery: { type: String, default: undefined },
     workExperience: { type: [experienceSchema], default: undefined },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    // Index builds are a deploy-time operation, not something to run against
+    // the cluster on every cold container start.
+    autoIndex: process.env.NODE_ENV !== "production",
+  },
 );
+
+// The dashboard query is `find({user_id}).sort({updatedAt:-1})`. With only a
+// single-field index on `user_id`, Mongo fetches every one of a user's
+// documents and sorts them in memory — which hard-fails past 32 MB.
+resumeSchema.index({ user_id: 1, updatedAt: -1 });
 
 const ResumeModel =
   mongoose.models.Resume || mongoose.model("Resume", resumeSchema);

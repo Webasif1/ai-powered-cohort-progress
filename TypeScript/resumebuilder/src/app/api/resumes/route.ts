@@ -1,56 +1,31 @@
-import { getCurrentUser } from "@/lib/getCurrentUser";
 import { connectDB } from "@/lib/mongodb";
 import ResumeModel from "@/models/Resume.model";
-import { ApiResponse } from "@/types/api.types";
-import { NextRequest, NextResponse } from "next/server";
+import { guard, ok, requireUser } from "../_lib/respond";
 
-export async function GET(req: NextRequest) {
-  try {
+/**
+ * Nobody legitimately has more resumes than this, and without a ceiling one
+ * account can make the dashboard response grow without bound.
+ */
+const MAX_RESUMES = 60;
+
+export async function GET() {
+  return guard("resumes/list", async () => {
     await connectDB();
 
-    const userID = await getCurrentUser();
-    if (!userID) {
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "Unauthorized - Please log in again",
-        },
-        { status: 401 } // Return 401, not 500
-      );
-    }
+    const auth = await requireUser();
+    if ("response" in auth) return auth.response;
 
-    const resumes = await ResumeModel.find({
-      user_id: userID,
-    }).sort({ updatedAt: -1 });
+    // `.lean()` because these are serialized to JSON immediately — hydrating
+    // full Mongoose documents first was pure waste. The dashboard genuinely
+    // needs every section (it renders the real template and computes
+    // completeness), so there is no projection to add.
+    const resumes = await ResumeModel.find({ user_id: auth.userId })
+      .sort({ updatedAt: -1 })
+      .limit(MAX_RESUMES)
+      .lean();
 
-    return NextResponse.json<ApiResponse>(
-      {
-        success: true,
-        message: "All resumes fetched successfully",
-        data: resumes,
-      },
-      { status: 200 }
-    );
-  } catch (error: any) {
-    console.log("Error in get all resumes api:", error);
-
-    // Check if it's a JWT error
-    if (error.name === "TokenExpiredError" || error.name === "JsonWebTokenError") {
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "Session expired - Please log in again",
-        },
-        { status: 401 }
-      );
-    }
-
-    return NextResponse.json<ApiResponse>(
-      {
-        success: false,
-        message: "Something went wrong",
-      },
-      { status: 500 }
-    );
-  }
+    // `data` is the array itself — the existing wire contract that
+    // `getAllResumes` reads.
+    return ok("Resumes fetched successfully", resumes);
+  });
 }

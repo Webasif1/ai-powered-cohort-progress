@@ -1,36 +1,14 @@
 import { getCurrentUser } from "@/lib/getCurrentUser";
-import { ApiResponse } from "@/types/api.types";
-import { NextRequest, NextResponse } from "next/server";
+import { guard, ok, unauthorized } from "../../_lib/respond";
 
-export async function GET(req: NextRequest) {
-  try {
+export async function GET() {
+  return guard("auth/check", async () => {
     const userID = await getCurrentUser();
+    if (!userID) return unauthorized();
 
-    if (!userID) {
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "Not authenticated",
-        },
-        { status: 401 }
-      );
-    }
-
-    return NextResponse.json<ApiResponse>(
-      {
-        success: true,
-        message: "Authenticated",
-        data: { userID },
-      },
-      { status: 200 }
-    );
-  } catch (error) {
-    return NextResponse.json<ApiResponse>(
-      {
-        success: false,
-        message: "Authentication check failed",
-      },
-      { status: 401 }
-    );
-  }
+    // `SessionProvider` reads `userID`. It is the caller's own id and is
+    // already implicit in their cookie, so returning it discloses nothing
+    // they do not have.
+    return ok("Authenticated", { userID });
+  });
 }

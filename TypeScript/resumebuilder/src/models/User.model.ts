@@ -2,9 +2,18 @@ import { IUser } from "@/types/user.types";
 import bcrypt from "bcrypt";
 import mongoose, { Document } from "mongoose";
 
-interface UserDocument extends Omit<IUser, "_id">, Document{
-  comparePass(candidatePass:string) : boolean
+interface UserDocument extends Omit<IUser, "_id">, Document {
+  comparePass(candidatePass: string): Promise<boolean>;
 }
+
+/**
+ * bcrypt truncates at 72 bytes anyway, so anything longer is wasted work —
+ * and without a ceiling a multi-megabyte password was an accepted request.
+ */
+export const MAX_PASSWORD_LENGTH = 72;
+
+/** 10 was the old value; 12 is the current guidance and still ~250ms. */
+const SALT_ROUNDS = 12;
 
 const userSchema = new mongoose.Schema<UserDocument>(
   {
@@ -15,6 +24,7 @@ const userSchema = new mongoose.Schema<UserDocument>(
       type: String,
       trim: true,
       required: [true, "Name is required"],
+      maxlength: [120, "Name is too long"],
     },
     email: {
       type: String,
@@ -22,6 +32,7 @@ const userSchema = new mongoose.Schema<UserDocument>(
       lowercase: true,
       unique: true,
       required: [true, "Email is required"],
+      maxlength: [254, "Email is too long"],
     },
     mobile: {
       type: String,
@@ -32,6 +43,9 @@ const userSchema = new mongoose.Schema<UserDocument>(
       type: String,
       required: [true, "Password is required"],
       minlength: [6, "Min 6 characters require"],
+      // The hash is never needed by any read path except the login compare,
+      // so it stays out of every query result by default.
+      select: false,
     },
   },
   {
@@ -39,23 +53,27 @@ const userSchema = new mongoose.Schema<UserDocument>(
   },
 );
 
-userSchema.pre("save", function (): void {
+// Async, not `hashSync`. The sync variants block the single Node thread for
+// the full cost of the hash, so a flood of unauthenticated login requests
+// made every other route — including page renders — unresponsive.
+userSchema.pre("save", async function () {
   if (!this.isModified("password")) return;
-  this.password = bcrypt.hashSync(this.password, 10);
+  this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
 });
 
-userSchema.methods.comparePass = function (candidatePass: string): boolean {
-  // `bcrypt.compareSync` throws — it does not return false — when either
-  // argument is missing ("data and hash arguments required"). Any account
-  // stored without a password therefore turned a wrong-credentials check
-  // into an uncaught exception, and the login route answered 500 instead
-  // of 401. A missing hash means "cannot authenticate", so answer false.
+userSchema.methods.comparePass = async function (
+  candidatePass: string,
+): Promise<boolean> {
+  // `bcrypt.compare` rejects — it does not resolve false — when either
+  // argument is missing. Any account stored without a password therefore
+  // turned a wrong-credentials check into an uncaught exception, and the
+  // login route answered 500 instead of 401.
   if (!candidatePass || typeof this.password !== "string" || !this.password) {
     return false;
   }
 
   try {
-    return bcrypt.compareSync(candidatePass, this.password);
+    return await bcrypt.compare(candidatePass, this.password);
   } catch {
     // Stored value is not a valid bcrypt hash (e.g. a plaintext password
     // written before hashing was added). Treat it as a failed login rather

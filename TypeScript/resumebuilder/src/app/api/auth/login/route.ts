@@ -1,99 +1,48 @@
+import { NextRequest } from "next/server";
 import { generateToken } from "@/lib/jwt";
 import { connectDB } from "@/lib/mongodb";
+import { setSessionCookie } from "@/lib/session";
 import userModel from "@/models/User.model";
-import { ApiResponse } from "@/types/api.types";
-import { LoginBody } from "@/types/user.types";
-import { NextRequest, NextResponse } from "next/server";
+import { enforceLimit, fail, guard, ok, parseBody } from "../../_lib/respond";
+import { loginSchema, wasteCompare } from "../_lib/credentials";
+
+/** Tight, because the only reason to try this often is to guess. */
+const LIMIT = 8;
+const WINDOW_SECONDS = 60;
 
 export async function POST(req: NextRequest) {
-  try {
+  return guard("auth/login", async () => {
     await connectDB();
-    const body: LoginBody = await req.json();
 
-    const { email, password } = body;
+    // Keyed on the address: there is no user to key on until it succeeds.
+    const limited = await enforceLimit(req, "login", null, LIMIT, WINDOW_SECONDS);
+    if (limited) return limited;
 
-    if (!email || !password) {
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "All fields are required",
-        },
-        {
-          status: 400,
-        },
-      );
+    const parsed = await parseBody(req, loginSchema);
+    if ("response" in parsed) return parsed.response;
+
+    const { email, password } = parsed.data;
+
+    // The hash is `select: false`, so the one place that needs it asks.
+    const user = await userModel.findOne({ email }).select("+password");
+
+    if (!user) {
+      // Same status, same body and comparable timing as a wrong password.
+      // Answering 404 "User not found" here — as this route used to — turned
+      // any email into a yes/no question.
+      await wasteCompare(password);
+      return fail("Invalid credentials", 401);
     }
 
-    const isExist = await userModel.findOne({ email });
-
-    if (!isExist) {
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "User not found",
-        },
-        {
-          status: 404,
-        },
-      );
+    if (!(await user.comparePass(password))) {
+      return fail("Invalid credentials", 401);
     }
 
-    const matchPass = isExist.comparePass(password);
-
-    if (!matchPass) {
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "Invalid credential",
-        },
-        {
-          status: 401,
-        },
-      );
-    }
-
-    const token = generateToken({ userID: isExist._id.toString() });
-
-    const response = NextResponse.json<ApiResponse>(
-      {
-        success: true,
-        message: "User logged in successfully",
-        data: {
-          user: {
-            _id: isExist._id,
-            name: isExist.name,
-            email: isExist.email,
-          },
-        },
-      },
-      {
-        status: 201,
-      },
-    );
-
-    // `maxAge` is in seconds. `60 * 60 * 1000` kept the cookie for ~41 days
-    // while the JWT inside it expires in 1 hour, so the browser went on
-    // sending a token the server had already rejected. Match the JWT.
-    response.cookies.set("token", token, {
-      httpOnly: true,
-      sameSite: "lax",
-      path: "/",
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60,
+    const response = ok("User logged in successfully", {
+      user: { _id: user._id, name: user.name, email: user.email },
     });
 
-    return response
-  } catch (error) {
-    console.log("error in register api", error);
-    return NextResponse.json<ApiResponse>(
-      {
-        success: false,
-        message: "Something went wrong",
-        error: {
-          error,
-        },
-      },
-      { status: 500 },
-    );
-  }
+    setSessionCookie(response, generateToken({ userID: user._id.toString() }));
+    return response;
+  });
 }

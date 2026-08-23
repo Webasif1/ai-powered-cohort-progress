@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { verifyToken } from "./jwt";
+import { logExpected } from "./logger";
 
 export const getCurrentUser = async (): Promise<string | null> => {
   try {
@@ -12,9 +13,10 @@ export const getCurrentUser = async (): Promise<string | null> => {
 
     const decoded = verifyToken(token) as { userID: string };
     return decoded.userID;
-  } catch (error: any) {
-    // Token expired or invalid
-    console.log("Auth error:", error.message);
+  } catch (error) {
+    // An expired token is ordinary traffic, not an incident — this used to
+    // log on every such request.
+    logExpected("getCurrentUser", error);
     return null;
   }
 };

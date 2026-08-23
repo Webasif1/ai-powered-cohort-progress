@@ -1,91 +1,57 @@
+import { NextRequest } from "next/server";
 import { generateToken } from "@/lib/jwt";
 import { connectDB } from "@/lib/mongodb";
+import { setSessionCookie } from "@/lib/session";
 import userModel from "@/models/User.model";
-import { ApiResponse } from "@/types/api.types";
-import { RegisterBody } from "@/types/user.types";
-import { NextRequest, NextResponse } from "next/server";
+import { enforceLimit, fail, guard, ok, parseBody } from "../../_lib/respond";
+import { registerSchema } from "../_lib/credentials";
+
+const LIMIT = 5;
+const WINDOW_SECONDS = 60 * 10;
+
+/** Mongo's duplicate-key error. */
+const DUPLICATE = 11000;
 
 export async function POST(req: NextRequest) {
-  try {
+  return guard("auth/register", async () => {
     await connectDB();
-    const body: RegisterBody = await req.json();
 
-    const { name, email, mobile, password } = body;
+    const limited = await enforceLimit(req, "register", null, LIMIT, WINDOW_SECONDS);
+    if (limited) return limited;
 
-    if (!name || !email || !password) {
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "All fields are required",
-        },
-        {
-          status: 400,
-        },
+    const parsed = await parseBody(req, registerSchema);
+    if ("response" in parsed) return parsed.response;
+
+    const { name, email, password, mobile } = parsed.data;
+
+    try {
+      const user = await userModel.create({
+        name,
+        email,
+        password,
+        mobile: mobile || undefined,
+      });
+
+      const response = ok(
+        "User register successfully",
+        { user: { _id: user._id, name: user.name, email: user.email } },
+        201,
       );
+
+      setSessionCookie(response, generateToken({ userID: user._id.toString() }));
+      return response;
+    } catch (error) {
+      // `unique: true` is an index directive, not a validator, so a
+      // check-then-create races two simultaneous signups for the same email.
+      // Letting the index decide is the only version without a window.
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        (error as { code?: number }).code === DUPLICATE
+      ) {
+        return fail("An account with that email already exists", 409);
+      }
+      throw error;
     }
-
-    const isExist = await userModel.findOne({ email });
-
-    if (isExist) {
-      return NextResponse.json<ApiResponse>(
-        {
-          success: false,
-          message: "This user Already exist",
-        },
-        {
-          status: 409,
-        },
-      );
-    }
-
-    const newUser = await userModel.create({
-      name,
-      email,
-      mobile,
-      password,
-    });
-
-    const token = generateToken({ userID: newUser._id.toString() });
-
-    const response = NextResponse.json<ApiResponse>(
-      {
-        success: true,
-        message: "User register successfully",
-        data: {
-          user: {
-            _id: newUser._id,
-            name: newUser.name,
-            mobile:newUser.mobile,
-            email: newUser.email,
-          },
-        },
-      },
-      {
-        status: 201,
-      },
-    );
-
-    // Seconds, not milliseconds — see the note in the login route.
-    response.cookies.set("token", token, {
-      httpOnly: true,
-      sameSite: "lax",
-      path: "/",
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60,
-    });
-
-    return response
-  } catch (error) {
-    console.log("error in register api", error);
-    return NextResponse.json<ApiResponse>(
-      {
-        success: false,
-        message: "Something went wrong",
-        error: {
-          error,
-        },
-      },
-      { status: 500 },
-    );
-  }
+  });
 }

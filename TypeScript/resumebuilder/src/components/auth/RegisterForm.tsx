@@ -76,7 +76,7 @@ export function RegisterForm({ next }: { next: string }) {
         {error && (
           <div
             role="alert"
-            className="flex items-start gap-2 rounded-md border border-danger/25 bg-danger-soft px-3 py-2.5 text-[13px] text-danger animate-[fade-in_0.2s_ease-out_both]"
+            className="flex items-start gap-2 rounded-md border border-danger/25 bg-danger-soft px-3 py-2.5 text-[13px] text-danger animate-fade-in"
           >
             <AlertCircle aria-hidden className="mt-0.5 h-4 w-4 shrink-0" />
             {error}

@@ -19,7 +19,7 @@ export function EmptyState({
     <div
       className={cn(
         "flex flex-col items-center justify-center rounded-xl border border-dashed border-line bg-surface px-6 py-16 text-center",
-        "animate-[fade-in_0.24s_cubic-bezier(0.2,0,0,1)_both]",
+        "animate-fade-in",
         className,
       )}
     >

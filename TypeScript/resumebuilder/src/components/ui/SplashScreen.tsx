@@ -69,7 +69,7 @@ export function SplashScreen() {
       >
         <span className="relative flex h-11 w-11 items-center justify-center rounded-[13px] bg-accent">
           <span className="h-3.5 w-3.5 rounded-[4px] bg-accent-fg" />
-          <span className="absolute inset-0 rounded-[13px] bg-accent opacity-40 animate-[halo_1.6s_ease-out_infinite]" />
+          <span className="absolute inset-0 rounded-[13px] bg-accent opacity-40 animate-halo" />
         </span>
 
         <span className="text-[15px] font-semibold tracking-[-0.02em] text-fg">
@@ -77,7 +77,7 @@ export function SplashScreen() {
         </span>
 
         <span className="h-0.5 w-28 overflow-hidden rounded-full bg-surface-2">
-          <span className="block h-full w-1/3 rounded-full bg-accent animate-[sweep_1.1s_ease-in-out_infinite]" />
+          <span className="block h-full w-1/3 rounded-full bg-accent animate-sweep" />
         </span>
       </div>
     </div>

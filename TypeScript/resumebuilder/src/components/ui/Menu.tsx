@@ -150,7 +150,7 @@ export function Menu({
           onKeyDown={onMenuKeyDown}
           className={cn(
             "absolute top-full z-20 mt-1.5 min-w-44 overflow-hidden rounded-lg border border-line bg-elevated p-1 shadow-lg",
-            "animate-[pop-in_0.14s_cubic-bezier(0.22,1,0.36,1)_both]",
+            "animate-pop-in",
             align === "end" ? "right-0 origin-top-right" : "left-0 origin-top-left",
           )}
         >

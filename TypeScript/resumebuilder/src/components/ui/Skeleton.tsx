@@ -9,7 +9,7 @@ export function Skeleton({
       aria-hidden
       className={cn(
         "rounded-md bg-surface-2 bg-[linear-gradient(90deg,transparent_0%,var(--border)_50%,transparent_100%)] bg-[length:200%_100%]",
-        "animate-[shimmer_1.6s_linear_infinite]",
+        "animate-shimmer",
         className,
       )}
       {...props}
@@ -24,7 +24,7 @@ export function Spinner({ className }: { className?: string }) {
       aria-label="Loading"
       className={cn(
         "inline-block h-4 w-4 shrink-0 rounded-full border-2 border-line border-t-accent",
-        "animate-[spin_0.7s_linear_infinite]",
+        "animate-spin-fast",
         className,
       )}
     />

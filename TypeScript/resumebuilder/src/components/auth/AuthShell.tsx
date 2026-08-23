@@ -68,7 +68,7 @@ export function AuthShell({
         </div>
 
         <div className="flex flex-1 items-center justify-center py-10">
-          <div className="w-full max-w-sm animate-[rise_0.32s_cubic-bezier(0.22,1,0.36,1)_both]">
+          <div className="w-full max-w-sm animate-rise">
             <h1 className="text-2xl font-semibold tracking-[-0.025em] text-fg">
               {title}
             </h1>

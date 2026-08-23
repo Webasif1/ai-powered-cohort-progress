@@ -55,7 +55,7 @@ export function AIActionButton({
         <>
           <span
             aria-hidden
-            className="h-3.5 w-3.5 shrink-0 rounded-full border-2 border-line border-t-accent animate-[spin_0.7s_linear_infinite]"
+            className="h-3.5 w-3.5 shrink-0 rounded-full border-2 border-line border-t-accent animate-spin-fast"
           />
           <ThinkingDots label={loadingLabel} />
         </>

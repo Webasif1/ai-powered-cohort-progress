@@ -158,7 +158,7 @@ export function SiteHeader({ solid = false }: { solid?: boolean }) {
       {menuOpen && (
         <div
           id="mobile-nav"
-          className="border-t border-line bg-bg md:hidden animate-[fade-in_0.16s_ease-out_both]"
+          className="border-t border-line bg-bg md:hidden animate-fade-in-fast"
         >
           <Container className="flex flex-col py-2">
             {links.map((link) => (

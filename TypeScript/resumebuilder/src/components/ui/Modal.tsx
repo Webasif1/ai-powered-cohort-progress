@@ -152,7 +152,7 @@ export function Modal({
     <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
       <div
         onClick={onClose}
-        className="absolute inset-0 bg-black/45 backdrop-blur-[2px] animate-[fade-in_0.15s_ease-out_both]"
+        className="absolute inset-0 bg-black/45 backdrop-blur-[2px] animate-fade-in-fast"
       />
 
       <div
@@ -163,7 +163,7 @@ export function Modal({
         aria-describedby={description ? bodyId : undefined}
         className={cn(
           "relative flex max-h-[85vh] w-full flex-col overflow-hidden rounded-xl border border-line bg-elevated shadow-lg",
-          "animate-[pop-in_0.18s_cubic-bezier(0.22,1,0.36,1)_both]",
+          "animate-pop-in",
           sizes[size],
           className,
         )}

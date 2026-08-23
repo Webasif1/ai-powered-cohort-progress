@@ -137,7 +137,7 @@ export function ItemCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="animate-[rise_0.24s_cubic-bezier(0.22,1,0.36,1)_both] rounded-md border border-line bg-surface p-4">
+    <div className="animate-rise-sm rounded-md border border-line bg-surface p-4">
       <div className="mb-3.5 flex items-center justify-between">
         <span className="text-xs font-medium uppercase tracking-wide text-fg-subtle">
           {label} {index + 1}

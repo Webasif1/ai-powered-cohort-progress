@@ -32,7 +32,7 @@ export function SaveStatus({
       )}
 
       {state === "saved" && (
-        <span className="flex items-center gap-1.5 text-success animate-[fade-in_0.2s_ease-out_both]">
+        <span className="flex items-center gap-1.5 text-success animate-fade-in">
           <Check aria-hidden className="h-3.5 w-3.5" />
           Saved
         </span>

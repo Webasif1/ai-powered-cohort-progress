@@ -54,7 +54,12 @@ function DashboardContent() {
   }, []);
 
   useEffect(() => {
-    fetchResumes();
+    // Deferred a frame so the skeleton paints before the fetch resolves,
+    // rather than resolving inside the effect body.
+    const raf = requestAnimationFrame(() => {
+      fetchResumes();
+    });
+    return () => cancelAnimationFrame(raf);
   }, [fetchResumes]);
 
   // Creating from here used to skip the layout choice entirely and always
@@ -174,7 +179,7 @@ function DashboardContent() {
               {resumes.map((resume, index) => (
                 <li
                   key={resume._id}
-                  className="animate-[rise_0.32s_cubic-bezier(0.22,1,0.36,1)_both]"
+                  className="animate-rise"
                   style={{ animationDelay: `${Math.min(index, 8) * 40}ms` }}
                 >
                   <ResumeCard

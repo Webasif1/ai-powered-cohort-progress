@@ -110,7 +110,7 @@ export default function LandingPage() {
 
               <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-fg-muted sm:text-base">
                 Draft, score and export an ATS-ready resume in minutes. The AI
-                handles the phrasing — you keep every fact.
+                handles the phrasing you keep every fact.
               </p>
 
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -272,8 +272,8 @@ export default function LandingPage() {
                 </h2>
                 <p className="mt-4 text-[15px] leading-relaxed text-fg-muted">
                   Most resumes are rejected by software, not people. The score
-                  breaks down exactly which signal is weak — keywords,
-                  formatting, verbs, contact details, clarity — so you fix the
+                  breaks down exactly which signal is weak keywords,
+                  formatting, verbs, contact details, clarity so you fix the
                   cause instead of guessing.
                 </p>
 

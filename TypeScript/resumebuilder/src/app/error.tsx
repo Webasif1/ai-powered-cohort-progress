@@ -33,7 +33,7 @@ export default function AppError({
       <div>
         <h1 className="text-lg font-semibold text-fg">Something went wrong</h1>
         <p className="mx-auto mt-2 max-w-sm text-[13px] leading-relaxed text-fg-muted">
-          This page hit an unexpected error. Your saved work is not affected —
+          This page hit an unexpected error. Your saved work is not affected
           the editor autosaves as you type.
         </p>
       </div>
